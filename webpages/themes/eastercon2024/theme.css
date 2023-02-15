@@ -1,0 +1,12 @@
+.header-contents img {
+  padding: 1rem;
+}
+
+#reg-header {
+  background-color: #087232;
+  color: white;
+}
+
+#reg-header h1 {
+  color: white;
+}

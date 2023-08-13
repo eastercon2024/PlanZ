@@ -130,30 +130,15 @@ function renderMyDetails ($title, $error, $message, $dayjob, $accessibilityissue
     echo "        </div>\n";   //end of third row
 
     if (defined('USE_PRONOUNS') && USE_PRONOUNS) {
-        if (!defined('LABEL_PRONOUNS_ARE'))
-            define('LABEL_PRONOUNS_ARE', "My pronouns are:");
         if (!defined('LABEL_PRONOUNS_OTHER'))
-            define('LABEL_PRONOUNS_OTHER', "If you selected \"other\" for your pronouns, provide your pronouns here:");
+            define('LABEL_PRONOUNS_OTHER', "Pronouns:");
         echo "        <div class=\"row mt-3\">\n"; //fourth row
-
-        echo "            <div class=\"col-auto\">\n";
-        echo "                <label for=\"pronounid\">" . LABEL_PRONOUNS_ARE . " </label>\n";
-        echo "            </div>\n";
-        echo "            <div class=\"col-auto\">\n";
-        echo "                <select name=\"pronounid\" class=\"form-control\">\n";
-        populate_select_from_table("Pronouns", $pronounid, "", false);
-        echo "                </select>\n";
-        echo "            </div>\n";
-
-        echo "        </div>\n"; //end of fourth row
-
-
-        echo "        <div class=\"row mt-3\">\n"; //fifth row
 
         echo "            <div class=\"col-auto\">\n";
         echo "                <label for=\"pronounother\">" . LABEL_PRONOUNS_OTHER . " </label>\n";
         echo "            </div>\n";
         echo "            <div class=\"col-auto\">\n";
+        echo "                <input name=\"pronounid\" type=\"hidden\" value=\"Other\">\n";
         echo "                <input type=\"text\" size=\"20\" class=\"form-control\" name=\"pronounother\" value=\"" . htmlspecialchars($pronounother, ENT_COMPAT) . "\"";
         if (!may_I('my_gen_int_write')) {
             echo " readonly class=\"readonly\"";
@@ -161,7 +146,7 @@ function renderMyDetails ($title, $error, $message, $dayjob, $accessibilityissue
         echo ">\n";
         echo "            </div>\n";
 
-        echo "        </div>\n"; //end of fifth row
+        echo "        </div>\n"; //end of fourth row
     }
 
     if (may_I('my_gen_int_write')) {

@@ -291,6 +291,7 @@ function fetch_photo() {
         return;
     $dest = getcwd();
     $dest .= "/" . PHOTO_UPLOAD_DIRECTORY . "/" . $row["uploadedphotofilename"];
+    ob_clean();
     echo file_get_contents($dest);
 }
 

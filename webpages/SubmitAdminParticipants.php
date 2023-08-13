@@ -283,12 +283,9 @@ EOD;
             $message_error .= "Failed updating participant sessions record, seek assistance.";
             RenderErrorAjax($message_error);
             return;
-        } else if ($rows < 0) {
-            $message_error .= "Failed updating participant sessions record, seek assistance.";
-            RenderErrorAjax($message_error);
-            return;
+        } else if ($rows > 0) {
+            $message .= "<p>Participant removed from $rows session(s).</p>";
         }
-        $message .= "<p>Participant removed from $rows session(s).</p>";
     }
 ?>
 <div class="row mt-3">

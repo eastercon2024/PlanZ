@@ -36,6 +36,11 @@ function grid_html_header($title, $bootstrap4 = false, $isDataTables = false, $r
 <?php } else { ?>
     <link rel="stylesheet" href="css/zambia.css" type="text/css" media="screen" />
 <?php } ?>
+<?php
+    if (defined('CON_THEME_' . ENVIRONMENT) && constant('CON_THEME_' . ENVIRONMENT) !== "") {
+?>
+    <link rel="stylesheet" href="<?php echo constant('CON_THEME_' . ENVIRONMENT) ?>" type="text/css" media="screen" />
+<?php } ?>
 
     <link rel="stylesheet" href="css/staffMaintainSchedule.css" type="text/css" media="screen" />
 <?php if ($isDataTables) {

@@ -217,6 +217,7 @@ function get_session_from_post() {
     $session["notesforprog"] = getString('notesforprog');
     $session["hashtag"] = getString('hashtag');
     $session["participantlabel"] = getString('participantlabel');
+    $session["presentationname"] = getString('presentationname');
     $session["techlevelid"] = getString('techlevelid');
     if (MEETING_LINK === TRUE)
         $session["mlink"] = getString('mlink');
@@ -269,6 +270,7 @@ function set_session_defaults() {
     $session["hashtag"] = "";
     $session["invguest"] = false; // leave checkbox blank initially
     $session["participantlabel"] = "Panelists";  //default label to "Panelists"
+    $session["presentationname"] = "";
     $session["mlink"] = "";
 }
 

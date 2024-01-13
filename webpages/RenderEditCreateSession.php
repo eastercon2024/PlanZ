@@ -284,6 +284,12 @@ function RenderEditCreateSession ($action, $session, $message1, $message2) {
                     rows="3" cols="70" name="notesforprog" ><?php echo htmlspecialchars($session["notesforprog"],ENT_NOQUOTES);?></textarea>
             </div>
         </div>
+        <div class="row mt-3">
+            <div class="form-group col-md-6">
+                <label form="presentationname">Presentation Name:</label>
+                <input type="text" class="form-control" size="80" maxlength="510" name="presentationname" id="presentationname" value="<?php echo htmlspecialchars($session["presentationname"], ENT_COMPAT);?>" />
+            </div>
+        </div>
 <?php
     if (MEETING_LINK === TRUE) {
 ?>

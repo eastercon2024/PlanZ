@@ -544,6 +544,7 @@ UPDATE Sessions
         statusid="{$sessionf["status"]}",
         hashtag="{$sessionf["hashtag"]}",
         notesforprog="{$sessionf["notesforprog"]}",
+        presentationname="{$sessionf["presentationname"]}",
         meetinglink="{$sessionf["mlink"]}",
         streaminglink="{$sessionf["streamlink"]}",
         signuplink="{$sessionf["signlink"]}",
@@ -640,6 +641,7 @@ INSERT INTO Sessions
         pocketprogtext="{$sessionf["pocketprogtext"]}",
         progguiddesc="{$sessionf["progguiddesc"]}",
         progguidhtml="{$sessionf["progguidhtml"]}",
+        presentationname="{$sessionf["presentationname"]}",
         meetinglink="{$sessionf["mlink"]}",
         streaminglink="{$sessionf["streamlink"]}",
         signuplink="{$sessionf["signlink"]}",
@@ -712,6 +714,7 @@ function filter_session() {
     $session2["pocketprogtext"] = mysqli_real_escape_string($linki, $session["pocketprogtext"]);
     $session2["progguiddesc"] = mysqli_real_escape_string($linki, $session["progguiddesc"]);
     $session2["progguidhtml"] = mysqli_real_escape_string($linki, $session["progguidhtml"]);
+    $session2["presentationname"] = mysqli_real_escape_string($linki, $session["presentationname"]);
     if (MEETING_LINK === TRUE)
         $session2["mlink"] = mysqli_real_escape_string($linki, $session["mlink"]);
     else
@@ -804,6 +807,7 @@ SELECT
         hashtag,
         ts,
         participantlabel,
+        presentationname,
         meetinglink,
         streaminglink,
         signuplink,
@@ -852,6 +856,7 @@ EOD;
     $session["notesforprog"] = $sessionarray["notesforprog"];
     $session["invguest"] = $sessionarray["invitedguest"];
     $session["participantlabel"] = $sessionarray["participantlabel"];
+    $session["presentationname"] = $sessionarray["presentationname"];
     $session["mlink"] = $sessionarray["meetinglink"];
     $session["streamlink"] = $sessionarray["streaminglink"];
     $session["signlink"] = $sessionarray["signuplink"];

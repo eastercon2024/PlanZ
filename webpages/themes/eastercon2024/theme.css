@@ -10,3 +10,7 @@
 #reg-header h1 {
   color: white;
 }
+
+#participantNav .navbar-brand {
+  min-width: 8em;
+}

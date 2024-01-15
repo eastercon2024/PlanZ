@@ -3,7 +3,7 @@
 // Copyright (c) 2021 The Peter Olszowka. All rights reserved. See copyright document for more details.
 
 global $linki, $title;
-$title = "Submit Reset Password";
+$title = "Create Account";
 require ('PartCommonCode.php');
 require_once('login_functions.php');
 require_once('external/swiftmailer-5.4.8/lib/swift_required.php');
@@ -20,7 +20,9 @@ function send_password_was_reset_email($name, $email_address) {
         <html><body>
         <p>Hi $name,</p>
 
-        <p>We just wanted to drop you a note to let you know that your password was reset at your request.</p>
+        <p>Your Levitation 2024 PlanZ account was created.</p>
+
+        <p>You can now log in to <a href="https://planz.eastercon2024.co.uk">https://planz.eastercon2024.co.uk</a> using this email address and the password you just created.</p>
 
         <p>If you have any questions, please contact <a href="mailto:$programming">Programming</a>.
 
@@ -32,7 +34,9 @@ EOD;
     $text_body = <<< EOD
 Hi $name,
 
-We just wanted to drop you a note to let you know that your password was reset at your request.
+Your Levitation 2024 PlanZ account was created.
+
+You can now log in to https://planz.eastercon2024.co.uk using this email address and the password you just created.
 
 If you have any questions, please contact Programming at $programming.
 
@@ -41,7 +45,7 @@ Your Friendly Automated Email System!
 EOD;
 
     $con_name = CON_NAME;
-    send_email_with_plain_text($text_body, $email_body, "Your $con_name password has been reset", [$email_address => $name]);
+    send_email_with_plain_text($text_body, $email_body, "Your $con_name PlanZ account has been created", [$email_address => $name]);
 }
 
 function get_badge_name($firstname, $lastname, $badgename) {
@@ -66,7 +70,13 @@ $cpassword = getString('cpassword');
 $controlParams = interpretControlString($control, $controliv);
 if (!$controlParams || empty($controlParams['selector']) || empty($controlParams['validator']) || empty($controlParams['badgeid'])) {
     participant_header($title, true, 'Login', true);
-    echo "<p class='alert alert-error vert-sep-above'>Reset password form was missing required parameters.</p>";
+    echo $control;
+    echo $controlParams;
+    var_dump(controlParams);
+    echo "<p>Selector=" . $controlParams['selector'] . "</p>";
+    echo "<p>Validator=" . $controlParams['validator'] . "</p>";
+    echo "<p>badgeid=" . $controlParams['badgeid'] . "</p>";
+    echo "<p class='alert alert-error vert-sep-above'>Create account form was missing required parameters.</p>";
     participant_footer();
     exit;
 }
@@ -88,7 +98,7 @@ if (!$result = mysqli_query_exit_on_error($query)) {
 }
 if (mysqli_num_rows($result) !== 1) {
     participant_header($title, true, 'Login', true);
-    echo "<p class='alert alert-error vert-sep-above'>Authentication error resetting password.</p>";
+    echo "<p class='alert alert-error vert-sep-above'>Authentication error creating account.</p>";
     participant_footer();
     exit;
 }
@@ -97,15 +107,15 @@ mysqli_free_result($result);
 $calc = hash('sha256', hex2bin($controlParams['validator']));
 if (!hash_equals($token, $calc) || $controlParams['badgeid'] !== $badgeid) {
     participant_header($title, true, 'Login', true);
-    echo "<p class='alert alert-error vert-sep-above'>Authentication error resetting password.</p>";
+    echo "<p class='alert alert-error vert-sep-above'>Authentication error creating account.</p>";
     participant_footer();
     exit;
 }
 if (empty($password) || $password !== $cpassword) {
     participant_header($title, true, 'Login', true);
     $controlParams = array(
-        "selector" => $selector,
-        "validator" => $validator,
+        "selector" => $controlParams['selector'],
+        "validator" => $controlParams['validator'],
         "badgeid" => $badgeid
     );
     $controlArray = generateControlString($controlParams);
@@ -128,8 +138,9 @@ if (empty($password) || $password !== $cpassword) {
         "user_name" => $username,
         "error_message" => "Passwords do not match or are blank.  Try again."
     );
-    RenderXSLT('ForgotPasswordResetForm.xsl', $params);
+    RenderXSLT('CreateAccountForm.xsl', $params);
     participant_footer();
+    exit;
 }
 $badgeidSQL = mysqli_real_escape_string($linki, $badgeid);
 $query = <<<EOD

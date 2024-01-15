@@ -63,7 +63,7 @@
                         <xsl:choose>
                             <xsl:when test="$trackIsPrimary and $showTags">
                                 <div class="col-0p75 pr-0">Session ID</div>
-                                <div class="col-1p25">My Sessions</div>
+                                <div class="col-1p25">Interested</div>
                                 <div class="col-1p75">Track</div>
                                 <div class="col-3p25">Title</div>
                                 <div class="col-1p5">Type</div>
@@ -72,7 +72,7 @@
                             </xsl:when>
                             <xsl:when test="$trackIsPrimary">
                                 <div class="col-1p25">Session ID</div>
-                                <div class="col-1p25">My Sessions</div>
+                                <div class="col-1p25">Interested</div>
                                 <div class="col-3">Track</div>
                                 <div class="col-4">Title</div>
                                 <div class="col-1p75">Type</div>
@@ -80,7 +80,7 @@
                             </xsl:when>
                             <xsl:when test="$showTrack">
                                 <div class="col-0p75 pr-0">Session ID</div>
-                                <div class="col-1p25">My Sessions</div>
+                                <div class="col-1p25">Interested</div>
                                 <div class="col-2p75">Tags</div>
                                 <div class="col-3p25">Title</div>
                                 <div class="col-1p5">Type</div>
@@ -89,7 +89,7 @@
                             </xsl:when>
                             <xsl:otherwise>
                                 <div class="col-1p25">Session ID</div>
-                                <div class="col-1p25">My Sessions</div>
+                                <div class="col-1p25">Interested</div>
                                 <div class="col-3">Tags</div>
                                 <div class="col-4">Title</div>
                                 <div class="col-1p75">Type</div>
@@ -138,7 +138,7 @@
                                         <xsl:attribute name="disabled">disabled</xsl:attribute>
                                     </xsl:if>
                                 </input>
-                                My Session
+                                I am interested
                             </label>
                         </div>
                         <xsl:choose>

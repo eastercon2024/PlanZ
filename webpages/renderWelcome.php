@@ -24,14 +24,6 @@ if (may_I('postcon')) { ?>
 }
 ?>
 
-
-<div class="mt-2">
-    <div class="alert alert-primary" role="alert">
-        Please check back often as more options will become available as we get closer to the convention.
-    </div>
-</div>
-
-
 <?php
     echo fetchCustomText('alerts');
 ?>
@@ -40,65 +32,20 @@ if (may_I('postcon')) { ?>
     <div class="col-md-6">
         <div class="card">
             <div class="card-body">
-                <p>Dear <?php echo $participant_array["firstname"]; echo " "; echo $participant_array["lastname"]; ?>,</p>
-                <p>Welcome to the <?php echo CON_NAME; ?> Programming website.</p>
-                <p><b>First, tell us about participating in <?php echo CON_NAME; ?> programming.</b></p>
-                <form name="pwform" method=POST action="SubmitWelcome.php">
-                    <div id="update_section" class="form-group mb-2 row">
-                        <div class="col-sm-5">
-                            <label for="interested">Do you want to be a panelist and/or moderator?</label>
-                        </div>
-                        <?php $int=$participant_array['interested']; ?>
-                        <div class="col-sm-3">
-                            <select id="interested" name="interested" class="form-control">
-                                <option value=0 <?php if ($int==0) {echo "selected=\"selected\"";} ?> >&nbsp;</option>
-                                <option value=1 <?php if ($int==1) {echo "selected=\"selected\"";} ?> >Yes</option>
-                                <option value=2 <?php if ($int==2) {echo "selected=\"selected\"";} ?> >No</option>
-                            </select>
-                        </div>
-                    </div>
-                    <?php if (RESET_PASSWORD_SELF == true) { ?>
-                        <?php if ($participant_array['chpw']) { ?>
-                            <p class="mt-3 mb-3"><b>Now take a moment and personalize your password.</b></p>
-                            <div class="form-group mb-2 row">
-                                <div class="col-sm-4">
-                                    <label for="password">New Password:</label>
-                                </div>
-                                <div class="col-sm-8">
-                                    <input id="password" class="form-control" type="password" size="10" name="password" />
-                                </div>
-                            </div>
-                            <div class="form-group mb-2 row">
-                                <div class="col-sm-4">
-                                    <label for="cpassword">Confirm New Password:</label>
-                                </div>
-                                <div class="col-sm-8">
-                                    <input id="cpassword" class="form-control" type="password" size="10" name="cpassword" />
-                                </div>
-                            </div>
+                <p>Welcome, <?php echo $participant_array["firstname"]; echo " "; echo $participant_array["lastname"]; ?>, to the <?php echo CON_NAME; ?> Programming website.</p>
+                <p>This is the place for you to indicate your interest in participating in <?php echo CON_NAME; ?> programming.</p>
+                <p>If you need help using this site, please follow <a href="https://eastercon2024.co.uk/guide-to-planz/">our guide</a>.</p>
+                <p>All participants are expected to follow the convention <a href="https://eastercon2024.co.uk/code-of-conduct/">Code of Conduct</a>.</p>
+                <p>
+                    <?php if ($participant_array["regtype"] == null || $participant_array["regtype"] == '') { ?>
+                        You are currently <b>not registered</b> for <?php echo CON_NAME; ?>. 
+                        <?php if (defined("REGISTRATION_URL") && REGISTRATION_URL !== "") { ?>
+                            <a href="<?php echo REGISTRATION_URL ?>">Register now</a>.
                         <?php } ?>
+                    <?php } else { ?>
+                        Your current membership type is <b><?php echo $participant_array["regtype"] ?></b>.
                     <?php } ?>
-                    <div class="row">
-                        <div class="col-7 text-center">
-                            <button class="btn btn-primary" type="submit" name="submit" >Update</button>
-                        </div>
-                    </div>
-                </form>
-                <?php if (!$participant_array['chpw'] && DEFAULT_USER_PASSWORD) { ?>
-                    <p class="mt-3">Thank you for changing your password. For future changes, use the "Profile" tab.</p>
-                <?php } ?>
-            </div>
-        </div>
-        <div class="card mt-3">
-            <div class="card-body">
-                <?php if ($participant_array["regtype"] == null || $participant_array["regtype"] == '') { ?>
-                    You are currently <b>not registered</b> for <?php echo CON_NAME; ?>. 
-                    <?php if (defined("REGISTRATION_URL") && REGISTRATION_URL !== "") { ?>
-                        <a href="<?php echo REGISTRATION_URL ?>">Register now</a>.
-                    <?php } ?>
-                <?php } else { ?>
-                    Your current membership type is <b><?php echo $participant_array["regtype"] ?></b>.
-                <?php } ?>
+                </p>
             </div>
         </div>
     </div>

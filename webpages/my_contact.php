@@ -10,7 +10,7 @@ SELECT
         CD.badgeid, CD.firstname, CD.lastname, CD.badgename, CD.phone, CD.email,
         CD.postaddress1, CD.postaddress2, CD.postcity, CD.poststate, CD.postzip,
         CD.postcountry, $regTypeField, P.pubsname, P.sortedpubsname, P.password, P.bestway, P.interested, P.bio,
-        P.htmlbio, P.share_email, P.use_photo, PRO.pronounname, P.approvedphotofilename,
+        P.htmlbio, P.share_email, P.use_photo, P.live_stream, P.vod, PRO.pronounname, P.approvedphotofilename,
         P.anonymous
     FROM
        CongoDump CD
@@ -42,6 +42,8 @@ $paramArray = array();
 $paramArray['conName'] = CON_NAME;
 $paramArray['enableShareEmailQuestion'] = ENABLE_SHARE_EMAIL_QUESTION ? 1 : 0;
 $paramArray['enableUsePhotoQuestion'] = ENABLE_USE_PHOTO_QUESTION ? 1 : 0;
+$paramArray['enableLiveStreamQuestion'] = ENABLE_LIVE_STREAM_QUESTION ? 1 : 0;
+$paramArray['enableVODQuestion'] = ENABLE_VOD_QUESTION ? 1 : 0;
 $paramArray['enableBestwayQuestion'] = ENABLE_BESTWAY_QUESTION ? 1 : 0;
 $paramArray['useRegSystem'] = USE_REG_SYSTEM ? 1 : 0;
 $paramArray['maxBioLen'] = MAX_BIO_LEN;

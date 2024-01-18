@@ -8,6 +8,8 @@
     <xsl:param name="conName" select="''"/>
     <xsl:param name="enableShareEmailQuestion" select="'0'"/>
     <xsl:param name="enableUsePhotoQuestion" select="'0'"/>
+    <xsl:param name="enableLiveStreamQuestion" select="'0'"/>
+    <xsl:param name="enableVodQuestion" select="'0'"/>
     <xsl:param name="enableBestwayQuestion" select="'0'"/>
     <xsl:param name="useRegSystem" select="0"/>
     <xsl:param name="maxBioLen" select="500"/>
@@ -20,6 +22,8 @@
     <xsl:output encoding="UTF-8" indent="yes" method="xml" />
     <xsl:template match="/">
         <xsl:variable name="use_photo" select="/doc/query[@queryName='participant_info']/row/@use_photo" />
+        <xsl:variable name="live_stream" select="/doc/query[@queryName='participant_info']/row/@live_stream" />
+        <xsl:variable name="vod" select="/doc/query[@queryName='participant_info']/row/@vod" />
         <xsl:variable name="share_email" select="/doc/query[@queryName='participant_info']/row/@share_email" />
         <xsl:variable name="interested" select="/doc/query[@queryName='participant_info']/row/@interested" />
         <xsl:variable name="bestway" select="/doc/query[@queryName='participant_info']/row/@bestway" />
@@ -52,9 +56,6 @@
                     </h2>
                 </div>
                 <div class="card-body">
-                    <div class="row mt-3">
-                        <legend class="col-auto">Permissions</legend>
-                    </div>
                     <fieldset>
                         <div class="row">
                             <div class="col-auto">
@@ -62,6 +63,62 @@
                                     I am interested and able to participate in programming for <xsl:value-of select="$conName"/>:
                                 </label>
                             </div>
+                        </div>
+                        <xsl:choose>
+                            <xsl:when test="$enableBestwayQuestion = '1'">
+                                <fieldset>
+                                    <div class="row">
+                                        <div class="col-auto">
+                                            <label for="bestway">Preferred mode of contact:</label>
+                                        </div>
+                                        <div class="col-auto">
+                                            <div class="verticalRadioButs">
+                                                <div class="radioNlabel">
+                                                    <span class="radio">
+                                                        <input name="bestway" id="bwemailRB" value="Email" type="radio" class="mycontrol">
+                                                            <xsl:if test="$bestway='Email' or not($bestway)">
+                                                                <xsl:attribute name="checked">checked</xsl:attribute>
+                                                            </xsl:if>
+                                                        </input>
+                                                    </span>
+                                                    <span class="radioLabel">
+                                                        <label for="bwemailRB">Email</label>
+                                                    </span>
+                                                </div>
+                                                <div class="radioNlabel">
+                                                    <span class="radio">
+                                                        <input name="bestway" id="bwpmailRB" value="Postal mail" type="radio" class="mycontrol">
+                                                            <xsl:if test="$bestway='Postal mail'">
+                                                                <xsl:attribute name="checked">checked</xsl:attribute>
+                                                            </xsl:if>
+                                                        </input>
+                                                    </span>
+                                                    <span class="radioLabel">
+                                                        <label for="bwpmailRB">Postal Mail</label>
+                                                    </span>
+                                                </div>
+                                                <div class="radioNlabel">
+                                                    <span class="radio">
+                                                        <input name="bestway" id="bwphoneRB" value="Phone" type="radio" class="mycontrol">
+                                                            <xsl:if test="$bestway='Phone'">
+                                                                <xsl:attribute name="checked">checked</xsl:attribute>
+                                                            </xsl:if>
+                                                        </input>
+                                                    </span>
+                                                    <span class="radioLabel">
+                                                        <label for="bwphoneRB">Phone</label>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <input name="bestway" id="bestway" type="hidden" value="{$bestway}"/>
+                            </xsl:otherwise>
+                        </xsl:choose>    
+                        <div class="row">
                             <div class="col-auto">
                                 <select id="interested" name="interested" class="mb-2 pl-2 pr-4 mycontrol">
                                     <option value="0">
@@ -86,16 +143,21 @@
                             </div>
                         </div>
                     </fieldset>
+                    <div class="row mt-3">
+                        <legend class="col-auto">Permissions</legend>
+                    </div>
                     <xsl:choose>
                         <xsl:when test="$enableShareEmailQuestion = '1'">
                             <fieldset>
                                 <div class="row">
                                     <div class="col-auto">
                                         <label for="share_email">
-                                            I give permission for <xsl:value-of select="$conName"/>
-                                            to share my email address with other participants:
+                                            <strong>Share e-mail:</strong> I give permission for <xsl:value-of select="$conName"/>
+                                            to share my email address with other participants.
                                         </label>
                                     </div>
+                                </div>
+                                <div class="row">
                                     <div class="col-auto">
                                         <select id="share_email" name="share_email" class="mb-2 pl-2 pr-4 mycontrol">
                                             <option value="null">
@@ -104,17 +166,17 @@
                                                 </xsl:if>
                                                 <xsl:text disable-output-escaping="yes">&amp;nbsp;</xsl:text>
                                             </option>
-                                            <option value="0">
-                                                <xsl:if test="$share_email = '0'">
-                                                    <xsl:attribute name="selected">selected</xsl:attribute>
-                                                </xsl:if>
-                                                No
-                                            </option>
                                             <option value="1">
                                                 <xsl:if test="$share_email = '1'">
                                                     <xsl:attribute name="selected">selected</xsl:attribute>
                                                 </xsl:if>
                                                 Yes
+                                            </option>
+                                            <option value="0">
+                                                <xsl:if test="$share_email = '0'">
+                                                    <xsl:attribute name="selected">selected</xsl:attribute>
+                                                </xsl:if>
+                                                No
                                             </option>
                                         </select>
                                     </div>
@@ -131,10 +193,12 @@
                                 <div class="row">
                                     <div class="col-auto">
                                         <label for="use_photo">
-                                            I give permission for <xsl:value-of select="$conName"/> to photograph me while
-                                            I am on panels and to use those images in the promotion of the convention:
+                                            <strong>Photos:</strong> I give permission for <xsl:value-of select="$conName"/> to photograph me while
+                                            I am on programme items and to use those images in the promotion of the convention.
                                         </label>
                                     </div>
+                                </div>
+                                <div class="row">
                                     <div class="col-auto">
                                         <select id="use_photo" name="use_photo" class="mb-2 pl-2 pr-4 mycontrol">
                                             <option value="null">
@@ -143,17 +207,17 @@
                                                 </xsl:if>
                                                 <xsl:text disable-output-escaping="yes">&amp;nbsp;</xsl:text>
                                             </option>
-                                            <option value="0">
-                                                <xsl:if test="$use_photo = '0'">
-                                                    <xsl:attribute name="selected">selected</xsl:attribute>
-                                                </xsl:if>
-                                                No
-                                            </option>
                                             <option value="1">
                                                 <xsl:if test="$use_photo = '1'">
                                                     <xsl:attribute name="selected">selected</xsl:attribute>
                                                 </xsl:if>
                                                 Yes
+                                            </option>
+                                            <option value="0">
+                                                <xsl:if test="$use_photo = '0'">
+                                                    <xsl:attribute name="selected">selected</xsl:attribute>
+                                                </xsl:if>
+                                                No
                                             </option>
                                         </select>
                                     </div>
@@ -165,57 +229,83 @@
                         </xsl:otherwise>
                     </xsl:choose>
                     <xsl:choose>
-                        <xsl:when test="$enableBestwayQuestion = '1'">
+                        <xsl:when test="$enableLiveStreamQuestion = '1'">
                             <fieldset>
                                 <div class="row">
                                     <div class="col-auto">
-                                        <label for="bestway">Preferred mode of contact:</label>
+                                        <label for="live_stream">
+                                            <strong>Live stream:</strong> I give permission for <xsl:value-of select="$conName"/> to broadcast a live stream of me on programme items to the rest of the convention membership.
+                                        </label>
                                     </div>
+                                </div>
+                                <div class="row">
                                     <div class="col-auto">
-                                        <div class="verticalRadioButs">
-                                            <div class="radioNlabel">
-                                                <span class="radio">
-                                                    <input name="bestway" id="bwemailRB" value="Email" type="radio" class="mycontrol">
-                                                        <xsl:if test="$bestway='Email' or not($bestway)">
-                                                            <xsl:attribute name="checked">checked</xsl:attribute>
-                                                        </xsl:if>
-                                                    </input>
-                                                </span>
-                                                <span class="radioLabel">
-                                                    <label for="bwemailRB">Email</label>
-                                                </span>
-                                            </div>
-                                            <div class="radioNlabel">
-                                                <span class="radio">
-                                                    <input name="bestway" id="bwpmailRB" value="Postal mail" type="radio" class="mycontrol">
-                                                        <xsl:if test="$bestway='Postal mail'">
-                                                            <xsl:attribute name="checked">checked</xsl:attribute>
-                                                        </xsl:if>
-                                                    </input>
-                                                </span>
-                                                <span class="radioLabel">
-                                                    <label for="bwpmailRB">Postal Mail</label>
-                                                </span>
-                                            </div>
-                                            <div class="radioNlabel">
-                                                <span class="radio">
-                                                    <input name="bestway" id="bwphoneRB" value="Phone" type="radio" class="mycontrol">
-                                                        <xsl:if test="$bestway='Phone'">
-                                                            <xsl:attribute name="checked">checked</xsl:attribute>
-                                                        </xsl:if>
-                                                    </input>
-                                                </span>
-                                                <span class="radioLabel">
-                                                    <label for="bwphoneRB">Phone</label>
-                                                </span>
-                                            </div>
-                                        </div>
+                                        <select id="live_stream" name="live_stream" class="mb-2 pl-2 pr-4 mycontrol">
+                                            <option value="null">
+                                                <xsl:if test="not($live_stream) and $live_stream != '0'"><!-- is there an explicit test for null? -->
+                                                    <xsl:attribute name="selected">selected</xsl:attribute>
+                                                </xsl:if>
+                                                <xsl:text disable-output-escaping="yes">&amp;nbsp;</xsl:text>
+                                            </option>
+                                            <option value="1">
+                                                <xsl:if test="$live_stream = '1'">
+                                                    <xsl:attribute name="selected">selected</xsl:attribute>
+                                                </xsl:if>
+                                                Yes
+                                            </option>
+                                            <option value="0">
+                                                <xsl:if test="$live_stream = '0'">
+                                                    <xsl:attribute name="selected">selected</xsl:attribute>
+                                                </xsl:if>
+                                                No
+                                            </option>
+                                        </select>
                                     </div>
                                 </div>
                             </fieldset>
                         </xsl:when>
                         <xsl:otherwise>
-                            <input name="bestway" id="bestway" type="hidden" value="{$bestway}"/>
+                            <input name="live_stream" type="hidden" value="{$live_stream}"/>
+                        </xsl:otherwise>
+                    </xsl:choose>
+                    <xsl:choose>
+                        <xsl:when test="$enableVODQuestion = '1'">
+                            <fieldset>
+                                <div class="row">
+                                    <div class="col-auto">
+                                        <label for="vod">
+                                            <strong>VOD:</strong> I give permission for <xsl:value-of select="$conName"/> to make recordings of me on programme items available to the rest of the convention membership after the programme item has ended.
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-auto">
+                                        <select id="vod" name="vod" class="mb-2 pl-2 pr-4 mycontrol">
+                                            <option value="null">
+                                                <xsl:if test="not($vod) and $vod != '0'"><!-- is there an explicit test for null? -->
+                                                    <xsl:attribute name="selected">selected</xsl:attribute>
+                                                </xsl:if>
+                                                <xsl:text disable-output-escaping="yes">&amp;nbsp;</xsl:text>
+                                            </option>
+                                            <option value="1">
+                                                <xsl:if test="$vod = '1'">
+                                                    <xsl:attribute name="selected">selected</xsl:attribute>
+                                                </xsl:if>
+                                                Yes
+                                            </option>
+                                            <option value="0">
+                                                <xsl:if test="$vod = '0'">
+                                                    <xsl:attribute name="selected">selected</xsl:attribute>
+                                                </xsl:if>
+                                                No
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <input name="vod" type="hidden" value="{$vod}"/>
                         </xsl:otherwise>
                     </xsl:choose>
                 <xsl:if test="$RESET_PASSWORD_SELF">

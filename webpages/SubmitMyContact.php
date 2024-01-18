@@ -44,6 +44,22 @@ function update_participant($badgeid) {
             $updateClause .= "use_photo=null, ";
         }
     }
+    if (isset($_POST['live_stream'])) {
+        $x = $_POST['live_stream'];
+        if ($x == 0 || $x == 1) {
+            $updateClause .= "live_stream=$x, ";
+        } else {
+            $updateClause .= "live_stream=null, ";
+        }
+    }
+    if (isset($_POST['vod'])) {
+        $x = $_POST['vod'];
+        if ($x == 0 || $x == 1) {
+            $updateClause .= "vod=$x, ";
+        } else {
+            $updateClause .= "vod=null, ";
+        }
+    }
     if (isset($_POST['bestway'])) {
         $x = $_POST['bestway'];
         if ($x == "Email" || $x == "Postal mail" || $x == "Phone") {

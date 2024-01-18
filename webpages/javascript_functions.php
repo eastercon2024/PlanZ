@@ -88,6 +88,8 @@ function load_internal_javascript($title, $isDataTables = false) {
             echo "<script src=\"external/tinymce-5.6.2/js/tinymce/tinymce.min.js\"></script>\n";
             echo "<script src=\"js/myProfile.js\"></script>";
             break;
+        case "General Interests":
+            echo "<script src=\"js/generalInterests.js\"></script>";
         case "My Photo":
             echo "<script src=\"external/croppie.2.6.5/croppie.min.js\"></script>\n";
             echo "<script src=\"js/myPhoto.js\"></script>";

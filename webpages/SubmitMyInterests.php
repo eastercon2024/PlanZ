@@ -4,17 +4,15 @@
 global $congoinfo, $linki, $message2, $message_error, $participant, $title;
 $title = "My Interests";
 require('PartCommonCode.php'); // initialize db; check login;
-require_once('renderMyInterests.php');
 
 if (!may_I('my_gen_int_write')) {
     $message = "Currently, you do not have write access to this page.\n";
-    RenderError($message);
+    RenderErrorAjax($message);
     exit();
 }
 
 $rolerows = $_POST["rolerows"];
 $interestrows = $_POST["interestrows"];
-$newrow = $_POST["newrow"];
 $yespanels = stripslashes($_POST["yespanels"]);
 $nopanels = stripslashes($_POST["nopanels"]);
 $yespeople = stripslashes($_POST["yespeople"]);
@@ -23,100 +21,78 @@ $otherroles = stripslashes($_POST["otherroles"]);
 $rolearray = array();
 for ($i = 0; $i < $rolerows; $i++) {
     $rolearray[$i] = array();
-    if (isset($_POST["willdorole" . $i])) {
-        $rolearray[$i]["badgeid"] = $badgeid;
-    }
     $rolearray[$i]["roleid"] = $_POST["roleid" . $i];
-    $rolearray[$i]["rolename"] = $_POST["rolename" . $i];
-    $rolearray[$i]["diddorole"] = $_POST["diddorole" . $i];
+    $rolearray[$i]["willdorole"] = isset($_POST["willdorole" . $i]) && $_POST["willdorole" . $i] == 1;
 }
 $rolearray['count'] = $rolerows;
 
 $interestarray = array();
 for ($i = 1; $i < $interestrows; $i++) {
     $interestarray[$i] = array();
-    if (isset($_POST["willdointerest" . $i])) {
-        $interestarray[$i]["badgeid"] = $badgeid;
-    }
     $interestarray[$i]["interestid"] = $_POST["interestid" . $i];
-    $interestarray[$i]["interestname"] = $_POST["interestname" . $i];
-    $interestarray[$i]["diddointerest"] = $_POST["diddointerest" . $i];
+    $interestarray[$i]["willdointerest"] = isset($_POST["willdointerest" . $i]) && $_POST["willdointerest" . $i] == 1;
+
 }
 $interestarray['count'] = $interestrows;
 
-if ($newrow) {
-    $query = "INSERT INTO ParticipantInterests SET badgeid='$badgeid',";
-    $query .= "yespanels=\"" . mysqli_real_escape_string($linki, $yespanels);
-    $query .= "\",nopanels=\"" . mysqli_real_escape_string($linki, $nopanels);
-    $query .= "\",yespeople=\"" . mysqli_real_escape_string($linki, $yespeople);
-    $query .= "\",nopeople=\"" . mysqli_real_escape_string($linki, $nopeople);
-    $query .= "\",otherroles=\"" . mysqli_real_escape_string($linki, $otherroles) . "\"";
-    if (!mysqli_query($linki, $query)) {
-        $message = $query . "<br>Error inserting into database.  Database not updated.";
-        RenderError($message);
-        exit();
-    }
-} else {
-    $query = "UPDATE ParticipantInterests SET ";
-    $query .= "yespanels=\"" . mysqli_real_escape_string($linki, $yespanels) . "\",";
-    $query .= "nopanels=\"" . mysqli_real_escape_string($linki, $nopanels) . "\",";
-    $query .= "yespeople=\"" . mysqli_real_escape_string($linki, $yespeople) . "\",";
-    $query .= "nopeople=\"" . mysqli_real_escape_string($linki, $nopeople) . "\",";
-    $query .= "otherroles=\"" . mysqli_real_escape_string($linki, $otherroles) . "\" ";
-    $query .= "WHERE badgeid=\"" . $badgeid . "\"";
-    if (!mysqli_query($linki, $query)) {
-        $message = $query . "<br>Error updating database.  Database not updated.";
-        RenderError($message);
-        exit();
-    }
+$query = "REPLACE INTO ParticipantInterests SET badgeid='$badgeid',";
+$query .= "yespanels=\"" . mysqli_real_escape_string($linki, $yespanels);
+$query .= "\",nopanels=\"" . mysqli_real_escape_string($linki, $nopanels);
+$query .= "\",yespeople=\"" . mysqli_real_escape_string($linki, $yespeople);
+$query .= "\",nopeople=\"" . mysqli_real_escape_string($linki, $nopeople);
+$query .= "\",otherroles=\"" . mysqli_real_escape_string($linki, $otherroles) . "\"";
+if (!mysqli_query($linki, $query)) {
+    $message = $query . "<br>Error inserting into database.  Database not updated.";
+    Render500ErrorAjax($message);
+    exit();
 }
+
 for ($i = 0; $i < $rolerows; $i++) {
-    if (isset($rolearray[$i]["badgeid"]) && ($rolearray[$i]["diddorole"] == 0)) {
-        $query = "INSERT INTO ParticipantHasRole SET badgeid=\"" . $badgeid . "\", roleid=" . $rolearray[$i]["roleid"] . "";
+    if ($rolearray[$i]["willdorole"]) {
+        $query = "REPLACE INTO ParticipantHasRole SET badgeid=\"" . $badgeid . "\", roleid=" . $rolearray[$i]["roleid"] . "";
         if (!mysqli_query($linki, $query)) {
-            $message = $query . "<br>Error inserting into database.  Database not updated.";
-            RenderError($message);
+            $message = $query . "<br>Error inserting into database x.  Database not updated.";
+            Render500ErrorAjax($message);
             exit();
         }
-    }
-    if ((!isset($rolearray[$i]["badgeid"])) && ($rolearray[$i]["diddorole"] == 1)) {
+    } else {
         $query = "DELETE FROM ParticipantHasRole WHERE badgeid=\"" . $badgeid . "\" AND ";
         $query .= "roleid=" . $rolearray[$i]["roleid"];
         if (!mysqli_query($linki, $query)) {
             $message = $query . "<br>Error deleting from database.  Database not updated.";
-            RenderError($message);
+            Render500ErrorAjax($message);
             exit();
         }
     }
 }
 
 for ($i = 1; $i < $interestrows; $i++) {
-    if (isset($interestarray[$i]["badgeid"]) && ($interestarray[$i]["diddointerest"] == 0)) {
-        $query = "INSERT INTO ParticipantHasInterest set badgeid=\"" . $badgeid . "\", interestid=" . $interestarray[$i]["interestid"] . "";
+    if ($interestarray[$i]["willdointerest"]) {
+        $query = "REPLACE INTO ParticipantHasInterest set badgeid=\"" . $badgeid . "\", interestid=" . $interestarray[$i]["interestid"] . "";
         if (!mysqli_query($linki, $query)) {
             $message = $query . "<br>Error inserting into database.  Database not updated.";
-            RenderError($message);
+            Render500ErrorAjax($message);
             exit();
         }
-    }
-    if ((!isset($interestarray[$i]["badgeid"])) && ($interestarray[$i]["diddointerest"] == 1)) {
+    } else {
         $query = "DELETE FROM ParticipantHasInterest WHERE badgeid=\"" . $badgeid . "\" AND ";
         $query .= "interestid=" . $interestarray[$i]["interestid"];
         if (!mysqli_query($linki, $query)) {
             $message = $query . "<br>Error deleting from database.  Database not updated.";
-            RenderError($message);
+            Render500ErrorAjax($message);
             exit();
         }
     }
 }
 
 
-$message = "Database updated successfully.";
-$newrow = false;
-$error = false;
-renderMyInterests($title, $error, $message, $rolearray, $interestarray);
-
-participant_footer();
-
-exit(0);
+?>
+    <div class="row mt-3">
+        <div class="col-12">
+            <div class="alert alert-success">
+                Database updated successfully
+            </div>
+        </div>
+    </div>
+<?php
 ?>

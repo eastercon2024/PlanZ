@@ -10,6 +10,9 @@ document.addEventListener( "DOMContentLoaded", function () {
         case "My Profile":
             myProfile.initialize();
             break;
+        case "General Interests":
+            generalInterests.initialize();
+            break;
         case "Administer Photos":
             initializeAdminPhotos();
             break;

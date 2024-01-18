@@ -52,14 +52,14 @@ function MyProfile() {
     };
 
     this.bioChange = function bioChange() {
-        $resultBoxDiv.html("&nbsp;").css("visibility", "hidden");
+        $resultBoxDiv.html("&nbsp;").css("display", "none");
         anyDirty = true;
         this.validateBio();
         $("#submitBTN").prop("disabled", (!pwOK || !bioOK || (!anyDirty && !pw)));
     };
 
     this.anyChange = function anyChange(event) {
-        $resultBoxDiv.html("&nbsp;").css("visibility", "hidden");
+        $resultBoxDiv.html("&nbsp;").css("display", "none");
         anyDirty = true;
         var $target = $(event.target);
         var targetId = $target.attr("id");
@@ -120,7 +120,7 @@ function MyProfile() {
         $(":radio.mycontrol").on("change", boundAnyChange);
         $("textarea.mycontrol").on("input", boundAnyChange);
         $resultBoxDiv = $("#resultBoxDIV");
-        $resultBoxDiv.html("&nbsp;").css("visibility", "hidden");
+        $resultBoxDiv.html("&nbsp;").css("display", "none");
         
     };
 
@@ -215,7 +215,7 @@ function MyProfile() {
 
     this.showUpdateResults = function showUpdateResults(data, textStatus, jqXHR) {
         //ajax success callback function
-        $resultBoxDiv.html(data).css("visibility", "visible");
+        $resultBoxDiv.html(data).css("display", "block");
         $password.val("");
         $cpassword.val("");
         anyDirty = false;
@@ -239,7 +239,7 @@ function MyProfile() {
 
     this.showErrorMessage = function showErrorMessage(message) {
         content = `<div class="row mt-3"><div class="col-12"><div class="alert alert-danger" role="alert">` + message + `</div></div></div>`;
-        $resultBoxDiv.html(content).css("visibility", "visible");
+        $resultBoxDiv.html(content).css("display", "block");
         document.getElementById("resultBoxDIV").scrollIntoView(false);
     };
 
@@ -250,7 +250,7 @@ function MyProfile() {
         } else {
             content = `<div class="row mt-3"><div class="col-12"><div class="alert alert-danger" role="alert">An error occurred on the server.</div></div></div>`;
         }
-        $resultBoxDiv.html(content).css("visibility", "visible");
+        $resultBoxDiv.html(content).css("display", "block");
         document.getElementById("resultBoxDIV").scrollIntoView(false);
         uploadlock = false;
     };

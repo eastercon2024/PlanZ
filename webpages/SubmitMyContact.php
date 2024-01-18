@@ -94,16 +94,6 @@ function update_participant($badgeid) {
             exit();
         }
     }
-    if (isset($_POST['pronouns'])) {
-        if ($may_edit_bio) {
-            $pronouns = stripslashes($_POST['pronouns']);
-            $updateClause .= "pronouns=\"" . mysqli_real_escape_string($linki, $pronouns) . "\", ";
-        } else {
-            $message_error = "You may not update your pronouns for publications at this time.  Database not updated.";
-            Render500ErrorAjax($message_error);
-            exit();
-        }
-    }
     if (isset($_POST['anonymous'])) {
         $anonymous = stripslashes($_POST['anonymous']);
         $updateClause .= "anonymous=\"" . ($anonymous ? "Y" : "N") . "\", ";
@@ -163,6 +153,38 @@ function update_participant($badgeid) {
         mysqli_query_with_error_handling($query3 . $credentialClause3 . ")", true, true);
         $ParticipantsUpdated = true;
     }
+
+    $dayJob = getString('day_job');
+    $ageRangeId = getString('age_range');
+    $ethnicity = getString('ethnicity');
+    $gender = getString('gender');
+    $sexualOrientation = getString('sexual_orientation');
+    $accessibilityIssues = getString('accessibility_issues');
+    $pronouns = getString('pronouns');
+    if (!is_null($dayJob) || !is_null($ageRangeId) || !is_null($ethnicity) || !is_null($gender) || !is_null($sexualOrientation) || !is_null($pronouns) || !is_null($accessibilityIssues)) {
+        $query_preable = "UPDATE ParticipantDetails SET ";
+        $query_portion_arr = array();
+        $query_param_arr = array();
+        $query_param_type_str = "";
+        push_query_arrays($dayJob, 'dayjob', 's', 30, $query_portion_arr, $query_param_arr, $query_param_type_str);
+        push_query_arrays($ageRangeId, 'agerangeid', 'i', 40, $query_portion_arr, $query_param_arr, $query_param_type_str);
+        push_query_arrays($ethnicity, 'ethnicity', 's', 51, $query_portion_arr, $query_param_arr, $query_param_type_str);
+        push_query_arrays($gender, 'gender', 's', 100, $query_portion_arr, $query_param_arr, $query_param_type_str);
+        push_query_arrays($sexualOrientation, 'sexualorientation', 's', 100, $query_portion_arr, $query_param_arr, $query_param_type_str);
+        push_query_arrays($pronouns, 'pronounother', 's', 100, $query_portion_arr, $query_param_arr, $query_param_type_str);
+        push_query_arrays($accessibilityIssues, 'accessibilityissues', 's', 100, $query_portion_arr, $query_param_arr, $query_param_type_str);
+        $query_param_arr[] = $badgeid;
+        $query_param_type_str .= 's';
+        $query = $query_preable . implode(', ', $query_portion_arr) . " WHERE badgeid = ?";
+        $rows = mysql_cmd_with_prepare($query, $query_param_type_str, $query_param_arr);
+        if ($rows != 1) {
+            $message_error = "Error updating db. (record update)";
+            Render500ErrorAjax($message_error);
+            exit();
+        }
+        $ParticipantsUpdated = true;
+    }
+
     $fname = getString('fname');
     $lname = getString('lname');
     $badgename = getString('badgename');

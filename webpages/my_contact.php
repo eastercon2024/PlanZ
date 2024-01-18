@@ -11,7 +11,7 @@ SELECT
         CD.postaddress1, CD.postaddress2, CD.postcity, CD.poststate, CD.postzip,
         CD.postcountry, $regTypeField, P.pubsname, P.sortedpubsname, P.password, P.bestway, P.interested, P.bio,
         P.htmlbio, P.share_email, P.use_photo, P.live_stream, P.vod, PRO.pronounname, P.approvedphotofilename,
-        P.anonymous
+        P.anonymous, PD.dayjob, PD.accessibilityissues, PD.ethnicity, PD.gender, PD.sexualorientation, PD.agerangeid, PD.pronounid, PD.pronounother
     FROM
        CongoDump CD
        JOIN Participants P USING (badgeid)
@@ -33,6 +33,14 @@ SELECT
 EOD;
 $param_array["credentials"] = array($badgeid);
 $type_array["credentials"] = "s";
+$queryArray["agerange"] = <<<EOD
+SELECT
+    agerangeid, agerangename
+FROM
+    AgeRanges
+ORDER BY
+    display_order;
+EOD;
 
 if (($resultXML=mysql_prepare_query_XML($queryArray, $type_array, $param_array))===false) {
     RenderError($message_error);
@@ -58,6 +66,13 @@ if (defined("PARTICIPANT_PHOTOS") && PARTICIPANT_PHOTOS && defined("PHOTO_PUBLIC
 		$paramArray['defaultPhoto'] = PHOTO_DEFAULT_IMAGE;
 	}
 }
+$paramArray["enableDayJobQuestion"] = USE_DAY_JOB ? 1 : 0;
+$paramArray["enableAgeRangeQuestion"] = USE_AGE_RANGE ? 1 : 0;
+$paramArray["enableEthnicityQuestion"] = USE_ETHNICITY ? 1 : 0;
+$paramArray["enableAccessibilityQuestion"] = USE_ACCESSIBILITY ? 1 : 0;
+$paramArray["enableGenderQuestion"] = USE_GENDER ? 1 : 0;
+$paramArray["enableSexualOrientationQuestion"] = USE_SEXUAL_ORIENTATION ? 1 : 0;
+$paramArray["enablePronounsQuestion"] = USE_PRONOUNS ? 1 : 0;
 participant_header($title, false, 'Normal', true);
 $resultXML = appendCustomTextArrayToXML($resultXML);
 RenderXSLT('my_profile.xsl', $paramArray, $resultXML);

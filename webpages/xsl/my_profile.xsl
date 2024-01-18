@@ -18,6 +18,13 @@
     <xsl:param name="userIdPrompt" select="''"/>
     <xsl:param name="photoPath" select="''"/>
     <xsl:param name="defaultPhoto" select="''"/>
+    <xsl:param name="enableDayJobQuestion" select="0"/>
+    <xsl:param name="enableAgeRangeQuestion" select="0"/>
+    <xsl:param name="enableAccessibilityQuestion" select="0"/>
+    <xsl:param name="enableEthnicityQuestion" select="0"/>
+    <xsl:param name="enableGenderQuestion" select="0"/>
+    <xsl:param name="enableSexualOrientationQuestion" select="0"/>
+    <xsl:param name="enablePronounsQuestion" select="0"/>
     <xsl:param name="RESET_PASSWORD_SELF" select="true()" /><!-- TRUE/FALSE -->
     <xsl:output encoding="UTF-8" indent="yes" method="xml" />
     <xsl:template match="/">
@@ -378,6 +385,20 @@
                                 </input>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label for="pronouns">Your pronouns (optional):</label>
+                            </div>
+                            <div class="col-md-4">
+                                <input type="text" side="20" maxlength="50" name="pronouns"
+                                    value="{/doc/query[@queryName='participant_info']/row/@pronounother}"
+                                    id="pronouns" class="mycontrol userFormINPTXT">
+                                    <xsl:if test="$enableBioEdit!='1'">
+                                        <xsl:attribute name="readonly">readonly</xsl:attribute>
+                                    </xsl:if>
+                                </input>
+                            </div>
+                        </div>
                         <xsl:choose>
                             <xsl:when test="$htmlbio = '1'">
                                 <div class="row">
@@ -527,11 +548,22 @@
                                 <legend class="col-auto">Contact Information</legend>
                             </div>
                             <div class="row">
-                                <div class="col">Please confirm your contact information. Please provide missing information or correct what has changed.</div>
+                                <div class="col">Please confirm your contact information.</div>
                             </div>
                         </xsl:otherwise>
                     </xsl:choose>
                     <fieldset>
+                        <input type="hidden" name="postaddress1" value="" />
+                        <input type="hidden" name="postaddress2" value="" />
+                        <input type="hidden" name="postcity" value="" />
+                        <input type="hidden" name="poststate" value="" />
+                        <input type="hidden" name="postzip" value="" />
+                        <input type="hidden" name="postcountry" value="" />
+                        <input type="hidden" name="regtype">
+                            <xsl:attribute name="value">
+                                <xsl:value-of select="/doc/query[@queryName='participant_info']/row/@regtype" />
+                            </xsl:attribute>
+                        </input>
                         <div>
                             <xsl:choose>
                                 <xsl:when test="$useRegSystem = 1">
@@ -550,6 +582,18 @@
                             </div>
                             <div class="col">
                                 <xsl:value-of select="/doc/query[@queryName='participant_info']/row/@badgeid" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-3p5 col-md-3 col-lg-2">
+                                <h5>
+                                    <div class="badge badge-secondary badge-full-width">
+                                        Registration Type
+                                    </div>
+                                </h5>
+                            </div>
+                            <div class="col">
+                                <xsl:value-of select="/doc/query[@queryName='participant_info']/row/@regtype" />
                             </div>
                         </div>
                         <xsl:call-template name="regRowContents">
@@ -589,57 +633,136 @@
                             <xsl:with-param name="maxlength" select="100" />
                             <xsl:with-param name="fieldsize" select="80" />
                         </xsl:call-template>
-                        <xsl:call-template name="regRowContents">
-                            <xsl:with-param name="label">Postal Address</xsl:with-param>
-                            <xsl:with-param name="value" select="/doc/query[@queryName='participant_info']/row/@postaddress1" />
-                            <xsl:with-param name="id">postaddress1</xsl:with-param>
-                            <xsl:with-param name="maxlength" select="100" />
-                            <xsl:with-param name="fieldsize" select="80" />
-                        </xsl:call-template>
-                        <xsl:call-template name="regRowContents">
-                            <xsl:with-param name="label">(line 2)</xsl:with-param>
-                            <xsl:with-param name="value" select="/doc/query[@queryName='participant_info']/row/@postaddress2" />
-                            <xsl:with-param name="id">postaddress2</xsl:with-param>
-                            <xsl:with-param name="maxlength" select="100" />
-                            <xsl:with-param name="fieldsize" select="80" />
-                        </xsl:call-template>
-                        <xsl:call-template name="regRowContents">
-                            <xsl:with-param name="label">Postal City</xsl:with-param>
-                            <xsl:with-param name="value" select="/doc/query[@queryName='participant_info']/row/@postcity" />
-                            <xsl:with-param name="id">postcity</xsl:with-param>
-                            <xsl:with-param name="maxlength" select="50" />
-                            <xsl:with-param name="fieldsize" select="50" />
-                        </xsl:call-template>
-                        <xsl:call-template name="regRowContents">
-                            <xsl:with-param name="label">Postal State</xsl:with-param>
-                            <xsl:with-param name="value" select="/doc/query[@queryName='participant_info']/row/@poststate" />
-                            <xsl:with-param name="id">poststate</xsl:with-param>
-                            <xsl:with-param name="maxlength" select="25" />
-                            <xsl:with-param name="fieldsize" select="25" />
-                        </xsl:call-template>
-                        <xsl:call-template name="regRowContents">
-                            <xsl:with-param name="label">Zip Code</xsl:with-param>
-                            <xsl:with-param name="value" select="/doc/query[@queryName='participant_info']/row/@postzip" />
-                            <xsl:with-param name="id">postzip</xsl:with-param>
-                            <xsl:with-param name="maxlength" select="10" />
-                            <xsl:with-param name="fieldsize" select="10" />
-                        </xsl:call-template>
-                        <xsl:call-template name="regRowContents">
-                            <xsl:with-param name="label">Country</xsl:with-param>
-                            <xsl:with-param name="value" select="/doc/query[@queryName='participant_info']/row/@postcountry" />
-                            <xsl:with-param name="id">postcountry</xsl:with-param>
-                            <xsl:with-param name="maxlength" select="25" />
-                            <xsl:with-param name="fieldsize" select="25" />
-                        </xsl:call-template>
-                        <xsl:call-template name="regRowContents">
-                            <xsl:with-param name="label">Registration Type</xsl:with-param>
-                            <xsl:with-param name="value" select="/doc/query[@queryName='participant_info']/row/@regtype" />
-                            <xsl:with-param name="id">regtype</xsl:with-param>
-                            <xsl:with-param name="maxlength" select="25" />
-                            <xsl:with-param name="fieldsize" select="25" />
-                            <xsl:with-param name="readonly" select="'1'" />
-                        </xsl:call-template>
                     </fieldset>
+
+                    <div class="row mt-3">
+                        <legend class="col-auto">Optional Demographic Information</legend>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <p>We are committed to diverse panelist representation on our program items. To help us do that, please consider filling in the following <em>optional</em> items of demographic information. All answers will be visible to people volunteering on the convention, but not the general membership.</p>
+                        </div>
+                    </div>
+                    <fieldset>
+                        <xsl:choose>
+                            <xsl:when test="$enableDayJobQuestion = 1">    
+                                <xsl:call-template name="regRowContents">
+                                    <xsl:with-param name="label">Day job</xsl:with-param>
+                                    <xsl:with-param name="value" select="/doc/query[@queryName='participant_info']/row/@dayjob" />
+                                    <xsl:with-param name="id">day_job</xsl:with-param>
+                                    <xsl:with-param name="maxlength" select="100" />
+                                    <xsl:with-param name="fieldsize" select="80" />
+                                </xsl:call-template>
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <input name="day_job" type="hidden">
+                                    <xsl:attribute name="value" select="/doc/query[@queryName='participant_info']/row/@dayjob" />
+                                </input>
+                            </xsl:otherwise>
+                        </xsl:choose>
+                        <xsl:choose>
+                            <xsl:when test="$enableAgeRangeQuestion = 1">
+                                <div class="row">
+                                    <div class="col-sm-3p5 col-md-3 col-lg-2">
+                                        <h5>
+                                            <label for="age_range" class="badge badge-secondary badge-full-width">
+                                                Age range
+                                            </label>
+                                        </h5>
+                                    </div>
+                                    <div class="col">
+                                        <select id="age_range" name="age_range" class="mycontrol">
+                                            <xsl:for-each select="/doc/query[@queryName='agerange']/row">
+                                                <option value="{@agerangeid}">
+                                                    <xsl:if test="@agerangeid = /doc/query[@queryName='participant_info']/row/@agerangeid">
+                                                        <xsl:attribute name="selected">selected</xsl:attribute>
+                                                    </xsl:if>
+                                                    <xsl:value-of select="@agerangename" />
+                                                </option>
+                                            </xsl:for-each>
+                                        </select>
+                                    </div>
+                                </div>
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <input name="age_range" type="hidden">
+                                    <xsl:attribute name="value" select="/doc/query[@queryName='participant_info']/row/@agerangeid" />
+                                </input>
+                            </xsl:otherwise>
+                        </xsl:choose>
+                        <xsl:choose>
+                            <xsl:when test="$enableEthnicityQuestion = 1">    
+                                <xsl:call-template name="regRowContents">
+                                    <xsl:with-param name="label">Ethnicity</xsl:with-param>
+                                    <xsl:with-param name="value" select="/doc/query[@queryName='participant_info']/row/@ethnicity" />
+                                    <xsl:with-param name="id">ethnicity</xsl:with-param>
+                                    <xsl:with-param name="maxlength" select="100" />
+                                    <xsl:with-param name="fieldsize" select="80" />
+                                </xsl:call-template>
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <input name="ethnicity" type="hidden">
+                                    <xsl:attribute name="value" select="/doc/query[@queryName='participant_info']/row/@ethnicity" />
+                                </input>
+                            </xsl:otherwise>
+                        </xsl:choose>
+                        <xsl:choose>
+                            <xsl:when test="$enableGenderQuestion = 1">    
+                                <xsl:call-template name="regRowContents">
+                                    <xsl:with-param name="label">Gender</xsl:with-param>
+                                    <xsl:with-param name="value" select="/doc/query[@queryName='participant_info']/row/@gender" />
+                                    <xsl:with-param name="id">gender</xsl:with-param>
+                                    <xsl:with-param name="maxlength" select="100" />
+                                    <xsl:with-param name="fieldsize" select="80" />
+                                </xsl:call-template>
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <input name="gender" type="hidden">
+                                    <xsl:attribute name="value" select="/doc/query[@queryName='participant_info']/row/@gender" />
+                                </input>
+                            </xsl:otherwise>
+                        </xsl:choose>
+                        <xsl:choose>
+                            <xsl:when test="$enableSexualOrientationQuestion = 1">    
+                                <xsl:call-template name="regRowContents">
+                                    <xsl:with-param name="label">Sexual orientation</xsl:with-param>
+                                    <xsl:with-param name="value" select="/doc/query[@queryName='participant_info']/row/@sexualorientation" />
+                                    <xsl:with-param name="id">sexual_orientation</xsl:with-param>
+                                    <xsl:with-param name="maxlength" select="100" />
+                                    <xsl:with-param name="fieldsize" select="80" />
+                                </xsl:call-template>
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <input name="sexual_orientation" type="hidden">
+                                    <xsl:attribute name="value" select="/doc/query[@queryName='participant_info']/row/@sexualorientation" />
+                                </input>
+                            </xsl:otherwise>
+                        </xsl:choose>
+                    </fieldset>
+                    <xsl:choose>
+                        <xsl:when test="$enableAccessibilityQuestion = 1">
+                            <div class="row mt-3">
+                                <legend class="col-auto">Accessibility requirements</legend>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <p>Do you have any accessibility issues that we should be aware of? This information will be visible to people volunteering on the convention, but not the general membership. If you have something you would like to discuss with us, or tell us in more confidence, you can e-mail <a href="mailto:access@eastercon2024.co.uk">access@eastercon2024.co.uk</a>.</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <textarea id="accessibility_issues" name="accessibility_issues" class="formcontrol mycontrol col-sm-12" rows="5" cols="72">
+                                        <xsl:value-of select="/doc/query[@queryName='participant_info']/row/@accessibilityissues" />
+                                    </textarea>
+                                </div>
+                            </div>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <input name="accessibility_issues" type="hidden">
+                                <xsl:attribute name="value" select="/doc/query[@queryName='participant_info']/row/@accessibilityissues" />
+                            </input>
+                        </xsl:otherwise>
+                    </xsl:choose>
                 </div>
                 <div class="card-footer">
                     <xsl:if test="$useRegSystem != 1"><!-- show button here if not using reg system -->

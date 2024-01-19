@@ -36,9 +36,6 @@
         <xsl:variable name="bestway" select="/doc/query[@queryName='participant_info']/row/@bestway" />
         <xsl:variable name="bioNote" select="/doc/customText/@biography_note" />
         <xsl:variable name="regDataNote" select="/doc/customText/@registration_data" />
-        <div id="resultBoxDIV">
-            <span class="beforeResult" id="resultBoxSPAN">Result messages will appear here.</span>
-        </div>
         <form name="partform" class="container mt-2 mb-4">
             <div class="card">
                 <div class="card-header">
@@ -59,8 +56,11 @@
                                 </img>
                             </xsl:when>
                         </xsl:choose>
-                        <span>My Profile</span>
+                        <span> Profile</span>
                     </h2>
+                    <div id="resultBoxDIV">
+                        <span class="beforeResult" id="resultBoxSPAN">Result messages will appear here.</span>
+                    </div>            
                 </div>
                 <div class="card-body">
                     <fieldset>

@@ -9,15 +9,17 @@ function renderMyInterests($title, $error, $message, $rolearray, $interestarray)
 
     participant_header($title, false, 'Normal', true);
     
-    echo "<div id=\"resultBoxDIV\">\n";
-    echo "  <span class=\"beforeResult\" id=\"resultBoxSPAN\">Result messages will appear here.</span>\n";
-    echo "</div>\n";
 
     echo "<form name=\"addform\" class=\"container mt-2 mb-4\" >\n";
     echo "<input type=\"hidden\" class=\"mycontrol\" name=\"rolerows\" value=\"" . $rolerows . "\" />\n";
     echo "<input type=\"hidden\" class=\"mycontrol\" name=\"interestrows\" value=\"" . $interestrows . "\" />\n";
     echo "<div class=\"card\">\n";
-    echo "  <div class=\"card-header\"><h2>General Interests</h2></diV>\n";
+    echo "  <div class=\"card-header\">\n";
+    echo "    <h2>General Interests</h2>\n";
+    echo "    <div id=\"resultBoxDIV\">\n";
+    echo "      <span class=\"beforeResult\" id=\"resultBoxSPAN\">Result messages will appear here.</span>\n";
+    echo "    </div>\n";
+    echo "  </diV>\n";
     echo "  <div class=\"card-body\">\n";
     echo "    <fieldset>\n";
     echo "      <div class=\"row mt-3\">\n";

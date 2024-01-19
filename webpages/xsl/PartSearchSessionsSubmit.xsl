@@ -16,6 +16,7 @@
     <xsl:variable name="mayISubmitPanelInterests" select="$interested and $may_I" />
 
     <xsl:template match="/">
+        <div id="resultBoxDIV"><span class="beforeResult" id="resultBoxSPAN">Result messages will appear here.</span></div>
         <div class="row-fluid">
         <xsl:if test="not($interested)">
             <div class="row">
@@ -30,80 +31,55 @@
         </xsl:if>
         <xsl:choose>
             <xsl:when test="doc/query[@queryName='sessions']/row">
-                <xsl:if test="$mayISubmitPanelInterests">
-                    <div class="row">
-                        <div class="col-auto offset-sm-2 alert alert-info">
-                            If you have selected any sessions, please remember to <strong>SAVE</strong>
-                            before leaving the page. (Use either "Save" buttons at the top or bottom.)
+                <form id="sessionInterestFRM" name="resform" class="container-fluid mt-2 mb-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="row">
+                                <div class="col text-right">
+                                    <a class="btn btn-info" data-toggle="collapse" href=".multi-collapse" role="button" aria-expanded="false" aria-controls="{$collapse_list}">Expand All</a>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </xsl:if>
-                <form id="sessionInterestFRM" name="resform" method="POST" action="SubmitMySessions1.php">
-                    <div class="row">
-                        <div class="col-sm-10 offset-sm-1">
-                            You will find the results of your search below. You can expand each item for more information.
-                            <xsl:if test="$mayISubmitPanelInterests">
-                                Check the box labelled "my session" to add a session to your interest list.
-                            </xsl:if>
-                        </div>
-                        <div class="col-sm-1">
-                            <button class="btn btn-primary" type="submit" name="save">
-                                <xsl:if test="not($mayISubmitPanelInterests)"><xsl:attribute name="disabled">disabled</xsl:attribute></xsl:if>
-                                <xsl:text>Save</xsl:text>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-2 offset-sm-10 float-right">
-                            <a class="btn btn-info" data-toggle="collapse" href=".multi-collapse" role="button" aria-expanded="false" aria-controls="{$collapse_list}">Expand All</a>
-                        </div>
-                    </div>
-                    <hr />
-                    <div class="row">
-                        <xsl:choose>
-                            <xsl:when test="$trackIsPrimary and $showTags">
-                                <div class="col-0p75 pr-0">Session ID</div>
-                                <div class="col-1p25">Interested</div>
-                                <div class="col-1p75">Track</div>
-                                <div class="col-3p25">Title</div>
-                                <div class="col-1p5">Type</div>
-                                <div class="col-2p75">Tags</div>
-                                <div class="col-0p75">Expand</div>
-                            </xsl:when>
-                            <xsl:when test="$trackIsPrimary">
-                                <div class="col-1p25">Session ID</div>
-                                <div class="col-1p25">Interested</div>
-                                <div class="col-3">Track</div>
-                                <div class="col-4">Title</div>
-                                <div class="col-1p75">Type</div>
-                                <div class="col-0p75">Expand</div>
-                            </xsl:when>
-                            <xsl:when test="$showTrack">
-                                <div class="col-0p75 pr-0">Session ID</div>
-                                <div class="col-1p25">Interested</div>
-                                <div class="col-2p75">Tags</div>
-                                <div class="col-3p25">Title</div>
-                                <div class="col-1p5">Type</div>
-                                <div class="col-1p75">Track</div>
-                                <div class="col-0p75">Expand</div>
-                            </xsl:when>
-                            <xsl:otherwise>
-                                <div class="col-1p25">Session ID</div>
-                                <div class="col-1p25">Interested</div>
-                                <div class="col-3">Tags</div>
-                                <div class="col-4">Title</div>
-                                <div class="col-1p75">Type</div>
-                                <div class="col-0p75">Expand</div>
-                            </xsl:otherwise>
-                        </xsl:choose>
-                    </div>
-                    <xsl:apply-templates select="doc/query[@queryName='sessions']/row" />
-                    <div class="row">
-                        <div class="col-sm-1 offset-sm-11">
-                            <button class="btn btn-primary mt-4" type="submit" name="save">
-                                <xsl:if test="not($mayISubmitPanelInterests)"><xsl:attribute name="disabled">disabled</xsl:attribute></xsl:if>
-                                <xsl:text>Save</xsl:text>
-                            </button>
+                        <div class="card-body">
+                            <div class="row">
+                                <xsl:choose>
+                                    <xsl:when test="$trackIsPrimary and $showTags">
+                                        <div class="col-0p75 pr-0">Session ID</div>
+                                        <div class="col-1p25">Interested</div>
+                                        <div class="col-1p75">Track</div>
+                                        <div class="col-3p25">Title</div>
+                                        <div class="col-1p5">Type</div>
+                                        <div class="col-2p75">Tags</div>
+                                        <div class="col-0p75">Expand</div>
+                                    </xsl:when>
+                                    <xsl:when test="$trackIsPrimary">
+                                        <div class="col-1p25">Session ID</div>
+                                        <div class="col-1p25">Interested</div>
+                                        <div class="col-3">Track</div>
+                                        <div class="col-4">Title</div>
+                                        <div class="col-1p75">Type</div>
+                                        <div class="col-0p75">Expand</div>
+                                    </xsl:when>
+                                    <xsl:when test="$showTrack">
+                                        <div class="col-0p75 pr-0">Session ID</div>
+                                        <div class="col-1p25">Interested</div>
+                                        <div class="col-2p75">Tags</div>
+                                        <div class="col-3p25">Title</div>
+                                        <div class="col-1p5">Type</div>
+                                        <div class="col-1p75">Track</div>
+                                        <div class="col-0p75">Expand</div>
+                                    </xsl:when>
+                                    <xsl:otherwise>
+                                        <div class="col-1p25">Session ID</div>
+                                        <div class="col-1p25">Interested</div>
+                                        <div class="col-3">Tags</div>
+                                        <div class="col-4">Title</div>
+                                        <div class="col-1p75">Type</div>
+                                        <div class="col-0p75">Expand</div>
+                                    </xsl:otherwise>
+                                </xsl:choose>
+                            </div>
+                            <xsl:apply-templates select="doc/query[@queryName='sessions']/row" />
                         </div>
                     </div>
                 </form>

@@ -24,60 +24,59 @@
                     </div>
                 </div>
             </xsl:if>
-            <form class="container mt-2 mb-4" method="POST" action="PartSearchSessionsSubmit.php">
-                <div class="row mb-3">
-                    <xsl:choose>
-                        <xsl:when test="$showTrack">
-                            <div class="col-auto">
-                                <label for="track-sel">Track:</label>
-                                <select id="track-sel" class="tcell" name="track">
-                                    <option value="0">ANY</option>
-                                    <xsl:apply-templates select="doc/query[@queryName='tracks']/row" />
-                                </select>
-                            </div>
-                        </xsl:when>
-                        <xsl:otherwise>
-                            <input type="hidden" name="track" value="0" />
-                        </xsl:otherwise>
-                    </xsl:choose>
-                    <div class="col-auto">
-                        <label for="title-txtinp">Title Search:</label>
-                        <input id="title-txtinp" name="title" size="35" placeholder="Session title" />
+            <form class="container mt-2 mb-4" method="GET" action="PartSearchSessionsSubmit.php">    
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Search Sessions</h2>
                     </div>
-                    <xsl:if test="not($showTags)">
-                        <div class="col-auto">
-                            <button class="btn btn-primary" type="submit" value="search">Search</button>
-                        </div>
-                    </xsl:if>
-                </div>
-                <xsl:choose>
-                    <xsl:when test="$showTags">
+                    <div class="card-body">
                         <div class="row mb-3">
+                            <xsl:choose>
+                                <xsl:when test="$showTrack">
+                                    <div class="col-auto">
+                                        <label for="track-sel">Track: </label>
+                                        <select id="track-sel" class="tcell" name="track">
+                                            <option value="0">ANY</option>
+                                            <xsl:apply-templates select="doc/query[@queryName='tracks']/row" />
+                                        </select>
+                                    </div>
+                                </xsl:when>
+                                <xsl:otherwise>
+                                    <input type="hidden" name="track" value="0" />
+                                </xsl:otherwise>
+                            </xsl:choose>
                             <div class="col-auto">
-                                <div class="tag-chk-legend">Tags:</div>
-                            </div>
-                            <div class="col-auto">
-                                <div class="tag-chk-container">
-                                    <xsl:apply-templates select="doc/query[@queryName='tags']/row" />
-                                </div>
-                            </div>
-                            <div class="col-auto align-self-center">
-                                <label class="tag-match-label"><input type="radio" id="tagmatch1" name="tagmatch" class="tag-match-radio" value="any" checked="checked" />Match Any Selected</label>
-                                <label class="tag-match-label"><input type="radio" id="tagmatch2" name="tagmatch" class="tag-match-radio" value="all" />Match All Selected</label>
-                            </div>
-                            <div class="col-auto align-self-end">
-                                <button class="btn btn-primary" type="submit" value="search">Search</button>
+                                <label for="title-txtinp">Title Search: </label>
+                                <input id="title-txtinp" name="title" size="35" placeholder="Session title" />
                             </div>
                         </div>
-                    </xsl:when>
-                    <xsl:otherwise>
-                        <input type="hidden" name="tags[]" value="0" />
-                    </xsl:otherwise>
-                </xsl:choose>
-
-                <p>On the following page, you can select sessions for participation. You must <strong>SAVE</strong> your changes
-                    before leaving the page or your selections will not be recorded.</p>
-                <p><strong>Clicking Search without making any selections will display all sessions.</strong></p>
+                        <xsl:choose>
+                            <xsl:when test="$showTags">
+                                <div class="row mb-3">
+                                    <div class="col-auto">
+                                        <div class="tag-chk-legend">Tags: </div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <div class="tag-chk-container">
+                                            <xsl:apply-templates select="doc/query[@queryName='tags']/row" />
+                                        </div>
+                                    </div>
+                                    <div class="col-auto align-self-center">
+                                        <label class="tag-match-label"><input type="radio" id="tagmatch1" name="tagmatch" class="tag-match-radio" value="any" checked="checked" />Match Any Selected</label>
+                                        <label class="tag-match-label"><input type="radio" id="tagmatch2" name="tagmatch" class="tag-match-radio" value="all" />Match All Selected</label>
+                                    </div>
+                                </div>
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <input type="hidden" name="tags[]" value="0" />
+                            </xsl:otherwise>
+                        </xsl:choose>
+                    </div>
+                    <div class="card-footer">
+                        <p>Clicking Search without making any selections will display all sessions.</p>
+                        <button class="btn btn-primary" type="submit" value="search">Search</button>
+                    </div>
+                </div>
             </form>
 
         </div>

@@ -1,68 +1,72 @@
 var panelInterests = new PanelInterests;
 
 function PanelInterests() {
-	this.checkDirty = checkDirty;
-	this.dismissAutosaveWarn = dismissAutosaveWarn;
-	this.doAutosave = doAutosave;
-	this.initialize = initialize;
-	this.onClickAdd = onClickAdd;
-	this.setDirty = setDirty;
-	this.showAutosaveDialog = showAutosaveDialog;
-	
-	this.pageDirty = false;
-	this.timeoutID = null;
-	
-	function checkDirty(event) {
-		if (panelInterests.pageDirty)
-			return true;
-		var target = $(event.target);
-		if (target.attr("type") == "checkbox") {
-			if (target.prop("checked") != target.prop("defaultChecked"))
-				panelInterests.setDirty(false); // regular timeout
-			return true;
-			}
-		if (target.prop("defaultValue") != target.val())
-			panelInterests.setDirty(false); // regular timeout
-		return true;
+	this.initialize = function initialize() {
+		$("#sessionFRM").on("submit", panelInterests.handleSubmit);
+		$(".mycontrol").on("change", panelInterests.anyChange);
 	}
 
-	function dismissAutosaveWarn() {
-		panelInterests.setDirty(true); // short timeout
-		$("#autosaveMOD").modal("hide");
+	this.anyChange = function anyChange(e) {
+		$("#resultBoxDIV").css("display", "none");
+		$("#update-warning").css("display", "block");
 	}
 
-	function doAutosave() {
-		$("#autosaveHID").val("1");
-		$("#sessionFRM").get(0).submit();
+	this.handleSubmit = function submit(e) {
+		e.preventDefault();
+
+		$("#resultBoxDIV").html("&nbsp;").css("display", "none");
+		$("#update-warning").css("display", "block");
+		$("input[type='submit']").button('loading');
+
+		var postdata = {
+		};
+		$(".mycontrol").each(function() { // this is element
+				var $elem = $(this);
+				if ($elem.is(":disabled") || $elem.attr("readonly")) {
+						return;
+				}
+				if ($elem.attr("type") === "radio") {
+						postdata[$elem.attr("name")] = $elem.val();
+				} else if ($elem.prop("tagName") === "SELECT") {
+						postdata[$elem.attr("name")] = $elem.val();
+				} else if ($elem.attr("type") === "checkbox") {
+						postdata[$elem.attr("id")] = $elem.is(":checked") ? 1 : 0;
+				} else { // text or textarea
+						postdata[$elem.attr("name")] = $elem.val();
+				}
+		});
+		$.ajax({
+				url: "PartPanelInterests_POST2.php",
+				dataType: "html",
+				data: postdata,
+				success: panelInterests.showUpdateResults,
+				error: panelInterests.showAjaxError,
+				type: "POST"
+		});
+		// TODO: Does it trigger showing the error panel?
+		//       And then make it read the data, update it in the db, then return the new rows and have the js swap out the contents
+
+		return false;
 	}
 
-	function initialize() {
-		// on page load, i.e. $(document).ready()
-		$("div.controls-row :checkbox").on("click", panelInterests.checkDirty);
-		$("div.controls-row input[type='text']").on("keyup", panelInterests.checkDirty);
-		$("div.controls-row textarea").on("keyup", panelInterests.checkDirty);
-		if ($("#pageIsDirty").val() == "true")
-			panelInterests.setDirty(true); // short timeout
+	this.showUpdateResults = function showUpdateResults(data, textStatus, jqXHR) {
+		$("#interests_body").html(data);
+
+		// Hook up the event handlers to the new dom elements
+		$(".mycontrol").on("change", panelInterests.anyChange);
+
+		$("#update-warning").css("display", "none");
+		$("#resultBoxDIV").html("<div class=\"alert alert-success\">Database updated successfully</div>").css("display", "block")[0].scrollIntoView({block: "nearest"});
 	}
 
-	function onClickAdd() {
-		if (panelInterests.pageDirty)
-				$("#addButDirtyMOD").modal("show");
-			else
-				$("#addFRM").get(0).submit();
+	this.showAjaxError = function showAjaxError(data, textStatus, jqXHR) {
+		var content;
+		if (data && data.responseText) {
+				content = `<div class="row mt-3"><div class="col-12"><div class="alert alert-danger" role="alert">${data.responseText}</div></div></div>`;
+		} else {
+				content = `<div class="row mt-3"><div class="col-12"><div class="alert alert-danger" role="alert">An error occurred on the server.</div></div></div>`;
+		}
+		$("#update-warning").css("display", "none");
+		$("#resultBoxDIV").html(content).css("display", "block")[0].scrollIntoView({block: "nearest"});
 	}
-
-	function setDirty(short) {
-		panelInterests.pageDirty = true;
-		if (short)
-				var timeout = 90000; // 1:30 for short
-			else
-				var timeout = 600000; // 10:00 for long
-		panelInterests.timeoutID = window.setTimeout(panelInterests.showAutosaveDialog, timeout);
-	}
-
-	function showAutosaveDialog() {
-		$("#autosaveMOD").modal("show");
-	}
-
 }

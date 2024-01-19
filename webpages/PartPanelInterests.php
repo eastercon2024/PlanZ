@@ -5,7 +5,7 @@
     require ('PartPanelInterests_FNC.php');
     require ('PartPanelInterests_Render.php');
     global $session_interests,$session_interest_index, $title;
-    $title="Panel Interests";
+    $title="Session Interests";
     if (!may_I('my_panel_interests')) {
         $message="You do not currently have permission to view this page.<br />\n";
         RenderError($message);
@@ -15,9 +15,6 @@
     $session_interest_count=get_session_interests_from_db($badgeid); // Returns count; Will render its own errors
     // Get title, etc. of such data -- use global $session_interests
     get_si_session_info_from_db($session_interest_count); // Will render its own errors
-    $message="";
-    $message_error="";
-    $pageIsDirty = false;
     $query = <<<EOD
 SELECT
         P.interested
@@ -32,5 +29,5 @@ EOD;
     }
     $resultsArray = mysqli_fetch_array($results, MYSQLI_ASSOC);
     $showNotAttendingWarning = $resultsArray["interested"] !== '1';
-    render_session_interests($session_interest_count, $message, $message_error, $pageIsDirty, $showNotAttendingWarning); // includes footer
+    render_session_interests($session_interest_count, "", "", false, $showNotAttendingWarning); // includes footer
 ?>

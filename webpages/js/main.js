@@ -25,7 +25,7 @@ document.addEventListener( "DOMContentLoaded", function () {
         case "Session Search Results":
             partSearchSessionsSubmit.initialize();
             break;
-        case "Panel Interests":
+        case "Session Interests":
             panelInterests.initialize();
             break;
         case "Edit Custom Text":

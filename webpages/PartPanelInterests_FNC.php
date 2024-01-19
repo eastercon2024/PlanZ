@@ -95,9 +95,9 @@ function get_session_interests_from_post() {
         $session_interests[$i]['sessionid'] = $_POST["sessionid$i"];
         $session_interest_index[$_POST["sessionid$i"]] = $i;
         $session_interests[$i]['rank'] = isset($_POST["rank$i"]) ? $_POST["rank$i"] : "";
-        $session_interests[$i]['delete'] = (isset($_POST["delete$i"])) ? true : false;
+        $session_interests[$i]['delete'] = (isset($_POST["deleteCHK_$i"]) && $_POST["deleteCHK_$i"] == "1") ? true : false;
         $session_interests[$i]['comments'] = isset($_POST["comments$i"]) ? stripslashes($_POST["comments$i"]) : "";
-        $session_interests[$i]['willmoderate'] = (isset($_POST["mod$i"])) ? true : false;
+        $session_interests[$i]['willmoderate'] = (isset($_POST["modCHK_$i"]) && $_POST["modCHK_$i"] == "1") ? true : false;
         $i++;
     }
     $i--;
@@ -127,11 +127,11 @@ function update_session_interests_in_db($badgeid, $session_interest_count) {
     if ($deleteSessionIds) {
         $deleteSessionIds = substr($deleteSessionIds, 0, -2); //drop trailing ", "
         $query = "DELETE FROM ParticipantSessionInterest WHERE badgeid=\"$badgeid\" and sessionid in ($deleteSessionIds)";
-        if (!mysqli_query_exit_on_error($query)) {
-            exit(); // Should have exited already.
+        if (!mysqli_query($linki, $query)) {
+            $message = $query . "<br>Error deleting from database.  Database not updated.";
+            Render500ErrorAjax($message);
+            exit();
         }
-        $deleteCount = mysqli_affected_rows($linki);
-        $message = "$deleteCount record(s) deleted.<br />\n";
     }
     if ($noDeleteCount) {
         $noDeleteCount = 0;
@@ -147,10 +147,11 @@ function update_session_interests_in_db($badgeid, $session_interest_count) {
             $query .= "\"" . mysqli_real_escape_string($linki, $session_interests[$i]['comments']) . "\"),";
         }
         $query = substr($query, 0, -1); // drop trailing ","
-        if (!mysqli_query_exit_on_error($query)) {
-            exit(); // Should have exited already.
+        if (!mysqli_query($linki, $query)) {
+            $message = $query . "<br>Error updating database.  Database not updated.";
+            Render500ErrorAjax($message);
+            exit();
         }
-        $message .= "$noDeleteCount sessions recorded.<br />\n";
     }
     return (true);
 }

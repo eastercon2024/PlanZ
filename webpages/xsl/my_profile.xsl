@@ -43,14 +43,14 @@
                         <xsl:choose>
                             <xsl:when test="$photoPath != '' and /doc/query[@queryName='participant_info']/row/@approvedphotofilename">
                                 <img class="rounded-circle participant-avatar" style="width: 2rem;" alt="Participant Photo/Avatar">
-                                    <xsl:attribute name="src"> 
+                                    <xsl:attribute name="src">
                                         <xsl:value-of select="concat($photoPath, '/', /doc/query[@queryName='participant_info']/row/@approvedphotofilename)" />
                                     </xsl:attribute>
                                 </img>
                             </xsl:when>
                             <xsl:when test="$photoPath != '' and $defaultPhoto != ''" alt="Default Photo/Avatar">
                                 <img class="rounded-circle participant-avatar" style="width: 2rem;">
-                                    <xsl:attribute name="src"> 
+                                    <xsl:attribute name="src">
                                         <xsl:value-of select="concat($photoPath, '/', $defaultPhoto)" />
                                     </xsl:attribute>
                                 </img>
@@ -60,7 +60,7 @@
                     </h2>
                     <div id="resultBoxDIV">
                         <span class="beforeResult" id="resultBoxSPAN">Result messages will appear here.</span>
-                    </div>            
+                    </div>
                 </div>
                 <div class="card-body">
                     <fieldset>
@@ -124,7 +124,7 @@
                             <xsl:otherwise>
                                 <input name="bestway" id="bestway" type="hidden" value="{$bestway}"/>
                             </xsl:otherwise>
-                        </xsl:choose>    
+                        </xsl:choose>
                         <div class="row">
                             <div class="col-auto">
                                 <select id="interested" name="interested" class="mb-2 pl-2 pr-4 mycontrol">
@@ -410,7 +410,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-sm-12">
-                                        <textarea rows="5" cols="72" name="htmlbio" id="htmlbioTXTA"          
+                                        <textarea rows="5" cols="72" name="htmlbio" id="htmlbioTXTA"
                                             onchange="myProfile.bioChange()" onkeyup="myProfile.bioChange()"
                                             data-max-length="{$maxBioLen}">
                                             <xsl:choose>
@@ -484,6 +484,49 @@
                                     </label>
                                     <small class="form-text text-muted">Physical programs and schedules available to authenticated members will still show your name.</small>
                                 </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                    <fieldset>
+                        <div class="row mt-3">
+                            <legend class="col-auto">Photo</legend>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <xsl:choose>
+                                    <xsl:when test="$photoPath != '' and /doc/query[@queryName='participant_info']/row/@uploadedphotofilename">
+                                        <img class="participant-avatar" style="width: 10rem;" alt="Participant Photo/Avatar" src="SubmitMyContact.php?ajax_request_action=fetchPhoto" />
+                                    </xsl:when>
+                                    <xsl:when test="$photoPath != '' and /doc/query[@queryName='participant_info']/row/@approvedphotofilename">
+                                        <img class="participant-avatar" style="width: 10rem;" alt="Participant Photo/Avatar">
+                                            <xsl:attribute name="src">
+                                                <xsl:value-of select="concat($photoPath, '/', /doc/query[@queryName='participant_info']/row/@approvedphotofilename)" />
+                                            </xsl:attribute>
+                                        </img>
+                                    </xsl:when>
+                                    <xsl:when test="$photoPath != '' and $defaultPhoto != ''">
+                                        <img class="participant-avatar" style="width: 10rem;" alt="Default Photo/Avatar">
+                                            <xsl:attribute name="src">
+                                                <xsl:value-of select="concat($photoPath, '/', $defaultPhoto)" />
+                                            </xsl:attribute>
+                                        </img>
+                                    </xsl:when>
+                                </xsl:choose>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-sm-12">
+                                <xsl:choose>
+                                    <xsl:when test="/doc/query[@queryName='participant_info']/row/@photouploadstatus = '-1'">No Photo Uploaded</xsl:when>
+                                    <xsl:otherwise>
+                                      <xsl:value-of select="/doc/query[@queryName='participant_info']/row/@statustext"/>
+                                    </xsl:otherwise>
+                                  </xsl:choose>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-sm-12">
+                                <a class="btn btn-primary" href="my_photo.php">Upload a new photo</a>
                             </div>
                         </div>
                     </fieldset>
@@ -645,7 +688,7 @@
                     </div>
                     <fieldset>
                         <xsl:choose>
-                            <xsl:when test="$enableDayJobQuestion = 1">    
+                            <xsl:when test="$enableDayJobQuestion = 1">
                                 <xsl:call-template name="regRowContents">
                                     <xsl:with-param name="label">Day job</xsl:with-param>
                                     <xsl:with-param name="value" select="/doc/query[@queryName='participant_info']/row/@dayjob" />
@@ -691,7 +734,7 @@
                             </xsl:otherwise>
                         </xsl:choose>
                         <xsl:choose>
-                            <xsl:when test="$enableEthnicityQuestion = 1">    
+                            <xsl:when test="$enableEthnicityQuestion = 1">
                                 <xsl:call-template name="regRowContents">
                                     <xsl:with-param name="label">Ethnicity</xsl:with-param>
                                     <xsl:with-param name="value" select="/doc/query[@queryName='participant_info']/row/@ethnicity" />
@@ -707,7 +750,7 @@
                             </xsl:otherwise>
                         </xsl:choose>
                         <xsl:choose>
-                            <xsl:when test="$enableGenderQuestion = 1">    
+                            <xsl:when test="$enableGenderQuestion = 1">
                                 <xsl:call-template name="regRowContents">
                                     <xsl:with-param name="label">Gender</xsl:with-param>
                                     <xsl:with-param name="value" select="/doc/query[@queryName='participant_info']/row/@gender" />
@@ -723,7 +766,7 @@
                             </xsl:otherwise>
                         </xsl:choose>
                         <xsl:choose>
-                            <xsl:when test="$enableSexualOrientationQuestion = 1">    
+                            <xsl:when test="$enableSexualOrientationQuestion = 1">
                                 <xsl:call-template name="regRowContents">
                                     <xsl:with-param name="label">Sexual orientation</xsl:with-param>
                                     <xsl:with-param name="value" select="/doc/query[@queryName='participant_info']/row/@sexualorientation" />

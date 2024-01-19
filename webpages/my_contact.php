@@ -10,7 +10,9 @@ SELECT
         CD.badgeid, CD.firstname, CD.lastname, CD.badgename, CD.phone, CD.email,
         CD.postaddress1, CD.postaddress2, CD.postcity, CD.poststate, CD.postzip,
         CD.postcountry, $regTypeField, P.pubsname, P.sortedpubsname, P.password, P.bestway, P.interested, P.bio,
-        P.htmlbio, P.share_email, P.use_photo, P.live_stream, P.vod, PRO.pronounname, P.approvedphotofilename,
+        P.htmlbio, P.share_email, P.use_photo, P.live_stream, P.vod, PRO.pronounname,
+        P.uploadedphotofilename, P.approvedphotofilename,
+        CASE WHEN ISNULL(P.photouploadstatus) THEN 0 ELSE P.photouploadstatus END AS photouploadstatus, R.statustext,
         P.anonymous, PD.dayjob, PD.accessibilityissues, PD.ethnicity, PD.gender, PD.sexualorientation, PD.agerangeid, PD.pronounid, PD.pronounother
     FROM
        CongoDump CD
@@ -18,6 +20,7 @@ SELECT
        LEFT JOIN ParticipantDetails PD USING (badgeid)
        LEFT JOIN Pronouns PRO USING (pronounid)
        LEFT JOIN RegTypes RT USING (regtype)
+       LEFT OUTER JOIN PhotoUploadStatus R USING (photouploadstatus)
     WHERE
         CD.badgeid=?;
 EOD;

@@ -104,13 +104,13 @@ function MyPhoto() {
 
 	this.setMessage = function setMessage(content) {
 		$resultBoxDiv.innerHTML = content
-		$resultBoxDiv.style.visibility = "visible";
+		$resultBoxDiv.style.display = "block";
 		$resultBoxDiv.scrollIntoView(false);
 	}
 
 	this.clearMessage = function clearMessage() {
 		$resultBoxDiv.innerHTML = "&nbsp;";
-		$resultBoxDiv.style.visibility = "hidden";
+		$resultBoxDiv.style.display = "none";
 	}
 
 	this.changeCropDisplay = function changeCropDisplay(cropstyle) { // 0 = hide all, 1 = show crop button, 2 = show crop directions

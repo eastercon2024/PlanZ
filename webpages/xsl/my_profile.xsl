@@ -127,7 +127,7 @@
                         </xsl:choose>
                         <div class="row">
                             <div class="col-auto">
-                                <select id="interested" name="interested" class="mb-2 pl-2 pr-4 mycontrol">
+                                <select id="interested" name="interested" class="mb-2 pl-2 pr-4 mycontrol form-control">
                                     <option value="0">
                                         <xsl:if test="$interested=0 or not ($interested)">
                                             <xsl:attribute name="selected">selected</xsl:attribute>
@@ -166,7 +166,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-auto">
-                                        <select id="share_email" name="share_email" class="mb-2 pl-2 pr-4 mycontrol">
+                                        <select id="share_email" name="share_email" class="mb-2 pl-2 pr-4 mycontrol form-control">
                                             <option value="null">
                                                 <xsl:if test="not($share_email) and $share_email !='0'"><!-- is there an explicit test for null? -->
                                                     <xsl:attribute name="selected">selected</xsl:attribute>
@@ -207,7 +207,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-auto">
-                                        <select id="use_photo" name="use_photo" class="mb-2 pl-2 pr-4 mycontrol">
+                                        <select id="use_photo" name="use_photo" class="mb-2 pl-2 pr-4 mycontrol form-control">
                                             <option value="null">
                                                 <xsl:if test="not($use_photo) and $use_photo != '0'"><!-- is there an explicit test for null? -->
                                                     <xsl:attribute name="selected">selected</xsl:attribute>
@@ -247,7 +247,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-auto">
-                                        <select id="live_stream" name="live_stream" class="mb-2 pl-2 pr-4 mycontrol">
+                                        <select id="live_stream" name="live_stream" class="mb-2 pl-2 pr-4 mycontrol form-control">
                                             <option value="null">
                                                 <xsl:if test="not($live_stream) and $live_stream != '0'"><!-- is there an explicit test for null? -->
                                                     <xsl:attribute name="selected">selected</xsl:attribute>
@@ -287,7 +287,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-auto">
-                                        <select id="vod" name="vod" class="mb-2 pl-2 pr-4 mycontrol">
+                                        <select id="vod" name="vod" class="mb-2 pl-2 pr-4 mycontrol form-control">
                                             <option value="null">
                                                 <xsl:if test="not($vod) and $vod != '0'"><!-- is there an explicit test for null? -->
                                                     <xsl:attribute name="selected">selected</xsl:attribute>
@@ -315,37 +315,6 @@
                             <input name="vod" type="hidden" value="{$vod}"/>
                         </xsl:otherwise>
                     </xsl:choose>
-                <xsl:if test="$RESET_PASSWORD_SELF">
-                    <div class="row mt-3">
-                        <legend class="col-auto">Change password</legend>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-auto">Leave passwords fields blank to leave password unchanged.</div>
-                    </div>
-                    <fieldset id="passGroup" class="control-group">
-                        <div class="row">
-                            <div class="col-2">
-                                <label for="password">New Password:</label>
-                            </div>
-                            <div class="col-4">
-                                <input type="password" size="40" maxlength="40" name="password" id="password"
-                                    class="form-control mycontrol mb-2" />
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-2">
-                                <label for="cpassword">Confirm Password:</label>
-                            </div>
-                            <div class="col-4 mb-2">
-                                <input type="password" size="40" maxlength="40" name="cpassword" id="cpassword"
-                                    class="form-control mycontrol mb-2" />
-                                <div class="invalid-feedback">
-                                    Passwords don't match!
-                                </div>
-                            </div>
-                        </div>
-                    </fieldset>
-                </xsl:if>
                     <fieldset>
                         <div class="row mt-3">
                             <legend class="col-auto">Published Information</legend>
@@ -358,13 +327,13 @@
                             </div>
                         </xsl:if>
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-4 col-form-label">
                                 <label for="pubsname">Your name as you wish to have it published:</label>
                             </div>
                             <div class="col-md-4">
                                 <input type="text" size="20" maxlength="50" name="pubsname"
                                     value="{/doc/query[@queryName='participant_info']/row/@pubsname}"
-                                    id="pubsname" class="mycontrol userFormINPTXT">
+                                    id="pubsname" class="mycontrol userFormINPTXT form-control">
                                     <xsl:if test="$enableBioEdit!='1'">
                                         <xsl:attribute name="readonly">readonly</xsl:attribute>
                                     </xsl:if>
@@ -372,13 +341,13 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-4 col-form-label">
                                 <label for="sortedpubsname">Your published name as it should be sorted:</label>
                             </div>
                             <div class="col-md-4">
                                 <input type="text" size="20" maxlength="50" name="sortedpubsname"
                                     value="{/doc/query[@queryName='participant_info']/row/@sortedpubsname}"
-                                    id="sortedpubsname" class="mycontrol userFormINPTXT">
+                                    id="sortedpubsname" class="mycontrol userFormINPTXT form-control">
                                     <xsl:if test="$enableBioEdit!='1'">
                                         <xsl:attribute name="readonly">readonly</xsl:attribute>
                                     </xsl:if>
@@ -386,13 +355,13 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-4 col-form-label">
                                 <label for="pronouns">Your pronouns (optional):</label>
                             </div>
                             <div class="col-md-4">
                                 <input type="text" side="20" maxlength="50" name="pronouns"
                                     value="{/doc/query[@queryName='participant_info']/row/@pronounother}"
-                                    id="pronouns" class="mycontrol userFormINPTXT">
+                                    id="pronouns" class="mycontrol userFormINPTXT form-control">
                                     <xsl:if test="$enableBioEdit!='1'">
                                         <xsl:attribute name="readonly">readonly</xsl:attribute>
                                     </xsl:if>
@@ -430,7 +399,7 @@
                                 <div class="row mt-2">
                                     <div class="col-sm-12">
                                         <label for="bio">Plain Text Version (Automatically derived from HTML version on pressing UPDATE):</label>
-                                        <textarea rows="5" cols="72" name="bio" id="bioTXTA">
+                                        <textarea rows="5" cols="72" name="bio" id="bioTXTA" class="form-control">
                                             <xsl:attribute name="readonly">readonly</xsl:attribute>
                                             <xsl:attribute name="class">col-sm-12 userFormTXT readonly</xsl:attribute>
                                             <xsl:value-of select="/doc/query[@queryName='participant_info']/row/@bio"/>
@@ -706,7 +675,7 @@
                         <xsl:choose>
                             <xsl:when test="$enableAgeRangeQuestion = 1">
                                 <div class="row">
-                                    <div class="col-sm-3p5 col-md-3 col-lg-2">
+                                    <div class="col-sm-3p5 col-md-3 col-lg-2 col-form-label">
                                         <h5>
                                             <label for="age_range" class="badge badge-secondary badge-full-width">
                                                 Age range
@@ -714,7 +683,7 @@
                                         </h5>
                                     </div>
                                     <div class="col">
-                                        <select id="age_range" name="age_range" class="mycontrol">
+                                        <select id="age_range" name="age_range" class="mycontrol form-control">
                                             <xsl:for-each select="/doc/query[@queryName='agerange']/row">
                                                 <option value="{@agerangeid}">
                                                     <xsl:if test="@agerangeid = /doc/query[@queryName='participant_info']/row/@agerangeid">
@@ -794,7 +763,7 @@
                             </div>
                             <div class="row">
                                 <div class="col">
-                                    <textarea id="accessibility_issues" name="accessibility_issues" class="formcontrol mycontrol col-sm-12" rows="5" cols="72">
+                                    <textarea id="accessibility_issues" name="accessibility_issues" class="form-control mycontrol col-sm-12" rows="5" cols="72">
                                         <xsl:value-of select="/doc/query[@queryName='participant_info']/row/@accessibilityissues" />
                                     </textarea>
                                 </div>
@@ -806,6 +775,16 @@
                             </input>
                         </xsl:otherwise>
                     </xsl:choose>
+                    <xsl:if test="$RESET_PASSWORD_SELF">
+                        <div class="row mt-3">
+                            <legend class="col-auto">Change password</legend>
+                        </div>
+                        <fieldset>
+                            <div class="row mb-3">
+                                <div class="col-auto"><a href="/ChangePassword.php" class="btn btn-primary">Change password</a></div>
+                            </div>
+                        </fieldset>
+                    </xsl:if>    
                 </div>
                 <div class="card-footer">
                     <xsl:if test="$useRegSystem != 1"><!-- show button here if not using reg system -->
@@ -826,7 +805,7 @@
         <xsl:param name="maxlength" />
         <xsl:param name="readonly" select="'0'"/>
         <div class="row">
-            <div class="col-sm-3p5 col-md-3 col-lg-2">
+            <div class="col-sm-3p5 col-md-3 col-lg-2 col-form-label">
                 <h5>
                     <xsl:choose>
                         <xsl:when test="$useRegSystem = 1">
@@ -849,7 +828,7 @@
                     </xsl:when>
                     <xsl:otherwise>
                         <input id="{$id}" name="{$id}" value="{$value}" type="text"
-                            size="{$fieldsize}" maxlength="{$maxlength}" class="mycontrol">
+                            size="{$fieldsize}" maxlength="{$maxlength}" class="mycontrol form-control">
                             <xsl:if test="$readonly = '1'">
                                 <xsl:attribute name="readonly">readonly</xsl:attribute>
                             </xsl:if>

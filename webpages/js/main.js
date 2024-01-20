@@ -13,6 +13,9 @@ document.addEventListener( "DOMContentLoaded", function () {
         case "General Interests":
             generalInterests.initialize();
             break;
+        case "Change Password":
+            changePassword.initialize();
+            break;
         case "Administer Photos":
             initializeAdminPhotos();
             break;

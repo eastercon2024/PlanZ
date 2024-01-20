@@ -153,14 +153,21 @@
                     <div class="row mt-3">
                         <legend class="col-auto">Permissions</legend>
                     </div>
+                    <fieldset>
+                        <div class="row">
+                            <div class="col-auto">
+                                <strong>Share name:</strong> By participating in programming, you agree to allow <xsl:value-of select="$conName"/> to share your name (as set in "Published Information") with the rest of the convention membership.
+                            </div>
+                        </div>
+                    </fieldset>
                     <xsl:choose>
                         <xsl:when test="$enableShareEmailQuestion = '1'">
                             <fieldset>
-                                <div class="row">
+                                <div class="row pt-3">
                                     <div class="col-auto">
                                         <label for="share_email">
                                             <strong>Share e-mail:</strong> I give permission for <xsl:value-of select="$conName"/>
-                                            to share my email address with other participants.
+                                            to share my email address with other participants on programme items I am scheduled on.
                                         </label>
                                     </div>
                                 </div>
@@ -197,7 +204,7 @@
                     <xsl:choose>
                         <xsl:when test="$enableUsePhotoQuestion = '1'">
                             <fieldset>
-                                <div class="row">
+                                <div class="row pt-3">
                                     <div class="col-auto">
                                         <label for="use_photo">
                                             <strong>Photos:</strong> I give permission for <xsl:value-of select="$conName"/> to photograph me while
@@ -238,7 +245,7 @@
                     <xsl:choose>
                         <xsl:when test="$enableLiveStreamQuestion = '1'">
                             <fieldset>
-                                <div class="row">
+                                <div class="row pt-3">
                                     <div class="col-auto">
                                         <label for="live_stream">
                                             <strong>Live stream:</strong> I give permission for <xsl:value-of select="$conName"/> to broadcast a live stream of me on programme items to the rest of the convention membership.
@@ -278,7 +285,7 @@
                     <xsl:choose>
                         <xsl:when test="$enableVODQuestion = '1'">
                             <fieldset>
-                                <div class="row">
+                                <div class="row pt-3">
                                     <div class="col-auto">
                                         <label for="vod">
                                             <strong>VOD:</strong> I give permission for <xsl:value-of select="$conName"/> to make recordings of me on programme items available to the rest of the convention membership after the programme item has ended.

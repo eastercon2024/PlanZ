@@ -70,22 +70,17 @@ if (may_I('postcon')) { ?>
                             <li> View your bio for <?php echo CON_NAME; ?> publications.</li>
                         </ul>
                     <?php } ?>
+                    <?php if (PARTICIPANT_PHOTOS === TRUE) { ?>
+                        <li> Upload a photo to use with our online program guide.</li>
+                    <?php } ?>
                 </ul>
 
-                <p> Use the "Personal Details" menu to:</p>
                 <ul>
                     <li> Indicate whether you have any accessibility issues we should be aware of.</li>
                     <li> Indicate your race, gender, sexual orientation, and pronouns.</li>
                     <li> Update other personal information.</li>
                     <li> NOTE: This optional information will be kept confidential and will be used to help create diverse panels.</li>
                 </ul>
-
-                <?php if (PARTICIPANT_PHOTOS === TRUE) { ?>
-                    <p> Use the "Photo" menu to:</p>
-                        <ul>
-                            <li> Upload a photo to use with our online program guide.</li>
-                        </ul>
-                <?php } ?>
 
                 <?php if ($_SESSION['survey_exists']) { ?>
                     <p> Use the "Survey" menu to:</p>

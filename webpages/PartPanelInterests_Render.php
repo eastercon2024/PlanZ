@@ -86,10 +86,13 @@ function render_session_interests_body($session_interest_count, $showNotAttendin
         $disabled = "";
     }
 
+    $has_shown = 0;
+
     $j = 1; //use $j so that skipped sessions don't skip numbering
     for ($i = 1; $i <= $session_interest_count; $i++) {
         if (!isset($session_interests[$i]['title'])) continue;
         if (!$session_interests[$i]['title']) continue;
+        $has_shown += 1;
         echo "  <div class=\"control-group\">\n";
         echo "    <div class=\"controls\">\n";
         echo "        <span class=\"span1\">{$session_interests[$i]['sessionid']}";
@@ -138,6 +141,11 @@ function render_session_interests_body($session_interest_count, $showNotAttendin
         echo "        <hr />\n";
         echo "  </div>\n";
         $j++;
+    }
+
+    if ($has_shown == 0) {
+        echo "<p>You have not selected any sessions yet.</p>\n";
+        echo "<p>Find some sessions on the <a href=\"PartSearchSessions.php\">Search Sessions</a> page and check the \"I am interested\" box.</p>\n";
     }
 }
 ?>

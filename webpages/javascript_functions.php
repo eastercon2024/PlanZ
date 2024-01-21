@@ -20,9 +20,13 @@ function load_external_javascript($isDataTables = false, $isRecaptcha = false, $
 <?php }
 }
 
+function get_internal_url($script) {
+    return $script . '?v=' . hash_file('md5', $script);
+}
+
 function load_internal_javascript($title, $isDataTables = false) {
     ?>
-    <script src="js/main.js"></script>
+    <script src="<?php echo get_internal_url("js/main.js"); ?>"></script>
     <?php
     /**
      * These js files initialize themselves and therefore should be included only on the relevant pages.
@@ -38,93 +42,93 @@ function load_internal_javascript($title, $isDataTables = false) {
      */
     switch ($title) {
         case "Forgot Password":
-            echo "<script src=\"js/ForgotPassword.js\"></script>\n";
+            echo "<script src=\"" . get_internal_url("js/ForgotPassword.js") . "\"></script>\n";
             break;
         case "Invite Participants":
-            echo "<script src=\"js/InviteParticipants.js\"></script>\n";
+            echo "<script src=\"" . get_internal_url("js/InviteParticipants.js") . "\"></script>\n";
             break;
         case "Maintain Room Schedule":
-            echo "<script src=\"js/MaintainRoomSched.js\"></script>\n";
+            echo "<script src=\"" . get_internal_url("js/MaintainRoomSched.js") . "\"></script>\n";
             break;
         case "Reset Password":
-            echo "<script src=\"js/ForgotPasswordResetForm.js\"></script>\n";
+            echo "<script src=\"" . get_internal_url("js/ForgotPasswordResetForm.js") . "\"></script>\n";
             break;
         case "Session History":
-            echo "<script src=\"js/SessionHistory.js\"></script>\n";
+            echo "<script src=\"" . get_internal_url("js/SessionHistory.js") . "\"></script>\n";
             break;
         case "Administer Phases":
-            echo "<script src=\"js/AdminPhases.js\"></script>\n";
+            echo "<script src=\"" . get_internal_url("js/AdminPhases.js") . "\"></script>\n";
             break;
         case "Edit Custom Text":
             echo "<script src=\"external/tinymce-5.6.2/js/tinymce/tinymce.min.js\"></script>\n";
-            echo "<script src=\"js/EditCustomText.js\"></script>\n";
+            echo "<script src=\"" . get_internal_url("js/EditCustomText.js") . "\"></script>\n";
             break;
         case "Edit Survey":
             echo "<script src=\"external/tabulator-4.9.3/js/tabulator.js\"></script>\n";
-            echo "<script src=\"js/EditSurvey.js\"></script>\n";
-            echo "<script src=\"js/RenderSurvey.js\"></script>\n";
+            echo "<script src=\"" . get_internal_url("js/EditSurvey.js") . "\"></script>\n";
+            echo "<script src=\"" . get_internal_url("js/RenderSurvey.js") . "\"></script>\n";
             echo "<script src=\"external/tinymce-5.6.2/js/tinymce/tinymce.min.js\"></script>\n";
             break;
         case "Participant Survey":
-            echo "<script src=\"js/PartSurvey.js\"></script>\n";
-            echo "<script src=\"js/RenderSurvey.js\"></script>\n";
+            echo "<script src=\"" . get_internal_url("js/PartSurvey.js") . "\"></script>\n";
+            echo "<script src=\"" . get_internal_url("js/RenderSurvey.js") . "\"></script>\n";
             echo "<script src=\"external/tinymce-5.6.2/js/tinymce/tinymce.min.js\"></script>\n";
         case "Preview Survey":
-            echo "<script src=\"js/RenderSurvey.js\"></script>\n";
+            echo "<script src=\"" . get_internal_url("js/RenderSurvey.js") . "\"></script>\n";
             echo "<script src=\"external/tinymce-5.6.2/js/tinymce/tinymce.min.js\"></script>\n";
             break;
         case "Session Search Results":
-            echo "<script src=\"js/PartSearchSessionsSubmit.js\"></script>\n";
+            echo "<script src=\"" . get_internal_url("js/PartSearchSessionsSubmit.js") . "\"></script>\n";
             break;
         case "Administer Participants":
             echo "<script src=\"external/tinymce-5.6.2/js/tinymce/tinymce.min.js\"></script>\n";
-            echo "<script src=\"js/AdminParticipants.js\"></script>\n";
+            echo "<script src=\"" . get_internal_url("js/AdminParticipants.js") . "\"></script>\n";
             break;
         case "Administer Photos":
             echo "<script src=\"external/croppie.2.6.5/croppie.min.js\"></script>\n";
-            echo "<script src=\"js/AdminPhotos.js\"></script>\n";
+            echo "<script src=\"" . get_internal_url("js/AdminPhotos.js") . "\"></script>\n";
             break;
         case "My Profile":
             echo "<script src=\"external/tinymce-5.6.2/js/tinymce/tinymce.min.js\"></script>\n";
-            echo "<script src=\"js/myProfile.js\"></script>";
+            echo "<script src=\"" . get_internal_url("js/myProfile.js") . "\"></script>";
             break;
         case "General Interests":
-            echo "<script src=\"js/generalInterests.js\"></script>";
+            echo "<script src=\"" . get_internal_url("js/generalInterests.js") . "\"></script>";
             break;
         case "Change Password":
-            echo "<script src=\"js/changePassword.js\"></script>";
+            echo "<script src=\"" . get_internal_url("js/changePassword.js") . "\"></script>";
             break;
         case "My Availability":
-            echo "<script src=\"js/myAvailability.js\"></script>";
+            echo "<script src=\"" . get_internal_url("js/myAvailability.js") . "\"></script>";
             break;
         case "My Photo":
             echo "<script src=\"external/croppie.2.6.5/croppie.min.js\"></script>\n";
-            echo "<script src=\"js/myPhoto.js\"></script>";
+            echo "<script src=\"" . get_internal_url("js/myPhoto.js") . "\"></script>";
             break;
         case "Edit Session":
             echo "<script src=\"external/tinymce-5.6.2/js/tinymce/tinymce.min.js\"></script>\n";
-            echo "<script src=\"js/editCreateSession.js\"></script>\n";
+            echo "<script src=\"" . get_internal_url("js/editCreateSession.js") . "\"></script>\n";
             break;
         case "Create New Session":
             echo "<script src=\"external/tinymce-5.6.2/js/tinymce/tinymce.min.js\"></script>\n";
-            echo "<script src=\"js/editCreateSession.js\"></script>\n";
+            echo "<script src=\"" . get_internal_url("js/editCreateSession.js") . "\"></script>\n";
             break;
         case "Edit Configuration Tables":
             echo "<script src=\"external/tinymce-5.6.2/js/tinymce/tinymce.min.js\"></script>\n";
             echo "<script src=\"external/tabulator-4.9.3/js/tabulator.js\"></script>\n";
-            echo "<script src=\"js/EditConfigTables.js\"></script>\n";
+            echo "<script src=\"" . get_internal_url("js/EditConfigTables.js") . "\"></script>\n";
             break;
         case "Table Tents":
-            echo "<script src=\"js/tabletents.js\"></script>\n";
+            echo "<script src=\"" . get_internal_url("js/tabletents.js") . "\"></script>\n";
             break;
         default:
             if ($isDataTables) {
-                echo "<script src=\"js/Reports.js\"></script>\n";
+                echo "<script src=\"" . get_internal_url("js/Reports.js") . "\"></script>\n";
             }
     }
 ?>
-<script src="js/staffMaintainSchedule.js"></script>
-<script src="js/partPanelInterests.js"></script>
+<script src="<?php echo get_internal_url("js/staffMaintainSchedule.js"); ?>"></script>
+<script src="<?php echo get_internal_url("js/partPanelInterests.js"); ?>"></script>
 <?php
 }
 ?>

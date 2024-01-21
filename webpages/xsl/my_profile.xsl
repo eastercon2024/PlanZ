@@ -567,7 +567,7 @@
                                 <legend class="col-auto">Contact Information</legend>
                             </div>
                             <div class="row">
-                                <div class="col">Please confirm your contact information.</div>
+                                <div class="col">If any of your contact information is incorrect, please contact <a href="mailto:membership@eastercon2024.co.uk">membership@eastercon2024.co.uk</a>.</div>
                             </div>
                         </xsl:otherwise>
                     </xsl:choose>
@@ -578,6 +578,7 @@
                         <input type="hidden" name="poststate" value="" />
                         <input type="hidden" name="postzip" value="" />
                         <input type="hidden" name="postcountry" value="" />
+                        <input type="hidden" name="phone" value="" />
                         <input type="hidden" name="regtype">
                             <xsl:attribute name="value">
                                 <xsl:value-of select="/doc/query[@queryName='participant_info']/row/@regtype" />
@@ -615,43 +616,54 @@
                                 <xsl:value-of select="/doc/query[@queryName='participant_info']/row/@regtype" />
                             </div>
                         </div>
-                        <xsl:call-template name="regRowContents">
-                            <xsl:with-param name="label">First Name</xsl:with-param>
-                            <xsl:with-param name="value" select="/doc/query[@queryName='participant_info']/row/@firstname" />
-                            <xsl:with-param name="id">fname</xsl:with-param>
-                            <xsl:with-param name="maxlength" select="30" />
-                            <xsl:with-param name="fieldsize" select="30" />
-                        </xsl:call-template>
-                        <xsl:call-template name="regRowContents">
-                            <xsl:with-param name="label">Last Name</xsl:with-param>
-                            <xsl:with-param name="value" select="/doc/query[@queryName='participant_info']/row/@lastname" />
-                            <xsl:with-param name="id">lname</xsl:with-param>
-                            <xsl:with-param name="maxlength" select="40" />
-                            <xsl:with-param name="fieldsize" select="40" />
-
-                        </xsl:call-template>
-                        <xsl:call-template name="regRowContents">
-                            <xsl:with-param name="label">Badge Name</xsl:with-param>
-                            <xsl:with-param name="value" select="/doc/query[@queryName='participant_info']/row/@badgename" />
-                            <xsl:with-param name="id">badgename</xsl:with-param>
-                            <xsl:with-param name="maxlength" select="50" />
-                            <xsl:with-param name="fieldsize" select="50" />
-
-                        </xsl:call-template>
-                        <xsl:call-template name="regRowContents">
-                            <xsl:with-param name="label">Phone Info</xsl:with-param>
-                            <xsl:with-param name="value" select="/doc/query[@queryName='participant_info']/row/@phone" />
-                            <xsl:with-param name="id">phone</xsl:with-param>
-                            <xsl:with-param name="maxlength" select="80" />
-                            <xsl:with-param name="fieldsize" select="80" />
-                        </xsl:call-template>
-                        <xsl:call-template name="regRowContents">
-                            <xsl:with-param name="label">Email Address</xsl:with-param>
-                            <xsl:with-param name="value" select="/doc/query[@queryName='participant_info']/row/@email" />
-                            <xsl:with-param name="id">email</xsl:with-param>
-                            <xsl:with-param name="maxlength" select="100" />
-                            <xsl:with-param name="fieldsize" select="80" />
-                        </xsl:call-template>
+                        <div class="row">
+                            <div class="col-sm-3p5 col-md-3 col-lg-2">
+                                <h5>
+                                    <div class="badge badge-secondary badge-full-width">
+                                        First Name
+                                    </div>
+                                </h5>
+                            </div>
+                            <div class="col">
+                                <xsl:value-of select="/doc/query[@queryName='participant_info']/row/@firstname" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-3p5 col-md-3 col-lg-2">
+                                <h5>
+                                    <div class="badge badge-secondary badge-full-width">
+                                        Last Name
+                                    </div>
+                                </h5>
+                            </div>
+                            <div class="col">
+                                <xsl:value-of select="/doc/query[@queryName='participant_info']/row/@lastname" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-3p5 col-md-3 col-lg-2">
+                                <h5>
+                                    <div class="badge badge-secondary badge-full-width">
+                                        Badge Name
+                                    </div>
+                                </h5>
+                            </div>
+                            <div class="col">
+                                <xsl:value-of select="/doc/query[@queryName='participant_info']/row/@badgename" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-3p5 col-md-3 col-lg-2">
+                                <h5>
+                                    <div class="badge badge-secondary badge-full-width">
+                                        Email Address
+                                    </div>
+                                </h5>
+                            </div>
+                            <div class="col">
+                                <xsl:value-of select="/doc/query[@queryName='participant_info']/row/@email" />
+                            </div>
+                        </div>
                     </fieldset>
 
                     <div class="row mt-3">

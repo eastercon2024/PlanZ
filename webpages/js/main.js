@@ -16,6 +16,9 @@ document.addEventListener( "DOMContentLoaded", function () {
         case "Change Password":
             changePassword.initialize();
             break;
+        case "My Availability":
+            myAvailability.initialize();
+            break;
         case "Administer Photos":
             initializeAdminPhotos();
             break;

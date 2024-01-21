@@ -43,4 +43,29 @@ function retrieve_timesXML() {
 	return $result;
 }
 
+function renderTable($partAvail) {    
+    $query = "SELECT timeid, timedisplay, avail_start, avail_end FROM Times WHERE avail_start = 1 or avail_end = 1 ORDER BY display_order";
+    $result = mysqli_query_with_error_handling($query, true);
+    $times = array();
+    while ($row = mysqli_fetch_assoc($result)) {
+        $times[$row["timeid"]] = $row;
+    }
+
+    $i=1;
+    while (isset($partAvail["availstartday_$i"])) {
+        echo "<tr>\n";
+        echo "<td class=\"align-middle\" data-availstartday=\"" . $partAvail["availstartday_$i"] . "\">" . longDayNameFromInt($partAvail["availstartday_$i"]) . "</td>\n";
+        echo "<td class=\"align-middle\" data-availstarttime=\"" . $partAvail["availstarttime_$i"] . "\">" . $times[$partAvail["availstarttime_$i"]]["timedisplay"] . "</td>\n";
+        echo "<td class=\"text-center align-middle\">-</td>\n";
+        echo "<td class=\"align-middle\" data-availendday=\"" . $partAvail["availendday_$i"] . "\">" . longDayNameFromInt($partAvail["availendday_$i"]) . "</td>\n";
+        echo "<td class=\"align-middle\" data-availendtime=\"" . $partAvail["availendtime_$i"] . "\">" . $times[$partAvail["availendtime_$i"]]["timedisplay"] . "</td>\n";
+        echo "<td>\n";
+        echo "<button class=\"btn btn-primary\" type=\"button\" name=\"edit\">Edit</button>\n";
+        echo "<button class=\"btn btn-danger\" type=\"button\" name=\"delete\">Delete</button>\n";
+        echo "</td>\n";
+        echo "</tr>\n";
+        $i++;
+    }
+}
+
 ?>

@@ -90,8 +90,12 @@ function load_internal_javascript($title, $isDataTables = false) {
             break;
         case "General Interests":
             echo "<script src=\"js/generalInterests.js\"></script>";
+            break;
         case "Change Password":
             echo "<script src=\"js/changePassword.js\"></script>";
+            break;
+        case "My Availability":
+            echo "<script src=\"js/myAvailability.js\"></script>";
             break;
         case "My Photo":
             echo "<script src=\"external/croppie.2.6.5/croppie.min.js\"></script>\n";

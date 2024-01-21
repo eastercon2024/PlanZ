@@ -74,38 +74,47 @@ function setAvailability() {
         $i++;
     }
 
-    $query = "REPLACE INTO ParticipantAvailabilityTimes(badgeid, availabilitynum, starttime, endtime) VALUES ";
-    $types = "";
-    $queryParams = array();
-    for ($i = 1; $i <= count($availability); $i++) {
-        $query .= "(?,?,?,?),";
-        $types .= "siss";
-        $queryParams[] = $badgeid;
-        $queryParams[] = $availability[$i]["availabilitynum"];
-        $queryParams[] = $availability[$i]["starttime"];
-        $queryParams[] = $availability[$i]["endtime"];
-    }
-    $query = substr($query, 0, -1); // remove extra trailing comma
-    $rows = mysql_cmd_with_prepare($query, $types, $queryParams);
-    if (is_null($rows)) {
-        Render500ErrorAjax("Error updating database.  Database not updated.");
-        exit();
-    }
+    if (count($availability) > 0) {
+        $query = "REPLACE INTO ParticipantAvailabilityTimes(badgeid, availabilitynum, starttime, endtime) VALUES ";
+        $types = "";
+        $queryParams = array();
+        for ($i = 1; $i <= count($availability); $i++) {
+            $query .= "(?,?,?,?),";
+            $types .= "siss";
+            $queryParams[] = $badgeid;
+            $queryParams[] = $availability[$i]["availabilitynum"];
+            $queryParams[] = $availability[$i]["starttime"];
+            $queryParams[] = $availability[$i]["endtime"];
+        }
+        $query = substr($query, 0, -1); // remove extra trailing comma
+        $rows = mysql_cmd_with_prepare($query, $types, $queryParams);
+        if (is_null($rows)) {
+            Render500ErrorAjax("Error updating database.  Database not updated.");
+            exit();
+        }
 
-    $query = "DELETE FROM ParticipantAvailabilityTimes WHERE badgeid = ? AND availabilitynum NOT IN (";
-    $types = "s";
-    $queryParams = array($badgeid);
-    for ($i = 1; $i <= count($availability); $i++) {
-        $query .= "?,";
-        $types .= "i";
-        $queryParams[] = $availability[$i]["availabilitynum"];
-    }
-    $query = substr($query, 0, -1); // remove extra trailing comma
-    $query .= ")";
-    $rows = mysql_cmd_with_prepare($query, $types, $queryParams);
-    if (is_null($rows)) {
-        Render500ErrorAjax("Error updating database.  Database not updated.");
-        exit();
+        $query = "DELETE FROM ParticipantAvailabilityTimes WHERE badgeid = ? AND availabilitynum NOT IN (";
+        $types = "s";
+        $queryParams = array($badgeid);
+        for ($i = 1; $i <= count($availability); $i++) {
+            $query .= "?,";
+            $types .= "i";
+            $queryParams[] = $availability[$i]["availabilitynum"];
+        }
+        $query = substr($query, 0, -1); // remove extra trailing comma
+        $query .= ")";
+        $rows = mysql_cmd_with_prepare($query, $types, $queryParams);
+        if (is_null($rows)) {
+            Render500ErrorAjax("Error updating database.  Database not updated.");
+            exit();
+        }
+    } else {
+        $query = "DELETE FROM ParticipantAvailabilityTimes WHERE badgeid = ?";
+        $rows = mysql_cmd_with_prepare($query, "s", array($badgeid));
+        if (is_null($rows)) {
+            Render500ErrorAjax("Error updating database.  Database not updated.");
+            exit();
+        }
     }
 
     if (!$partAvail = retrieve_participantAvailability_from_db($badgeid, true)) {

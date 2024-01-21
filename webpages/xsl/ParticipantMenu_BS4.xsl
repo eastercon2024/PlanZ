@@ -37,9 +37,6 @@
               <a class="nav-link py-1" href="my_sched_constr.php">Availability</a>
             </li>
           </xsl:if>
-          <li class="nav-item py-0">
-            <a class="nav-link py-1" href="my_interests.php">General Interests</a>
-          </li>
           <xsl:if test="/doc/query[@queryname='permission_set']/row[@permatomtag='search_panels']">
             <li class="nav-item py-0">
               <a class="nav-link py-1" href="PartSearchSessions.php">Search Sessions</a>
@@ -60,6 +57,9 @@
               <a class="nav-link py-1" href="my_suggestions.php">My Suggestions</a>
             </li>
           </xsl:if>
+          <li class="nav-item py-0">
+            <a class="nav-link py-1" href="my_interests.php">General Interests</a>
+          </li>
           <xsl:if test="/doc/query[@queryname='permission_set']/row[@permatomtag='my_schedule']">
             <li class="nav-item py-0">
               <a class="nav-link py-1" href="MySchedule.php">My Schedule</a>

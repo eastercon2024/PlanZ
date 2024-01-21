@@ -502,7 +502,7 @@
                         </div>
                         <div class="row mt-3">
                             <div class="col-sm-12">
-                                <a class="btn btn-primary" href="my_photo.php">Upload a new photo</a>
+                                <a class="btn btn-primary" href="my_photo.php" target="_blank">Upload a new photo</a>
                             </div>
                         </div>
                     </fieldset>

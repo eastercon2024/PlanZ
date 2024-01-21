@@ -773,11 +773,11 @@
                     <xsl:choose>
                         <xsl:when test="$enableAccessibilityQuestion = 1">
                             <div class="row mt-3">
-                                <legend class="col-auto">Accessibility requirements</legend>
+                                <legend class="col-auto">Accessibility needs</legend>
                             </div>
                             <div class="row">
                                 <div class="col">
-                                    <p>Do you have any accessibility issues that we should be aware of? This information will be visible to people volunteering on the convention, but not the general membership. If you have something you would like to discuss with us, or tell us in more confidence, you can e-mail <a href="mailto:access@eastercon2024.co.uk">access@eastercon2024.co.uk</a>.</p>
+                                    <p>Do you have any accessibility needs that we should be aware of? This information will be visible to people volunteering on the convention, but not the general membership. If you have something you would like to discuss with us, or tell us in more confidence, you can e-mail <a href="mailto:access@eastercon2024.co.uk">access@eastercon2024.co.uk</a>.</p>
                                 </div>
                             </div>
                             <div class="row">

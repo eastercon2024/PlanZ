@@ -186,7 +186,7 @@ function MyAvailability() {
 
     var idx = 1;
     $availabilityTableBody.children().each(function(i, $elm) {
-      if ($elm == $editRow[0]) {
+      if ($elm == $editRow[0] || $elm == $editErrorRow[0]) {
         return;
       }
       if ($elm == $editingRow[0]) {

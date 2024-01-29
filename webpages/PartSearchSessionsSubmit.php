@@ -113,6 +113,7 @@ $paramArray["trackIsPrimary"] = TRACK_TAG_USAGE === "TRACK_ONLY" || TRACK_TAG_US
 $paramArray["showTrack"] = TRACK_TAG_USAGE !== "TAG_ONLY";
 $paramArray["showTags"] = TRACK_TAG_USAGE !== "TRACK_ONLY";
 $paramArray["collapse_list"] = $collapse_list;
+$paramArray["title"] = $titlesearch;
 
 participant_header($title, false, 'Normal', true);
 echo(mb_ereg_replace("<(row|query)([^>]*/[ ]*)>", "<\\1\\2></\\1>", $resultXML->saveXML(), "i")); //for debugging only

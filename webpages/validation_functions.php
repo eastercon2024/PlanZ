@@ -29,16 +29,16 @@ function validate_session_interests($max_si_row) {
         if (empty($session_interests[$i]['rank'] ) || $session_interests[$i]['delete']) {
             continue;
         }
-        if (filter_var($session_interests[$i]['rank'], FILTER_VALIDATE_INT, array('options' => array('min_range' => 1, 'max_range' => 5))) == false) {
-            $message = "Ranks must be integers between 1 and 5.<br>\n";
+        if (filter_var($session_interests[$i]['rank'], FILTER_VALIDATE_INT, array('options' => array('min_range' => 1, 'max_range' => 4))) == false) {
+            $message = "Ranks must be integers between 1 and 4.<br>\n";
             $flag = false;
             break;
         } else {
             $count[$session_interests[$i]['rank']]++;
         }
     }
-    if ($count[1] > 4 or $count[2] > 4 or $count[3] > 4 or $count[4] > 4) {
-        $message .= "You may not use preferences 1-4 more than 4 times each.<br>\n";
+    if ($count[1] > 3 or $count[2] > 3 or $count[3] > 3 or $count[4] > 3) {
+        $message .= "You may not have the same preference more than 3 times.<br>\n";
         $flag = false;
     }
     return ($flag);

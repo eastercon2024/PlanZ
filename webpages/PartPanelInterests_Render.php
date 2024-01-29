@@ -18,7 +18,7 @@ function render_session_interests($session_interest_count,$message,$message_erro
     echo "<div class=\"card\">\n";
     echo "<div class=\"card-header\">\n";
     echo "<h2>Session Interests</h2>\n";
-    echo "<p>You are limited to 4 sessions each of preferences 1-4.  There is no limit to the number of sessions for which you can express preference 5.</p>\n";
+    echo "<p>You are limited to 3 sessions each of preference.</p>\n";
     if ($showNotAttendingWarning) {
         echo "<div class=\"alert alert-primary\" style=\"margin:15px 0;\">\n";
         echo "    <h4>Warning!</h4>\n";
@@ -110,7 +110,6 @@ function render_session_interests_body($session_interest_count, $showNotAttendin
         echo "                <option value=\"2\" " . (($session_interests[$i]['rank'] == 2) ? "selected=\"selected\"" : "") . ">2 - I'd like to if I can</option>\n";
         echo "                <option value=\"3\" " . (($session_interests[$i]['rank'] == 3) ? "selected=\"selected\"" : "") . ">3 - It would be nice</option>\n";
         echo "                <option value=\"4\" " . (($session_interests[$i]['rank'] == 4) ? "selected=\"selected\"" : "") . ">4 - I'm kind of interested</option>\n";
-        echo "                <option value=\"5\" " . (($session_interests[$i]['rank'] == 5) ? "selected=\"selected\"" : "") . ">5 - Not one of my primary interests</option>\n";
         echo "            </select>\n";
         echo "        </label>\n";
         echo "        <span class=\"span5\">\n";

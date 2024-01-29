@@ -105,6 +105,7 @@ function render_session_interests_body($session_interest_count, $showNotAttendin
         echo "        <span class=\"span1\"></span>\n";
         echo "        <label class=\"control-label span2 \">Rank: \n";
         echo "            <select id=\"rankINP_$j\" name=\"rank$j\" class=\"mycontrol\" $disabled>\n";
+        echo "                <option value=\"\" " . ((!isset($session_interests[$i]['rank'])) ? "selected=\"selected\"" : "") . "></option>\n";
         echo "                <option value=\"1\" " . (($session_interests[$i]['rank'] == 1) ? "selected=\"selected\"" : "") . ">1 - Ooh! Ooh! Pick me!</option>\n";
         echo "                <option value=\"2\" " . (($session_interests[$i]['rank'] == 2) ? "selected=\"selected\"" : "") . ">2 - I'd like to if I can</option>\n";
         echo "                <option value=\"3\" " . (($session_interests[$i]['rank'] == 3) ? "selected=\"selected\"" : "") . ">3 - It would be nice</option>\n";

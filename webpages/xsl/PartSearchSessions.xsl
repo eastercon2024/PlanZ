@@ -18,7 +18,7 @@
     <xsl:variable name="mayISubmitPanelInterests" select="$interested and $may_I" />
 
     <xsl:template match="/">
-        <form class="container mt-2 mb-4" method="GET" action="PartSearchSessions.php">    
+        <form class="container mt-2 mb-4 px-0" method="GET" action="PartSearchSessions.php">    
             <div class="card">
                 <div class="card-header">
                     <h2>Search Sessions</h2>
@@ -91,7 +91,7 @@
 
         <xsl:choose>
             <xsl:when test="doc/query[@queryName='sessions']/row">
-                <form id="sessionInterestFRM" name="resform" class="container mt-2 mb-4">
+                <form id="sessionInterestFRM" name="resform" class="container mt-2 mb-4 px-0">
                     <div class="card">
                         <div class="card-header">
                             <div class="row">

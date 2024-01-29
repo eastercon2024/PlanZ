@@ -36,7 +36,7 @@
         <xsl:variable name="bestway" select="/doc/query[@queryName='participant_info']/row/@bestway" />
         <xsl:variable name="bioNote" select="/doc/customText/@biography_note" />
         <xsl:variable name="regDataNote" select="/doc/customText/@registration_data" />
-        <form name="partform" class="container mt-2 mb-4">
+        <form name="partform" class="container mt-2 mb-4 px-0">
             <div class="card">
                 <div class="card-header">
                     <h2>

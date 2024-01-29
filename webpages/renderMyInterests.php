@@ -10,7 +10,7 @@ function renderMyInterests($title, $error, $message, $rolearray, $interestarray)
     participant_header($title, false, 'Normal', true);
     
 
-    echo "<form name=\"addform\" class=\"container mt-2 mb-4\" >\n";
+    echo "<form name=\"addform\" class=\"container mt-2 mb-4 px-0\" >\n";
     echo "<input type=\"hidden\" class=\"mycontrol\" name=\"rolerows\" value=\"" . $rolerows . "\" />\n";
     echo "<input type=\"hidden\" class=\"mycontrol\" name=\"interestrows\" value=\"" . $interestrows . "\" />\n";
     echo "<div class=\"card\">\n";

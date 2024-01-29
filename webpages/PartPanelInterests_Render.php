@@ -34,7 +34,7 @@ function render_session_interests($session_interest_count,$message,$message_erro
         echo "<div id=\"resultBoxDIV\"></div>\n";
         echo "\n";
     }
-    echo "<div class=\"submit\"><button class=\"btn btn-primary pull-right\" type=\"submit\" $disabled>Update</button></div><br />\n";
+    echo "<div class=\"submit\"><button class=\"btn btn-primary pull-right\" type=\"submit\" $disabled>Update</button></div>\n";
     echo "</div>\n";
     echo "<div class=\"card-body\">\n";
     echo "<div id=\"interests_body\" class=\"row-fluid\">\n";

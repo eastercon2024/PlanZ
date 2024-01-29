@@ -87,6 +87,21 @@
             </div>
         </form>
 
+        <xsl:if test="not($interested)">
+            <div class="container">
+                <div class="row mt-2">
+                    <div class="col alert alert-warning">
+                        <h4>Warning!</h4>
+                        <span>
+                            You have not indicated in <a href="/my_contact.php">your profile</a> that you will be attending <xsl:value-of select="$conName"/>.
+                            You will not be able to save your panel choices until you do so.
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </xsl:if>
+
+
         <form id="sessionInterestFRM" name="resform" class="container mt-2 mb-4 px-0">
             <div class="card">
                 <div class="card-header">
@@ -110,17 +125,6 @@
                             <a class="btn btn-info" data-toggle="collapse" href=".multi-collapse" role="button" aria-expanded="false" aria-controls="{$collapse_list}">Expand All</a>
                         </div>
                     </div>
-                    <xsl:if test="not($interested)">
-                        <div class="row mt-2">
-                            <div class="alert alert-warning">
-                                <h4>Warning!</h4>
-                                <span>
-                                    You have not indicated in <a href="/my_contact.php">your profile</a> that you will be attending <xsl:value-of select="$conName"/>.
-                                    You will not be able to save your panel choices until you do so.
-                                </span>
-                            </div>
-                        </div>
-                    </xsl:if>
                 </div>
                 <div class="card-body">
                     <xsl:choose>

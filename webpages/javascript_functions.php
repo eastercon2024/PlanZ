@@ -78,6 +78,7 @@ function load_internal_javascript($title, $isDataTables = false) {
             echo "<script src=\"external/tinymce-5.6.2/js/tinymce/tinymce.min.js\"></script>\n";
             break;
         case "Session Search Results":
+        case "Search Sessions":
             echo "<script src=\"" . get_internal_url("js/PartSearchSessionsSubmit.js") . "\"></script>\n";
             break;
         case "Administer Participants":

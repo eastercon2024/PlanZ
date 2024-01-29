@@ -28,6 +28,17 @@ function PartSearchSessionsSubmit() {
 		for (var i = 0; i < checkboxes.length; i++) {
 			checkboxes[i].addEventListener("click", this.checkboxClicked);
 		}
+
+		$("[id^=collapse-]").each(function(i, collapseElm) {
+			var $collapseElm = $(collapseElm);
+			var $showElm = $("#toggle-" + $collapseElm.attr("id").substring(9));
+			$collapseElm.on("show.bs.collapse", function() {
+				$showElm.text("Hide details");
+			});
+			$collapseElm.on("hide.bs.collapse", function() {
+				$showElm.text("Show details");
+			});
+		});
 	};
 
 	this.showUpdateResults = function showUpdateResults(data, textStatus, jqXHR) {

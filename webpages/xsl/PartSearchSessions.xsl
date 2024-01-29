@@ -18,156 +18,130 @@
     <xsl:variable name="mayISubmitPanelInterests" select="$interested and $may_I" />
 
     <xsl:template match="/">
-        <div class="container-fluid">
-            <xsl:if test="not($interested)">
-                <div class="row">
-                    <div class="alert alert-block" style="margin:15px 0;">
-                        <h4>Warning!</h4>
-                        <span>
-                            You have not indicated in your profile that you will be attending <xsl:value-of select="$conName"/>.
-                            You will not be able to save your panel choices until you so do.
-                        </span>
-                    </div>
+        <xsl:if test="not($interested)">
+            <div class="row">
+                <div class="alert alert-block" style="margin:15px 0;">
+                    <h4>Warning!</h4>
+                    <span>
+                        You have not indicated in your profile that you will be attending <xsl:value-of select="$conName"/>.
+                        You will not be able to save your panel choices until you so do.
+                    </span>
                 </div>
-            </xsl:if>
-            <form class="container mt-2 mb-4" method="GET" action="PartSearchSessions.php">    
-                <div class="card">
-                    <div class="card-header">
-                        <h2>Search Sessions</h2>
-                    </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-auto">
-                                <label for="title-txtinp">Title Search</label>
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-auto">
-                                <input id="title-txtinp" name="title" size="35" placeholder="Session title" class="form-control">
-                                    <xsl:attribute name="value"><xsl:value-of select="$title" /></xsl:attribute>
-                                </input>
-                            </div>
-                        </div>
-                        <xsl:choose>
-                            <xsl:when test="$showTags">
-                                <div class="row">
-                                    <div class="col-auto">
-                                        <label>Tags</label>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-auto">
-                                        <div class="tag-chk-container">
-                                            <xsl:apply-templates select="doc/query[@queryName='tags']/row" />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row mb-3">
-                                    <div class="col-auto align-self-center">
-                                        <label class="tag-match-label">
-                                            <input type="radio" id="tagmatch1" name="tagmatch" class="tag-match-radio" value="any">
-                                                <xsl:if test="$tagMatch = 'any'">
-                                                    <xsl:attribute name="checked"></xsl:attribute>
-                                                </xsl:if>
-                                            </input>
-                                            Match any selected
-                                        </label>
-                                        <label class="tag-match-label">
-                                            <input type="radio" id="tagmatch2" name="tagmatch" class="tag-match-radio" value="all">
-                                                <xsl:if test="$tagMatch = 'all'">
-                                                    <xsl:attribute name="checked"></xsl:attribute>
-                                                </xsl:if>
-                                            </input>
-                                            Match all selected
-                                        </label>
-                                    </div>
-                                </div>
-                            </xsl:when>
-                            <xsl:otherwise>
-                                <input type="hidden" name="tags[]" value="0" />
-                            </xsl:otherwise>
-                        </xsl:choose>
-                    </div>
-                    <div class="card-footer">
-                        <div class="row">
-                            <div class="col-auto">
-                                <button class="btn btn-primary" type="submit" value="search">Search</button>
-                            </div>
-                            <div class="col-auto">
-                                <a href="/PartSearchSessions.php" class="btn btn-info">Show all</a>
-                            </div>
-                        </div>
-                    </div>
+            </div>
+        </xsl:if>
+        <form class="container mt-2 mb-4" method="GET" action="PartSearchSessions.php">    
+            <div class="card">
+                <div class="card-header">
+                    <h2>Search Sessions</h2>
                 </div>
-            </form>
-
-            <xsl:choose>
-                <xsl:when test="doc/query[@queryName='sessions']/row">
-                    <form id="sessionInterestFRM" name="resform" class="container mt-2 mb-4">
-                        <div class="card">
-                            <div class="card-header">
-                                <div class="row">
-                                    <div class="col text-right">
-                                        <a class="btn btn-info" data-toggle="collapse" href=".multi-collapse" role="button" aria-expanded="false" aria-controls="{$collapse_list}">Expand All</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <div class="row">
-                                    <xsl:choose>
-                                        <xsl:when test="$trackIsPrimary and $showTags">
-                                            <div class="col-0p75 pr-0">Session ID</div>
-                                            <div class="col-1p25">Interested</div>
-                                            <div class="col-1p75">Track</div>
-                                            <div class="col-3p25">Title</div>
-                                            <div class="col-1p5">Type</div>
-                                            <div class="col-2p75">Tags</div>
-                                            <div class="col-0p75">Expand</div>
-                                        </xsl:when>
-                                        <xsl:when test="$trackIsPrimary">
-                                            <div class="col-1p25">Session ID</div>
-                                            <div class="col-1p25">Interested</div>
-                                            <div class="col-3">Track</div>
-                                            <div class="col-4">Title</div>
-                                            <div class="col-1p75">Type</div>
-                                            <div class="col-0p75">Expand</div>
-                                        </xsl:when>
-                                        <xsl:when test="$showTrack">
-                                            <div class="col-0p75 pr-0">Session ID</div>
-                                            <div class="col-1p25">Interested</div>
-                                            <div class="col-2p75">Tags</div>
-                                            <div class="col-3p25">Title</div>
-                                            <div class="col-1p5">Type</div>
-                                            <div class="col-1p75">Track</div>
-                                            <div class="col-0p75">Expand</div>
-                                        </xsl:when>
-                                        <xsl:otherwise>
-                                            <div class="col-1p25">Session ID</div>
-                                            <div class="col-1p25">Interested</div>
-                                            <div class="col-3">Tags</div>
-                                            <div class="col-4">Title</div>
-                                            <div class="col-1p75">Type</div>
-                                            <div class="col-0p75">Expand</div>
-                                        </xsl:otherwise>
-                                    </xsl:choose>
-                                </div>
-                                <xsl:apply-templates select="doc/query[@queryName='sessions']/row" />
-                            </div>
-                        </div>
-                    </form>
-                </xsl:when>
-                <xsl:otherwise>
+                <div class="card-body">
                     <div class="row">
-                        <div class="col-3"> </div>
-                        <div class="col-6 mt-4 alert alert-warning">
-                            No sessions available for participant sign up matched your search.
+                        <div class="col-auto">
+                            <label for="title-txtinp">Title Search</label>
                         </div>
-                        <div class="col-3"> </div>
                     </div>
-                </xsl:otherwise>
-            </xsl:choose>    
-        </div>
+                    <div class="row mb-3">
+                        <div class="col-auto">
+                            <input id="title-txtinp" name="title" size="35" placeholder="Session title" class="form-control">
+                                <xsl:attribute name="value"><xsl:value-of select="$title" /></xsl:attribute>
+                            </input>
+                        </div>
+                    </div>
+                    <xsl:choose>
+                        <xsl:when test="$showTags">
+                            <div class="row">
+                                <div class="col-auto">
+                                    <label>Tags</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-auto">
+                                    <div class="tag-chk-container">
+                                        <xsl:apply-templates select="doc/query[@queryName='tags']/row" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-auto align-self-center">
+                                    <label class="tag-match-label">
+                                        <input type="radio" id="tagmatch1" name="tagmatch" class="tag-match-radio" value="any">
+                                            <xsl:if test="$tagMatch = 'any'">
+                                                <xsl:attribute name="checked"></xsl:attribute>
+                                            </xsl:if>
+                                        </input>
+                                        Match any selected
+                                    </label>
+                                    <label class="tag-match-label">
+                                        <input type="radio" id="tagmatch2" name="tagmatch" class="tag-match-radio" value="all">
+                                            <xsl:if test="$tagMatch = 'all'">
+                                                <xsl:attribute name="checked"></xsl:attribute>
+                                            </xsl:if>
+                                        </input>
+                                        Match all selected
+                                    </label>
+                                </div>
+                            </div>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <input type="hidden" name="tags[]" value="0" />
+                        </xsl:otherwise>
+                    </xsl:choose>
+                </div>
+                <div class="card-footer">
+                    <div class="row">
+                        <div class="col-auto">
+                            <button class="btn btn-primary" type="submit" value="search">Search</button>
+                        </div>
+                        <div class="col-auto">
+                            <a href="/PartSearchSessions.php" class="btn btn-info">Show all</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <xsl:choose>
+            <xsl:when test="doc/query[@queryName='sessions']/row">
+                <form id="sessionInterestFRM" name="resform" class="container mt-2 mb-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="row">
+                                <div class="col text-right">
+                                    <a class="btn btn-info" data-toggle="collapse" href=".multi-collapse" role="button" aria-expanded="false" aria-controls="{$collapse_list}">Expand All</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <xsl:call-template name="repeat"/>
+                        </div>
+                    </div>
+                </form>
+            </xsl:when>
+            <xsl:otherwise>
+                <div class="row">
+                    <div class="col-3"> </div>
+                    <div class="col-6 mt-4 alert alert-warning">
+                        No sessions available for participant sign up matched your search.
+                    </div>
+                    <div class="col-3"> </div>
+                </div>
+            </xsl:otherwise>
+        </xsl:choose>    
     </xsl:template>
+
+    <xsl:template name="repeat">
+        <xsl:param name="count" select="10"/>
+
+        <!-- Stop condition: when count reaches 0, stop recursion -->
+        <xsl:if test="$count > 0">
+            <xsl:apply-templates select="doc/query[@queryName='sessions']/row" />
+
+            <!-- Recursive call, decrementing the count -->
+            <xsl:call-template name="repeat">
+            <xsl:with-param name="count" select="$count - 1"/>
+            </xsl:call-template>
+        </xsl:if>
+        </xsl:template>
 
     <xsl:template match="/doc/query[@queryName='tracks']/row">
         <option value="{@trackid}"><xsl:value-of select="@trackname" /></option>
@@ -188,90 +162,56 @@
     </xsl:template>
 
     <xsl:template match="/doc/query[@queryName='sessions']/row">
-        <div class="card my-2 px-1 schedule-card">
+        <div class="card p-2 mb-2">
             <div class="row">
-                <xsl:choose>
-                    <xsl:when test="$showTrack and $showTags">
-                        <div class="col-0p75 pl-4 pr-0"><xsl:value-of select="@sessionid" /></div>
-                        <div class="col-1p25 pl-1 pr-0">
-                            <label class="mb-0">
-                                <input type="checkbox" id="int{@sessoinid}" name="int{@sessionid}" class="interestsCHK"
-                                    value="{@sessionid}">
-                                    <xsl:if test="@badgeid">
-                                        <xsl:attribute name="checked">checked</xsl:attribute>
-                                    </xsl:if>
-                                    <xsl:if test="not($mayISubmitPanelInterests)">
-                                        <xsl:attribute name="disabled">disabled</xsl:attribute>
-                                    </xsl:if>
-                                </input>
-                                I am interested
-                            </label>
-                        </div>
-                        <xsl:choose>
-                            <xsl:when test="$trackIsPrimary">
-                                <div class="col-1p75"><xsl:value-of select="@trackname" /></div>
-                            </xsl:when>
-                            <xsl:otherwise><div class="col-2p75"><xsl:value-of select="@taglist" /></div></xsl:otherwise>
-                        </xsl:choose>
-                        <div class="col-3p25"><xsl:value-of select="@title" /></div>
-                        <div class="col-1p5"><xsl:value-of select="@typename" /></div>
-                        <xsl:choose>
-                            <xsl:when test="$trackIsPrimary">
-                                <div class="col-2p75"><xsl:value-of select="@taglist" /></div>
-                            </xsl:when>
-                            <xsl:otherwise><div class="col-1p75"><xsl:value-of select="@trackname" /></div></xsl:otherwise>
-                        </xsl:choose>
-                        <div class="col-0p75 expander-wrapper">
-                            <a href="#collapse-{@sessionid}" data-toggle="collapse" class="collapsed" aria-expanded="true"
-                               aria-controls="#collapse-{@sessionid}">
-                                <div class="expander">&#x2304;</div>
-                            </a>
-                        </div>
-                    </xsl:when>
-                    <xsl:otherwise>
-                        <div class="col-1p25 pl-4"><xsl:value-of select="@sessionid" /></div>
-                        <div class="col-1p25 pl-1 pr-0">
-                            <label class="mb-0">
-                                <input type="checkbox" id="int{@sessoinid}" name="int{@sessionid}" class="interestsCHK"
-                                    value="{@sessionid}">
-                                    <xsl:if test="@badgeid">
-                                        <xsl:attribute name="checked">checked</xsl:attribute>
-                                    </xsl:if>
-                                    <xsl:if test="not($mayISubmitPanelInterests)">
-                                        <xsl:attribute name="disabled">disabled</xsl:attribute>
-                                    </xsl:if>
-                                </input>
-                                I am interested
-                            </label>
-                        </div>
-                        <xsl:choose>
-                            <xsl:when test="$showTrack">
-                                <div class="col-3"><xsl:value-of select="@trackname" /></div>
-                            </xsl:when>
-                            <xsl:otherwise><div class="col-3"><xsl:value-of select="@taglist" /></div></xsl:otherwise>
-                        </xsl:choose>
-                        <div class="col-4"><xsl:value-of select="@title" /></div>
-                        <div class="col-1p75"><xsl:value-of select="@typename" /></div>
-                        <div class="col-0p75 expander-wrapper">
-                            <a href="#collapse-{@sessionid}" data-toggle="collapse" class="collapsed" aria-expanded="true"
-                               aria-controls="#collapse-{@sessionid}">
-                                <div class="expander">&#x2304;</div>
-                            </a>
-                        </div>
-                    </xsl:otherwise>
-                </xsl:choose>
+                <div class="col-auto"><h5><xsl:value-of select="@title" /></h5></div>
             </div>
-            <div id="collapse-{@sessionid}" class="collapse multi-collapse list-group list-group-flush">
-                <div class="list-group-item py-1">
-                    <div class="row">
-                        <div class="col-0p75 pl-1 pr-0">Duration:</div>
-                        <div class="col-1"><xsl:value-of select="@duration" /></div>
-                        <div class="col-1 pl-0 pr-1">Description:</div>
-                        <div class="col-5"><xsl:value-of select="@progguiddesc" /></div>
-                        <div class="col-1p25">Prospective Participant Info:</div>
-                        <div class="col-3"><xsl:value-of select="@persppartinfo" /></div>
-                    </div>
+            <div class="row mb-1">
+                <div class="col-auto">
+                    <xsl:value-of select="@typename" />
+                    <xsl:text disable-output-escaping="yes"> &amp;bull; </xsl:text>
+                    <xsl:value-of select="@duration" />
+                    <xsl:if test="not(normalize-space(@taglist) = '')">
+                        <xsl:text disable-output-escaping="yes"> &amp;bull; </xsl:text>
+                        <xsl:value-of select="@taglist" />
+                    </xsl:if>
                 </div>
+            </div>
+            <div class="row mb-1">
+                <div class="col-auto">
+                    <label class="mb-0">
+                        <input type="checkbox" id="int{@sessoinid}" name="int{@sessionid}" class="interestsCHK"
+                            value="{@sessionid}">
+                            <xsl:if test="@badgeid">
+                                <xsl:attribute name="checked">checked</xsl:attribute>
+                            </xsl:if>
+                            <xsl:if test="not($mayISubmitPanelInterests)">
+                                <xsl:attribute name="disabled">disabled</xsl:attribute>
+                            </xsl:if>
+                        </input>
+                        I am interested
+                    </label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-auto">
+                    <a id="toggle-{@sessionid}" href="#collapse-{@sessionid}" data-toggle="collapse" class="collapsed" aria-expanded="true" aria-controls="#collapse-{@sessionid}">Show details</a>
+                </div>
+            </div>
+            <div id="collapse-{@sessionid}" class="collapse multi-collapse">
+                <xsl:if test="not(normalize-space(@progguiddesc) = '')">
+                    <div class="row mt-2">
+                        <div class="col-auto"><xsl:value-of select="@progguiddesc" /></div>
+                    </div>
+                </xsl:if>
+                <xsl:if test="not(normalize-space(@persppartinfo) = '')">
+                    <div class="row mt-2">
+                        <div class="col-auto"><b>Prospective participant info</b></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-auto"><xsl:value-of select="@persppartinfo" /></div>
+                    </div>
+                </xsl:if>
             </div>
         </div>
     </xsl:template>

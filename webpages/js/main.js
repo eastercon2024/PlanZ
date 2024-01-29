@@ -29,6 +29,7 @@ document.addEventListener( "DOMContentLoaded", function () {
             staffMaintainSchedule.initialize();
             break;
         case "Session Search Results":
+        case "Search Sessions":
             partSearchSessionsSubmit.initialize();
             break;
         case "Session Interests":

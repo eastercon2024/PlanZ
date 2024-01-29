@@ -117,8 +117,8 @@
                                     <div class="alert alert-warning">
                                         <h4>Warning!</h4>
                                         <span>
-                                            You have not indicated in your profile that you will be attending <xsl:value-of select="$conName"/>.
-                                            You will not be able to save your panel choices until you so do on the <a href="/my_contact.php">Profile</a> page.
+                                            You have not indicated in <a href="/my_contact.php">your profile</a> that you will be attending <xsl:value-of select="$conName"/>.
+                                            You will not be able to save your panel choices until you do so.
                                         </span>
                                     </div>
                                 </div>

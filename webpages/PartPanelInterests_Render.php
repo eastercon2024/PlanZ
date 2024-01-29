@@ -20,11 +20,11 @@ function render_session_interests($session_interest_count,$message,$message_erro
     echo "<h2>Session Interests</h2>\n";
     echo "<p>You are limited to 3 sessions each of preference.</p>\n";
     if ($showNotAttendingWarning) {
-        echo "<div class=\"alert alert-primary\" style=\"margin:15px 0;\">\n";
+        echo "<div class=\"alert alert-warning\">\n";
         echo "    <h4>Warning!</h4>\n";
         echo "    <span>\n";
-        echo "        You have not indicated in <a href=\"my_contact.php\">your profile</a> that you will be attending " . CON_NAME . ".\n";
-        echo "        You will not be able to save your panel choices until you so do.\n";
+        echo "        You have not indicated in <a href=\"/my_contact.php\">your profile</a> that you will be attending " . CON_NAME . ".\n";
+        echo "        You will not be able to save your panel choices until you do so.\n";
         echo "    </span>\n";
         echo "</div>\n";
         $disabled = "disabled=\"disabled\" ";

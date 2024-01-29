@@ -48,6 +48,7 @@ SELECT
         S.sessionid,
         T.trackname,
         S.title,
+        TYPE.typename,
         CASE
             WHEN (minute(S.duration)=0) THEN date_format(S.duration,'%l hr')
             WHEN (hour(S.duration)=0) THEN date_format(S.duration, '%i min')
@@ -59,6 +60,7 @@ SELECT
     FROM
         Sessions S JOIN
         Tracks T using (trackid) JOIN
+        Types TYPE using (typeid) JOIN
         SessionStatuses SS using (statusid)
     WHERE
         S.sessionid in ($sessionidlist) and
@@ -78,7 +80,39 @@ EOD;
         $session_interests[$j]['duration'] = $this_row['duration'];
         $session_interests[$j]['progguiddesc'] = $this_row['progguiddesc'];
         $session_interests[$j]['persppartinfo'] = $this_row['persppartinfo'];
+        $session_interests[$j]['typename'] = $this_row['typename'];
+        $session_interests[$j]['tags'] = "";
     }
+    mysqli_free_result($result);
+
+    $query = <<<EOD
+        SELECT
+            SHT.sessionid,
+            T.tagname
+        FROM
+            SessionHasTag SHT JOIN
+            Sessions S using (sessionid) JOIN
+            SessionStatuses SS using (statusid) JOIN
+            Tags T using (tagid)
+        WHERE
+            SHT.sessionid in ($sessionidlist) and
+            SS.may_be_scheduled=1
+EOD;
+    if (!$result = mysqli_query_with_error_handling($query)) {
+        $message .= $query . "<br>Error querying database.<br>";
+        RenderError($message);
+        exit();
+    }
+    $num_rows = mysqli_num_rows($result);
+    for ($i = 1; $i <= $num_rows; $i++) {
+        $this_row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+        $j = $session_interest_index[$this_row['sessionid']];
+        if (!empty($session_interests[$j]['tags'])) {
+            $session_interests[$j]['tags'] .= ", ";
+        }
+        $session_interests[$j]['tags'] .= $this_row['tagname'];
+    }
+
     mysqli_free_result($result);
     return (true);
 }

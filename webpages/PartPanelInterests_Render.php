@@ -13,7 +13,7 @@ function render_session_interests($session_interest_count,$message,$message_erro
         echo "<input type=\"hidden\" id=\"pageIsDirty\" value=\"true\" />\n";
     }
     // "Update Ranks" Section
-    echo "<form id=\"sessionFRM\" class=\"form container mt-2 mb-4\" name=\"sessionform\">\n";
+    echo "<form id=\"sessionFRM\" class=\"form container px-0 mt-2 mb-4\" name=\"sessionform\">\n";
     echo "<input type=\"hidden\" name=\"submitranks\" value=\"1\" />\n";
     echo "<div class=\"card\">\n";
     echo "<div class=\"card-header\">\n";
@@ -42,7 +42,7 @@ function render_session_interests($session_interest_count,$message,$message_erro
     echo "</div>\n";
     echo "</div>\n";
     echo "<div class=\"card-footer\">\n";
-    echo "<div class=\"submit\"><button class=\"btn btn-primary pull-right\" type=\"submit\" $disabled>Update</button></div><br />\n";
+    echo "<div class=\"submit\"><button class=\"btn btn-primary pull-right\" type=\"submit\" $disabled>Update</button></div>\n";
     echo "<input type=\"hidden\" id=\"autosaveHID\" name=\"autosave\" value=\"0\" />\n";
     echo "</div>\n";
     echo "</div>\n";
@@ -93,53 +93,60 @@ function render_session_interests_body($session_interest_count, $showNotAttendin
         if (!isset($session_interests[$i]['title'])) continue;
         if (!$session_interests[$i]['title']) continue;
         $has_shown += 1;
-        echo "  <div class=\"control-group\">\n";
-        echo "    <div class=\"controls\">\n";
-        echo "        <span class=\"span1\">{$session_interests[$i]['sessionid']}";
-        echo "            <input type=\"hidden\" name=\"sessionid$j\" class=\"mycontrol\" value=\"{$session_interests[$i]['sessionid']}\" /></span>\n";
-        echo "        <span class=\"span2\">{$session_interests[$i]['trackname']}</span>\n";
-        echo "        <span class=\"span5\">" . htmlspecialchars($session_interests[$i]['title'], ENT_NOQUOTES) . "</span>\n";
-        echo "        <span class=\"span4\">Duration: {$session_interests[$i]['duration']}</span>\n";
+
+        echo "<div class=\"card p-2 mb-2\">\n";
+        echo "    <input type=\"hidden\" name=\"sessionid$j\" class=\"mycontrol\" value=\"{$session_interests[$i]['sessionid']}\" />\n";
+        echo "    <div class=\"row\">\n";
+        echo "        <div class=\"col-auto\"><h5>" . htmlspecialchars($session_interests[$i]['title'], ENT_NOQUOTES) . "</h5></div>\n";
         echo "    </div>\n";
-        echo "    <div class=\"controls controls-row\">\n";
-        echo "        <span class=\"span1\"></span>\n";
-        echo "        <label class=\"control-label span2 \">Rank: \n";
-        echo "            <select id=\"rankINP_$j\" name=\"rank$j\" class=\"mycontrol\" $disabled>\n";
-        echo "                <option value=\"\" " . ((!isset($session_interests[$i]['rank'])) ? "selected=\"selected\"" : "") . "></option>\n";
+        echo "    <div class=\"row mb-1\">\n";
+        echo "        <div class=\"col-auto\">\n";
+        echo $session_interests[$i]['typename'] . " &bull; " . $session_interests[$i]['duration'];
+        if (!empty($session_interests[$i]['tags'])) {
+            echo " &bull; " . $session_interests[$i]['tags'];
+        }
+        echo "        </div>\n";
+        echo "    </div>\n";
+        echo "    <div class=\"row\">\n";
+        echo "        <div class=\"col-auto\">\n";
+        echo "            <select id=\"rankINP_$j\" name=\"rank$j\" class=\"mycontrol form-control\" $disabled>\n";
+        echo "                <option value=\"\" " . ((!isset($session_interests[$i]['rank'])) ? "selected=\"selected\"" : "") . ">- Select rank -</option>\n";
         echo "                <option value=\"1\" " . (($session_interests[$i]['rank'] == 1) ? "selected=\"selected\"" : "") . ">1 - Ooh! Ooh! Pick me!</option>\n";
         echo "                <option value=\"2\" " . (($session_interests[$i]['rank'] == 2) ? "selected=\"selected\"" : "") . ">2 - I'd like to if I can</option>\n";
         echo "                <option value=\"3\" " . (($session_interests[$i]['rank'] == 3) ? "selected=\"selected\"" : "") . ">3 - It would be nice</option>\n";
         echo "                <option value=\"4\" " . (($session_interests[$i]['rank'] == 4) ? "selected=\"selected\"" : "") . ">4 - I'm kind of interested</option>\n";
         echo "            </select>\n";
-        echo "        </label>\n";
-        echo "        <span class=\"span5\">\n";
+        echo "        </div>\n";
+        echo "    </div>\n";
+        echo "    <div class=\"row mt-2\">\n";
+        echo "        <div class=\"col-auto\">\n";
         echo "            <input type=\"checkbox\" id=\"modCHK_$j\" class=\"checkbox mycontrol\" value=\"1\" name=\"mod$j\" ".(($session_interests[$i]['willmoderate'])?"checked":"")." $disabled/>\n";
         echo "            <label class=\"inline\" for=\"modCHK_$j\">I'd like to moderate this session </label>\n";
-        echo "        </span>\n";
-        echo "        <span class=\"span4\">\n";
+        echo "        </div>\n";
+        echo "    </div>\n";
+        echo "    <div class=\"row\">\n";
+        echo "        <div class=\"col-auto\">\n";
         echo "            <input type=\"checkbox\" id=\"deleteCHK_$j\" class=\"checkbox mycontrol\" value=\"1\" name=\"delete$j\" $disabled/>\n";
         echo "            <label class=\"inline \" for=\"deleteCHK_$j\">Remove this session from my list </label>\n";
-        echo "        </span>\n";
+        echo "        </div>\n";
         echo "    </div>\n";
-        echo "    <div class=\"controls controls-row\">\n";
-        echo "        <span class=\"span1\"></span>\n";
-        echo "        <label class=\"span11 control-label\">Use this space to convince us why you would be fabulous on this session: </label>";
+        echo "    <div class=\"row\">\n";
+        echo "        <label class=\"col-auto\">Use this space to convince us why you would be fabulous on this session: </label>\n";
         echo "    </div>\n";
-        echo "    <div class=\"controls controls-row padded\">\n";
-        echo "        <textarea id=\"commentsTXTA_$j\" class=\"span12 sessionWhyMe mycontrol form-control\" cols=\"80\" name=\"comments$j\" $disabled>". htmlspecialchars( $session_interests[$i]['comments'],ENT_COMPAT)."</textarea>\n";
+        echo "    <div class=\"row\">\n";
+        echo "        <div class=\"col-auto\">\n";
+        echo "            <textarea id=\"commentsTXTA_$j\" class=\"span12 sessionWhyMe mycontrol form-control\" cols=\"80\" name=\"comments$j\" $disabled>". htmlspecialchars( $session_interests[$i]['comments'],ENT_COMPAT)."</textarea>\n";
+        echo "        </div>\n";
         echo "    </div>\n";
-        echo "    <div class=\"controls controls-row padded\">\n";
-        echo "        <span class=\"span1\"></span>\n";
-        echo "        <span class=\"span11\">" . htmlspecialchars($session_interests[$i]['progguiddesc'], ENT_NOQUOTES) . "</span>\n";
+        echo "    <div class=\"row mt-2\">\n";
+        echo "        <div class=\"col-auto\">" . htmlspecialchars($session_interests[$i]['progguiddesc'], ENT_NOQUOTES) . "</div>\n";
         echo "    </div>\n";
         if ($session_interests[$i]['persppartinfo']) {
-            echo "    <div class=\"controls controls-row\">\n";
-            echo "        <span class=\"span1\"></span>\n";
-            echo "        <span class=\"span11 alert\" style=\"padding: 0\">" . htmlspecialchars($session_interests[$i]['persppartinfo'], ENT_NOQUOTES) . "</span>\n";
+            echo "    <div class=\"row mt-2\">\n";
+            echo "        <div class=\"col-auto\">" . htmlspecialchars($session_interests[$i]['persppartinfo'], ENT_NOQUOTES) . "</div>\n";
             echo "    </div>\n";
-        }
-        echo "        <hr />\n";
-        echo "  </div>\n";
+        }    
+        echo "</div>\n";
         $j++;
     }
 

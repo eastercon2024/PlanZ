@@ -168,6 +168,7 @@ $paramArray["PARTICIPANT_PHOTOS"] = PARTICIPANT_PHOTOS === TRUE ? 1 : 0;
 $paramArray['may_I'] = may_I('my_panel_interests') ? "1" : "0";
 $paramArray["title"] = $titlesearch;
 $paramArray["tagMatch"] = $tagmatch === null ? "any" : $tagmatch;
+$paramArray["showingAll"] = (empty($titlesearch) && empty($tagArr)) ? "1" : "0";
 
 echo(mb_ereg_replace("<(row|query)([^>]*/[ ]*)>", "<\\1\\2></\\1>", $resultXML->saveXML(), "i")); //for debugging only
 RenderXSLT('PartSearchSessions.xsl', $paramArray, $resultXML);

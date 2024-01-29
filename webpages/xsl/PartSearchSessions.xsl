@@ -14,6 +14,7 @@
     <xsl:param name="collapse_list" />
     <xsl:param name="title" />
     <xsl:param name="tagMatch" />
+    <xsl:param name="showingAll" />
     <xsl:variable name="interested" select="/doc/query[@queryName='interested']/row/@interested = '1'"/>
     <xsl:variable name="mayISubmitPanelInterests" select="$interested and $may_I" />
 
@@ -81,9 +82,6 @@
                         <div class="col-auto">
                             <button class="btn btn-primary" type="submit" value="search">Search</button>
                         </div>
-                        <div class="col-auto">
-                            <a href="/PartSearchSessions.php" class="btn btn-info">Show all</a>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -95,6 +93,21 @@
                     <div class="card">
                         <div class="card-header">
                             <div class="row">
+                                <div class="col-auto my-auto">
+                                    <span>
+                                        <xsl:choose>
+                                            <xsl:when test="$showingAll = '1'">
+                                                Showing all sessions
+                                            </xsl:when>
+                                            <xsl:when test="count(doc/query[@queryName='sessions']/row) = 1">
+                                                <xsl:value-of select="count(doc/query[@queryName='sessions']/row)" /> matching session (<a href="/PartSearchSessions.php">Show all sessions</a>)
+                                            </xsl:when>
+                                            <xsl:otherwise>
+                                                <xsl:value-of select="count(doc/query[@queryName='sessions']/row)" /> matching sessions (<a href="/PartSearchSessions.php">Show all sessions</a>)
+                                            </xsl:otherwise>
+                                        </xsl:choose>
+                                    </span>
+                                </div>
                                 <div class="col text-right">
                                     <a class="btn btn-info" data-toggle="collapse" href=".multi-collapse" role="button" aria-expanded="false" aria-controls="{$collapse_list}">Expand All</a>
                                 </div>

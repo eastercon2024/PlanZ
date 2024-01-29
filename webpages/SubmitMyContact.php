@@ -162,10 +162,10 @@ function update_participant($badgeid) {
     $accessibilityIssues = getString('accessibility_issues');
     $pronouns = getString('pronouns');
     if (!is_null($dayJob) || !is_null($ageRangeId) || !is_null($ethnicity) || !is_null($gender) || !is_null($sexualOrientation) || !is_null($pronouns) || !is_null($accessibilityIssues)) {
-        $query_preable = "UPDATE ParticipantDetails SET ";
+        $query_preable = "REPLACE ParticipantDetails SET badgeid = ?, ";
         $query_portion_arr = array();
-        $query_param_arr = array();
-        $query_param_type_str = "";
+        $query_param_arr = array($badgeid);
+        $query_param_type_str = "s";
         push_query_arrays($dayJob, 'dayjob', 's', 30, $query_portion_arr, $query_param_arr, $query_param_type_str);
         push_query_arrays($ageRangeId, 'agerangeid', 'i', 40, $query_portion_arr, $query_param_arr, $query_param_type_str);
         push_query_arrays($ethnicity, 'ethnicity', 's', 51, $query_portion_arr, $query_param_arr, $query_param_type_str);
@@ -173,11 +173,10 @@ function update_participant($badgeid) {
         push_query_arrays($sexualOrientation, 'sexualorientation', 's', 100, $query_portion_arr, $query_param_arr, $query_param_type_str);
         push_query_arrays($pronouns, 'pronounother', 's', 100, $query_portion_arr, $query_param_arr, $query_param_type_str);
         push_query_arrays($accessibilityIssues, 'accessibilityissues', 's', 100, $query_portion_arr, $query_param_arr, $query_param_type_str);
-        $query_param_arr[] = $badgeid;
-        $query_param_type_str .= 's';
-        $query = $query_preable . implode(', ', $query_portion_arr) . " WHERE badgeid = ?";
+        $query = $query_preable . implode(', ', $query_portion_arr);
         $rows = mysql_cmd_with_prepare($query, $query_param_type_str, $query_param_arr);
-        if ($rows != 1) {
+        if ($rows == 0) {
+            error_log("Error updating ParticipantDetails. Updated " . $rows . " rows. Query: [" . $query . "], Params: [" . $query_param_type_str . "], Values: [" . implode(',', $query_param_arr) . "]");
             $message_error = "Error updating db. (record update)";
             Render500ErrorAjax($message_error);
             exit();
@@ -256,7 +255,7 @@ EOD;
     $query = $query_preable . implode(', ', $query_portion_arr) . " WHERE badgeid = ?";
     $rows = mysql_cmd_with_prepare($query, $query_param_type_str, $query_param_arr);
     if ($rows != 1) {
-        $message_error = "Error updating db. (record update)";
+        $message_error = "Error updating db. (record update) [" . $rows . "] " . $query;
         Render500ErrorAjax($message_error);
         exit();
     }

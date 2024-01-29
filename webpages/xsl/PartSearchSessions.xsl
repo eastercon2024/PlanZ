@@ -18,17 +18,6 @@
     <xsl:variable name="mayISubmitPanelInterests" select="$interested and $may_I" />
 
     <xsl:template match="/">
-        <xsl:if test="not($interested)">
-            <div class="row">
-                <div class="alert alert-block" style="margin:15px 0;">
-                    <h4>Warning!</h4>
-                    <span>
-                        You have not indicated in your profile that you will be attending <xsl:value-of select="$conName"/>.
-                        You will not be able to save your panel choices until you so do.
-                    </span>
-                </div>
-            </div>
-        </xsl:if>
         <form class="container mt-2 mb-4" method="GET" action="PartSearchSessions.php">    
             <div class="card">
                 <div class="card-header">
@@ -110,9 +99,20 @@
                                     <a class="btn btn-info" data-toggle="collapse" href=".multi-collapse" role="button" aria-expanded="false" aria-controls="{$collapse_list}">Expand All</a>
                                 </div>
                             </div>
+                            <xsl:if test="not($interested)">
+                                <div class="row mt-2">
+                                    <div class="alert alert-warning">
+                                        <h4>Warning!</h4>
+                                        <span>
+                                            You have not indicated in your profile that you will be attending <xsl:value-of select="$conName"/>.
+                                            You will not be able to save your panel choices until you so do on the <a href="/my_contact.php">Profile</a> page.
+                                        </span>
+                                    </div>
+                                </div>
+                            </xsl:if>
                         </div>
                         <div class="card-body">
-                            <xsl:call-template name="repeat"/>
+                            <xsl:apply-templates select="doc/query[@queryName='sessions']/row" />
                         </div>
                     </div>
                 </form>
@@ -128,20 +128,6 @@
             </xsl:otherwise>
         </xsl:choose>    
     </xsl:template>
-
-    <xsl:template name="repeat">
-        <xsl:param name="count" select="10"/>
-
-        <!-- Stop condition: when count reaches 0, stop recursion -->
-        <xsl:if test="$count > 0">
-            <xsl:apply-templates select="doc/query[@queryName='sessions']/row" />
-
-            <!-- Recursive call, decrementing the count -->
-            <xsl:call-template name="repeat">
-            <xsl:with-param name="count" select="$count - 1"/>
-            </xsl:call-template>
-        </xsl:if>
-        </xsl:template>
 
     <xsl:template match="/doc/query[@queryName='tracks']/row">
         <option value="{@trackid}"><xsl:value-of select="@trackname" /></option>
@@ -177,22 +163,24 @@
                     </xsl:if>
                 </div>
             </div>
-            <div class="row mb-1">
-                <div class="col-auto">
-                    <label class="mb-0">
-                        <input type="checkbox" id="int{@sessoinid}" name="int{@sessionid}" class="interestsCHK"
-                            value="{@sessionid}">
-                            <xsl:if test="@badgeid">
-                                <xsl:attribute name="checked">checked</xsl:attribute>
-                            </xsl:if>
-                            <xsl:if test="not($mayISubmitPanelInterests)">
-                                <xsl:attribute name="disabled">disabled</xsl:attribute>
-                            </xsl:if>
-                        </input>
-                        I am interested
-                    </label>
+            <xsl:if test="$interested">
+                <div class="row mb-1">
+                    <div class="col-auto">
+                        <label class="mb-0">
+                            <input type="checkbox" id="int{@sessoinid}" name="int{@sessionid}" class="interestsCHK"
+                                value="{@sessionid}">
+                                <xsl:if test="@badgeid">
+                                    <xsl:attribute name="checked">checked</xsl:attribute>
+                                </xsl:if>
+                                <xsl:if test="not($mayISubmitPanelInterests)">
+                                    <xsl:attribute name="disabled">disabled</xsl:attribute>
+                                </xsl:if>
+                            </input>
+                            I am interested
+                        </label>
+                    </div>
                 </div>
-            </div>
+            </xsl:if>
             <div class="row">
                 <div class="col-auto">
                     <a id="toggle-{@sessionid}" href="#collapse-{@sessionid}" data-toggle="collapse" class="collapsed" aria-expanded="true" aria-controls="#collapse-{@sessionid}">Show details</a>

@@ -87,59 +87,57 @@
             </div>
         </form>
 
-        <xsl:choose>
-            <xsl:when test="doc/query[@queryName='sessions']/row">
-                <form id="sessionInterestFRM" name="resform" class="container mt-2 mb-4 px-0">
-                    <div class="card">
-                        <div class="card-header">
+        <form id="sessionInterestFRM" name="resform" class="container mt-2 mb-4 px-0">
+            <div class="card">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-auto my-auto">
+                            <span>
+                                <xsl:choose>
+                                    <xsl:when test="$showingAll = '1'">
+                                        Showing all sessions
+                                    </xsl:when>
+                                    <xsl:when test="count(doc/query[@queryName='sessions']/row) = 1">
+                                        <xsl:value-of select="count(doc/query[@queryName='sessions']/row)" /> matching session (<a href="/PartSearchSessions.php">Show all sessions</a>)
+                                    </xsl:when>
+                                    <xsl:otherwise>
+                                        <xsl:value-of select="count(doc/query[@queryName='sessions']/row)" /> matching sessions (<a href="/PartSearchSessions.php">Show all sessions</a>)
+                                    </xsl:otherwise>
+                                </xsl:choose>
+                            </span>
+                        </div>
+                        <div class="col text-right">
+                            <a class="btn btn-info" data-toggle="collapse" href=".multi-collapse" role="button" aria-expanded="false" aria-controls="{$collapse_list}">Expand All</a>
+                        </div>
+                    </div>
+                    <xsl:if test="not($interested)">
+                        <div class="row mt-2">
+                            <div class="alert alert-warning">
+                                <h4>Warning!</h4>
+                                <span>
+                                    You have not indicated in <a href="/my_contact.php">your profile</a> that you will be attending <xsl:value-of select="$conName"/>.
+                                    You will not be able to save your panel choices until you do so.
+                                </span>
+                            </div>
+                        </div>
+                    </xsl:if>
+                </div>
+                <div class="card-body">
+                    <xsl:choose>
+                        <xsl:when test="doc/query[@queryName='sessions']/row">
+                            <xsl:apply-templates select="doc/query[@queryName='sessions']/row" />
+                        </xsl:when>
+                        <xsl:otherwise>
                             <div class="row">
-                                <div class="col-auto my-auto">
-                                    <span>
-                                        <xsl:choose>
-                                            <xsl:when test="$showingAll = '1'">
-                                                Showing all sessions
-                                            </xsl:when>
-                                            <xsl:when test="count(doc/query[@queryName='sessions']/row) = 1">
-                                                <xsl:value-of select="count(doc/query[@queryName='sessions']/row)" /> matching session (<a href="/PartSearchSessions.php">Show all sessions</a>)
-                                            </xsl:when>
-                                            <xsl:otherwise>
-                                                <xsl:value-of select="count(doc/query[@queryName='sessions']/row)" /> matching sessions (<a href="/PartSearchSessions.php">Show all sessions</a>)
-                                            </xsl:otherwise>
-                                        </xsl:choose>
-                                    </span>
-                                </div>
-                                <div class="col text-right">
-                                    <a class="btn btn-info" data-toggle="collapse" href=".multi-collapse" role="button" aria-expanded="false" aria-controls="{$collapse_list}">Expand All</a>
+                                <div class="col alert alert-warning">
+                                    No sessions available for participant sign up matched your search.
                                 </div>
                             </div>
-                            <xsl:if test="not($interested)">
-                                <div class="row mt-2">
-                                    <div class="alert alert-warning">
-                                        <h4>Warning!</h4>
-                                        <span>
-                                            You have not indicated in <a href="/my_contact.php">your profile</a> that you will be attending <xsl:value-of select="$conName"/>.
-                                            You will not be able to save your panel choices until you do so.
-                                        </span>
-                                    </div>
-                                </div>
-                            </xsl:if>
-                        </div>
-                        <div class="card-body">
-                            <xsl:apply-templates select="doc/query[@queryName='sessions']/row" />
-                        </div>
-                    </div>
-                </form>
-            </xsl:when>
-            <xsl:otherwise>
-                <div class="row">
-                    <div class="col-3"> </div>
-                    <div class="col-6 mt-4 alert alert-warning">
-                        No sessions available for participant sign up matched your search.
-                    </div>
-                    <div class="col-3"> </div>
+                        </xsl:otherwise>
+                    </xsl:choose>
                 </div>
-            </xsl:otherwise>
-        </xsl:choose>    
+            </div>
+        </form>
     </xsl:template>
 
     <xsl:template match="/doc/query[@queryName='tracks']/row">

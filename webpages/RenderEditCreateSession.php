@@ -74,7 +74,7 @@ function RenderEditCreateSession ($action, $session, $message1, $message2) {
 ?>
             </div>
             <div class="form-group col-md-3">
-                <label for="type">Type: </label>
+                <label for="type">Type: </label><span title="Visible to prospective participants">&#x1f50a;</span>
                 <select name="type" class="form-control">
                     <?php populate_select_from_table("Types", $session["type"], "SELECT", FALSE); ?>
                 </select>
@@ -88,7 +88,7 @@ function RenderEditCreateSession ($action, $session, $message1, $message2) {
         </div>
         <div class="row">
             <div class="form-group col-md-5 offset-md-1">
-                <label for="title">Title:</label>
+                <label for="title">Title: </label><span title="Visible to prospective participants">&#x1f50a;</span>
                 <input type="text" class="form-control" size="50" maxlength="<?php echo TITLE_MAX_LENGTH; ?>" name="title" value="<?php echo htmlspecialchars($session["title"],ENT_COMPAT);?>" />&nbsp;&nbsp;
             </div>
             <div class="col-md-2 pt-3">
@@ -137,7 +137,7 @@ function RenderEditCreateSession ($action, $session, $message1, $message2) {
                 <input class="form-control" type="number" size="3" name="atten" value="<?php echo htmlspecialchars($session["atten"],ENT_COMPAT);?>" />
             </div>
             <div class="form-group col-md-1">
-                <label for="duration">Duration:</label>
+                <label for="duration">Duration: </label><span title="Visible to prospective participants">&#x1f50a;</span>
                 <input class="form-control" type="text" size="5" name="duration" value="<?php echo htmlspecialchars($session["duration"],ENT_COMPAT);?>" />
             </div>
             <div class="form-group col-md-2">
@@ -167,7 +167,7 @@ function RenderEditCreateSession ($action, $session, $message1, $message2) {
     if (HTML_SESSION === TRUE) {
 ?>
             <div class="form-group col-md-6">
-                <label for="progguidhtml">Description:</label>
+                <label for="progguidhtml">Description: </label><span title="Visible to prospective participants">&#x1f50a;</span>
                 <textarea class="form-control" rows="4" cols="70" name="progguidhtml"
                     id="progguidhtml"><?php echo $session["progguidhtml"]?></textarea>
             </div>
@@ -191,7 +191,7 @@ function RenderEditCreateSession ($action, $session, $message1, $message2) {
 <?php
         }
 ?>
-                <label for="persppartinfo">Prospective Participant Info:</label>
+                <label for="persppartinfo">Prospective Participant Info: </label><span title="Visible to prospective participants">&#x1f50a;</span>
                 <textarea class="form-control"
                           rows="5" cols="70" name="persppartinfo"><?php echo htmlspecialchars($session["persppartinfo"],ENT_NOQUOTES);?></textarea>
             </div>
@@ -253,7 +253,7 @@ function RenderEditCreateSession ($action, $session, $message1, $message2) {
     if (TRACK_TAG_USAGE !== "TRACK_ONLY") {
 ?>
             <div class="form-group col-lg-4">
-                <div><label for="tagdest">Tags:</label></div>
+                <div><label for="tagdest">Tags: </label><span title="Visible to prospective participants">&#x1f50a;</span></div>
                 <select class="form-control form-control-multiselect" id="tagdest" name="tagdest[]" multiple>
                     <?php populate_multiselect_from_table("Tags", $session["tagdest"]); ?>
                 </select>

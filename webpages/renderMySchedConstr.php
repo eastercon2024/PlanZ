@@ -94,115 +94,90 @@ participant_header($title, false, 'Normal', true);
                     while ($row = mysqli_fetch_assoc($result)) {
                         $times[$row["timeid"]] = $row;
                     }
-                ?>                
-                <table class="table table-sm w-auto" id="availableTimesTable">
-                    <thead>
-                        <tr>
-                            <?php if (CON_NUM_DAYS > 1) {
-                                echo "<td>Start Day</td>\n";
-                            } ?>
-                            <td>Start Time</td>
-                            <td> &nbsp;</td>
-                            <?php if (CON_NUM_DAYS > 1) {
-                                echo "<td>End Day</td>\n";
-                            } ?>
-                            <td>End Time</td>
-                            <td>Action</td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php renderTable($partAvail); ?>
-                    </tbody>
-                    <tfoot>
-                        <tr id="addRow">
-                            <td>
-                                <select class="form-control" id="addStartDay">
-                                    <option value="-1" selected="selected"></option>
-                                    <?php for ($j = 1; $j <= CON_NUM_DAYS; $j++) {
-                                        echo "<option value=\"$j\">" . longDayNameFromInt($j) . "</option>\n";
-                                    } ?>
-                                </select>
-                            </td>
-                            <td>
-                                <select class="form-control" id="addStartTime">
-                                    <option value="-1" selected="selected"></option>
-                                    <?php foreach ($times as $time) {
-                                        if ($time["avail_start"] == 1) {
-                                            echo "<option value=\"" . $time["timeid"] . "\">" . $time["timedisplay"] . "</option>\n";
-                                        }
-                                    } ?>
-                                </select>
-                            </td>
-                            <td class="text-center">-</td>
-                            <td>
-                                <select class="form-control" id="addEndDay">
-                                    <option value="-1" selected="selected"></option>
-                                    <?php for ($j = 1; $j <= CON_NUM_DAYS; $j++) {
-                                        echo "<option value=\"$j\">" . longDayNameFromInt($j) . "</option>\n";
-                                    } ?>
-                                </select>
-                            </td>
-                            <td>
-                                <select class="form-control" id="addEndTime">
-                                    <option value="-1" selected="selected"></option>
-                                    <?php foreach ($times as $time) {
-                                        if ($time["avail_end"] == 1) {
-                                            echo "<option value=\"" . $time["timeid"] . "\">" . $time["timedisplay"] . "</option>\n";
-                                        }
-                                    } ?>
-                                </select>
-                            </td>
-                            <td>
-                                <button class="btn btn-primary" type="button" name="add" disabled="disabled" id="addAvailabilityBttn">Add</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="6" class="text-danger" id="availabilityTableError"></td>
-                        </tr>
-                        <tr id="editRow" style="display: none;">
-                            <td>
-                                <select class="form-control" id="editStartDay">
-                                    <?php for ($j = 1; $j <= CON_NUM_DAYS; $j++) {
-                                        echo "<option value=\"$j\">" . longDayNameFromInt($j) . "</option>\n";
-                                    } ?>
-                                </select>
-                            </td>
-                            <td>
-                                <select class="form-control" id="editStartTime">
-                                    <?php foreach ($times as $time) {
-                                        if ($time["avail_start"] == 1) {
-                                            echo "<option value=\"" . $time["timeid"] . "\">" . $time["timedisplay"] . "</option>\n";
-                                        }
-                                    } ?>
-                                </select>
-                            </td>
-                            <td class="text-center">-</td>
-                            <td>
-                                <select class="form-control" id="editEndDay">
-                                    <?php for ($j = 1; $j <= CON_NUM_DAYS; $j++) {
-                                        echo "<option value=\"$j\">" . longDayNameFromInt($j) . "</option>\n";
-                                    } ?>
-                                </select>
-                            </td>
-                            <td>
-                                <select class="form-control" id="editEndTime">
-                                    <?php foreach ($times as $time) {
-                                        if ($time["avail_end"] == 1) {
-                                            echo "<option value=\"" . $time["timeid"] . "\">" . $time["timedisplay"] . "</option>\n";
-                                        }
-                                    } ?>
-                                </select>
-                            </td>
-                            <td>
-                                <button class="btn btn-primary" type="button" name="update" disabled="disabled" id="updateAvailabilityBttn">Update</button>
-                                <button class="btn btn-link" type="button" name="cancel" id="cancelAvailabilityBttn">Cancel</button>
-                            </td>
-                        </tr>
-                        <tr id="editRowError" style="display: none;">
-                            <td colspan="6" class="text-danger"></td>
-                        </td>
-                    </tfoot>
-                </table>
+                ?>
+
+                <div id="availabilityGrid">
+                    <div id="availabilityItems">
+                        <?php renderAvailItems($partAvail); ?>
+                    </div>
+
+                    <div id="addForm">
+                        <p class="form-inline">
+                            <select class="form-control" id="addStartDay">
+                                <option value="-1" selected="selected"></option>
+                                <?php for ($j = 1; $j <= CON_NUM_DAYS; $j++) {
+                                    echo "<option value=\"$j\">" . longDayNameFromInt($j) . "</option>\n";
+                                } ?>
+                            </select>
+                            <select class="form-control" id="addStartTime">
+                                <option value="-1" selected="selected"></option>
+                                <?php foreach ($times as $time) {
+                                    if ($time["avail_start"] == 1) {
+                                        echo "<option value=\"" . $time["timeid"] . "\">" . $time["timedisplay"] . "</option>\n";
+                                    }
+                                } ?>
+                            </select>
+                            <span class="pl-2 pr-2">-</span>
+                            <select class="form-control" id="addEndDay">
+                                <option value="-1" selected="selected"></option>
+                                <?php for ($j = 1; $j <= CON_NUM_DAYS; $j++) {
+                                    echo "<option value=\"$j\">" . longDayNameFromInt($j) . "</option>\n";
+                                } ?>
+                            </select>
+                            <select class="form-control" id="addEndTime">
+                                <option value="-1" selected="selected"></option>
+                                <?php foreach ($times as $time) {
+                                    if ($time["avail_end"] == 1) {
+                                        echo "<option value=\"" . $time["timeid"] . "\">" . $time["timedisplay"] . "</option>\n";
+                                    }
+                                } ?>
+                            </select>
+                            <select class="form-control ml-2 mr-2" id="addLocation">
+                                <option value="-1" selected="selected"></option>
+                                <option value="onsite">in person</option>
+                                <option value="virtual">virtually</option>
+                            </select>
+                            <button class="btn btn-primary" type="button" name="add" disabled="disabled" id="addAvailabilityBttn">Add</button>
+                        <p class="text-danger" id="addError"></p>
+                    </div>
+
+                    <div id="editForm" style="display: none">
+                        <p class="form-inline">
+                            <select class="form-control" id="editStartDay">
+                                <?php for ($j = 1; $j <= CON_NUM_DAYS; $j++) {
+                                    echo "<option value=\"$j\">" . longDayNameFromInt($j) . "</option>\n";
+                                } ?>
+                            </select>
+                            <select class="form-control" id="editStartTime">
+                                <?php foreach ($times as $time) {
+                                    if ($time["avail_start"] == 1) {
+                                        echo "<option value=\"" . $time["timeid"] . "\">" . $time["timedisplay"] . "</option>\n";
+                                    }
+                                } ?>
+                            </select>
+                            <span class="pl-2 pr-2">-</span>
+                            <select class="form-control" id="editEndDay">
+                                <?php for ($j = 1; $j <= CON_NUM_DAYS; $j++) {
+                                    echo "<option value=\"$j\">" . longDayNameFromInt($j) . "</option>\n";
+                                } ?>
+                            </select>
+                            <select class="form-control" id="editEndTime">
+                                <?php foreach ($times as $time) {
+                                    if ($time["avail_end"] == 1) {
+                                        echo "<option value=\"" . $time["timeid"] . "\">" . $time["timedisplay"] . "</option>\n";
+                                    }
+                                } ?>
+                            </select>
+                            <select class="form-control ml-2 mr-2" id="editLocation">
+                                <option value="onsite">in person</option>
+                                <option value="virtual">virtually</option>
+                            </select>
+                            <button class="btn btn-primary" type="button" name="update" disabled="disabled" id="updateAvailabilityBttn">Update</button>
+                            <button class="btn btn-link" type="button" name="cancel" id="cancelAvailabilityBttn">Cancel</button>
+                        </p>
+                        <p class="text-danger" id="editError"></p>
+                    </div>
+                </div>
                 <?php echo fetchCustomText("note_after_times"); ?>
             </div>
         </div>

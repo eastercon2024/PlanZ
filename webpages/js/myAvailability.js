@@ -4,46 +4,48 @@ var myAvailability = new MyAvailability;
 function MyAvailability() {
   var $addButton;
   var $editButton;
-  var $availableTimesTable;
-  var $availabilityTableBody;
-  var $availabilityTableFooter;
-  var $addStartDaySelect, $addStartTimeSelect, $addEndDaySelect, $addEndTimeSelect;
-  var $editStartDaySelect, $editStartTimeSelect, $editEndDaySelect, $editEndTimeSelect;
-  var $addErrorTd;
-  var $editRow;
-  var $editErrorRow;
+  var $availabilityGrid;
+  var $availabilityItems;
+  var $addForm;
+  var $addStartDaySelect, $addStartTimeSelect, $addEndDaySelect, $addEndTimeSelect, $addLocationSelect;
+  var $editStartDaySelect, $editStartTimeSelect, $editEndDaySelect, $editEndTimeSelect, $editLocationSelect;
+  var $addError;
+  var $editForm;
+  var $editError;
   var $editingRow;
 
   this.initialize = function initialize() {
     $("#generalAvailabilityForm").on("submit", myAvailability.handleGeneralAvailabilitySubmit);
     $("#generalAvailabilityResultBoxDIV").css("display", "none");
 
-    $availableTimesTable = $("#availableTimesTable");
-    $availabilityTableBody = $("#availableTimesTable tbody");
-    $availabilityTableFooter = $("#availableTimesTable tfoot");
+    $availabilityGrid = $("#availabilityGrid");
+    $availabilityItems = $("#availabilityItems");
+    $addForm = $("#addForm");
     $addStartDaySelect = $("#addStartDay");
     $addStartTimeSelect = $("#addStartTime");
     $addEndDaySelect = $("#addEndDay");
     $addEndTimeSelect = $("#addEndTime");
+    $addLocationSelect = $("#addLocation");
     $editStartDaySelect = $("#editStartDay");
     $editStartTimeSelect = $("#editStartTime");
     $editEndDaySelect = $("#editEndDay");
     $editEndTimeSelect = $("#editEndTime");
-    $editRow = $("#editRow");
-    $editErrorRow = $("#editRowError");
+    $editLocationSelect = $("#editLocation");
+    $editForm = $("#editForm");
+    $editError = $("#editError");
     
     $addButton = $("#addAvailabilityBttn");
     $editButton = $("#updateAvailabilityBttn");
 
-    $addErrorTd = $("#availabilityTableError");
-    $addErrorTd.css("display", "none");
+    $addError = $("#addError");
+    $addError.css("display", "none");
 
     $("#addAvailabilityBttn").on("click", myAvailability.handleAddAvailabilityClick);
     $("#cancelAvailabilityBttn").on("click", myAvailability.handleCancelEditAvailabilityClick);
     $("#updateAvailabilityBttn").on("click", myAvailability.handleUpdateAvailabilityClick);
 
-    $("#addRow select").on("change", myAvailability.handleAddAvailabilityChange);
-    $("#editRow select").on("change", myAvailability.handleEditAvailabilityChange);
+    $("#addForm select").on("change", myAvailability.handleAddAvailabilityChange);
+    $("#editForm select").on("change", myAvailability.handleEditAvailabilityChange);
 
     myAvailability.hydrate();
   }
@@ -61,11 +63,13 @@ function MyAvailability() {
     };
 
     var idx = 1;
-    $availabilityTableBody.children().each(function(i, $elm) {
-      data["startday" + idx] = $("[data-availstartday]", $elm).data("availstartday");
-      data["starttime" + idx] = $("[data-availstarttime]", $elm).data("availstarttime");
-      data["endday" + idx] = $("[data-availendday]", $elm).data("availendday");
-      data["endtime" + idx] = $("[data-availendtime]", $elm).data("availendtime")
+    $availabilityItems.children().each(function(i, elm) {
+      var $elm = $(elm);
+      data["startday" + idx] = $elm.data("availstartday");
+      data["starttime" + idx] = $elm.data("availstarttime");
+      data["endday" + idx] = $elm.data("availendday");
+      data["endtime" + idx] = $elm.data("availendtime");
+      data["location" + idx] = $elm.data("availlocation");
       idx += 1;
     });
 
@@ -73,6 +77,7 @@ function MyAvailability() {
     data["starttime" + idx] = $addStartTimeSelect.val();
     data["endday" + idx] = $addEndDaySelect.val();
     data["endtime" + idx] = $addEndTimeSelect.val();
+    data["location" + idx] = $addLocationSelect.val();
 
     $.ajax({
       url: "SubmitMySchedConstr.php",
@@ -91,60 +96,63 @@ function MyAvailability() {
     $addStartTimeSelect.val("-1");
     $addEndDaySelect.val("-1");
     $addEndTimeSelect.val("-1");
+    $addLocationSelect.val("-1");
     $addButton.attr("disabled", "");
     myAvailability.handleSetAvailabilitySuccess(data, textStatus, jqXHR);
   }
 
   this.handleSetAvailabilitySuccess = function handleSetAvailabilitySuccess(data, textStatus, jqXHR) {
-    $availabilityTableBody.html(data);
+    $availabilityItems.html(data);
     myAvailability.hydrate();
   }
 
   this.handleSetAvailabilityError = function handleSetAvailabilityError(data, textStatus, jqXHR) {
     if (data && data.responseText) {
-      $addErrorTd.text(data.responseText).css("display", "");
+      $addError.text(data.responseText).css("display", "");
     } else {
-      $addErrorTd.text("An error occurred on the server.").css("display", "");
+      $addError.text("An error occurred on the server.").css("display", "");
     }
   };
 
   this.handleEditAvailabilityClick = function handleEditAvailabilityClick(e) {
     myAvailability.handleCancelEditAvailabilityClick();
 
-    $("button", $availableTimesTable).attr("disabled", "");
-    $("select", $availableTimesTable).attr("disabled", "");
-    $("button", $editRow).removeAttr("disabled");
-    $("select", $editRow).removeAttr("disabled");
+    $("button", $availabilityGrid).attr("disabled", "");
+    $("select", $availabilityGrid).attr("disabled", "");
+    $("button", $editForm).removeAttr("disabled");
+    $("select", $editForm).removeAttr("disabled");
 
-    $editingRow = $(e.target).closest("tr");
+    $editingRow = $(e.target).closest("div");
     $editingRow.css("display", "none");
 
-    var startDay = $("[data-availstartday]", $editingRow).data("availstartday");
-    var startTime = $("[data-availstarttime]", $editingRow).data("availstarttime");
-    var endDay = $("[data-availendday]", $editingRow).data("availendday");
-    var endTime = $("[data-availendtime]", $editingRow).data("availendtime");
+    var startDay = $editingRow.data("availstartday");
+    var startTime = $editingRow.data("availstarttime");
+    var endDay = $editingRow.data("availendday");
+    var endTime = $editingRow.data("availendtime");
+    var location = $editingRow.data("availlocation");
 
     $editStartDaySelect.val(startDay);
     $editStartTimeSelect.val(startTime);
     $editEndDaySelect.val(endDay);
     $editEndTimeSelect.val(endTime);
+    $editLocationSelect.val(location);
 
-    $editRow.insertAfter($editingRow);
-    $editRow.css("display", "");
-    $editErrorRow.insertAfter($editRow);
+    $editForm.insertAfter($editingRow);
+    $editForm.css("display", "");
+    $editError.insertAfter($editForm);
   }
 
   this.handleCancelEditAvailabilityClick = function handleCancelEditAvailabilityClick() {
     if ($editingRow !== undefined) {
       $editingRow.css("display", "");
 
-      $editRow.css("display", "none");
-      $availabilityTableFooter.append($editRow);
-      $editErrorRow.css("display", "none");
-      $editErrorRow.insertAfter($editRow);
+      $editForm.css("display", "none");
+      $availabilityGrid.append($editForm);
+      $editError.css("display", "none");
+      $editError.insertAfter($editForm);
 
-      $("select", $availableTimesTable).removeAttr("disabled");
-      $("button", $availableTimesTable).removeAttr("disabled");
+      $("select", $availabilityGrid).removeAttr("disabled");
+      $("button", $availabilityGrid).removeAttr("disabled");
       myAvailability.handleAddAvailabilityChange();
       $editingRow = undefined;
     }
@@ -156,14 +164,16 @@ function MyAvailability() {
     };
 
     var idx = 1;
-    $availabilityTableBody.children().each(function(i, $elm) {
+    $availabilityItems.children().each(function(i, elm) {
       if (this === e.target.parentNode.parentNode) {
         return;
       }
-      data["startday" + idx] = $("[data-availstartday]", $elm).data("availstartday");
-      data["starttime" + idx] = $("[data-availstarttime]", $elm).data("availstarttime");
-      data["endday" + idx] = $("[data-availendday]", $elm).data("availendday");
-      data["endtime" + idx] = $("[data-availendtime]", $elm).data("availendtime")
+      var $elm = $(elm);
+      data["startday" + idx] = $elm.data("availstartday");
+      data["starttime" + idx] = $elm.data("availstarttime");
+      data["endday" + idx] = $elm.data("availendday");
+      data["endtime" + idx] = $elm.data("availendtime");
+      data["location" + idx] = $elm.data("availlocation");
       idx += 1;
     });
 
@@ -185,20 +195,23 @@ function MyAvailability() {
     };
 
     var idx = 1;
-    $availabilityTableBody.children().each(function(i, $elm) {
-      if ($elm == $editRow[0] || $elm == $editErrorRow[0]) {
+    $availabilityItems.children().each(function(i, elm) {
+      if (elm == $editForm[0] || elm == $editError[0]) {
         return;
       }
-      if ($elm == $editingRow[0]) {
+      if (elm == $editingRow[0]) {
         data["startday" + idx] = $editStartDaySelect.val();
         data["starttime" + idx] = $editStartTimeSelect.val();
         data["endday" + idx] = $editEndDaySelect.val();
         data["endtime" + idx] = $editEndTimeSelect.val();
+        data["location" + idx] = $editLocationSelect.val();
       } else {
-        data["startday" + idx] = $("[data-availstartday]", $elm).data("availstartday");
-        data["starttime" + idx] = $("[data-availstarttime]", $elm).data("availstarttime");
-        data["endday" + idx] = $("[data-availendday]", $elm).data("availendday");
-        data["endtime" + idx] = $("[data-availendtime]", $elm).data("availendtime")
+        var $elm = $(elm);
+        data["startday" + idx] = $elm.data("availstartday");
+        data["starttime" + idx] = $elm.data("availstarttime");
+        data["endday" + idx] = $elm.data("availendday");
+        data["endtime" + idx] = $elm.data("availendtime");
+        data["location" + idx] = $elm.data("availlocation");
       }
       idx += 1;
     });
@@ -221,10 +234,10 @@ function MyAvailability() {
   }
 
   this.handleAddAvailabilityChange = function handleAddAvailabilityChange(e) {
-    $addErrorTd.css("display", "none");
+    $addError.css("display", "none");
 
     var enable = true;
-    $("select", $availabilityTableFooter).each(function() {
+    $("select", $addForm).each(function() {
       if ($(this).val() === "-1") {
         enable = false;
       }
@@ -238,11 +251,11 @@ function MyAvailability() {
   
       if (startDayIdx > endDayIdx) {
         enable = false;
-        $addErrorTd.text("Start day must be before end day.").css("display", "");
+        $addError.text("Start day must be before end day.").css("display", "");
       } else if (startDayIdx === endDayIdx) {
         if (startTimeIdx >= endTimeIdx) {
           enable = false;
-          $addErrorTd.text("Start time must be before end time.").css("display", "");
+          $addError.text("Start time must be before end time.").css("display", "");
         }
       }
     }
@@ -255,7 +268,7 @@ function MyAvailability() {
   }
 
   this.handleEditAvailabilityChange = function handleEditAvailabilityChange(e) {
-    $("#editRowError").css("display", "none");
+    $("#editError").css("display", "none");
 
     var startDayIdx = parseInt($editStartDaySelect.val());
     var startTimeIdx = parseInt($editStartTimeSelect.val());
@@ -265,13 +278,13 @@ function MyAvailability() {
     var enable = true;
     if (startDayIdx > endDayIdx) {
       enable = false;
-      $("#editRowError").css("display", "");
-      $("#editRowError td").text("Start day must be before end day.");
+      $("#editError").css("display", "");
+      $("#editError").text("Start day must be before end day.");
     } else if (startDayIdx === endDayIdx) {
       if (startTimeIdx >= endTimeIdx) {
         enable = false;
-        $("#editRowError").css("display", "");
-        $("#editRowError td").text("Start time must be before end time.");
+        $("#editError").css("display", "");
+        $("#editError").text("Start time must be before end time.");
       }
     }
 

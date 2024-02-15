@@ -43,7 +43,37 @@ function retrieve_timesXML() {
 	return $result;
 }
 
-function renderTable($partAvail) {    
+function renderAvailItems($partAvail) {    
+    $query = "SELECT timeid, timedisplay, avail_start, avail_end FROM Times WHERE avail_start = 1 or avail_end = 1 ORDER BY display_order";
+    $result = mysqli_query_with_error_handling($query, true);
+    $times = array();
+    while ($row = mysqli_fetch_assoc($result)) {
+        $times[$row["timeid"]] = $row;
+    }
+
+    $i=1;
+    while (isset($partAvail["availstartday_$i"])) {
+        if ($partAvail["location_$i"] == "onsite") {
+            $location = "in person";
+        } else {
+            $location = "virtually";
+        }
+        echo "<div data-availstartday=\"" . $partAvail["availstartday_$i"] . "\" data-availstarttime=\"" . $partAvail["availstarttime_$i"] . "\" data-availendday=\"" . $partAvail["availendday_$i"] . "\" data-availendtime=\"" . $partAvail["availendtime_$i"] . "\" data-availlocation=\"" . $partAvail["location_$i"] . "\">\n";
+        echo "<p style=\"display: inline-block; width: 16.5ch; margin: 0\" class=\"pr-2\">" . longDayNameFromInt($partAvail["availstartday_$i"]) . " " . $times[$partAvail["availstarttime_$i"]]["timedisplay"] . "</p>";
+        echo "<p style=\"display: inline-block; margin: 0\" class=\"pr-2\">-</p>";
+        echo "<p style=\"display: inline-block; width: 16.5ch; margin: 0\" class=\"pr-2\">" . longDayNameFromInt($partAvail["availendday_$i"]) . " " . $times[$partAvail["availendtime_$i"]]["timedisplay"] . "</p>";
+        echo "<p style=\"display: inline-block; width: 10ch; margin: 0\" class=\"pr-2\">(" . $location . ")</p>";
+        echo "<p style=\"display: inline-block\">\n";
+        echo "<button class=\"btn btn-primary\" type=\"button\" name=\"edit\">Edit</button>\n";
+        echo "<button class=\"btn btn-danger\" type=\"button\" name=\"delete\">Delete</button>\n";
+        echo "</p>\n";
+        echo "</div>\n";
+        $i++;
+    }
+}
+
+
+function renderItems($partAvail) {    
     $query = "SELECT timeid, timedisplay, avail_start, avail_end FROM Times WHERE avail_start = 1 or avail_end = 1 ORDER BY display_order";
     $result = mysqli_query_with_error_handling($query, true);
     $times = array();

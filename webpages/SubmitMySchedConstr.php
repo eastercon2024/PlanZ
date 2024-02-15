@@ -70,21 +70,23 @@ function setAvailability() {
             "availabilitynum" => $i,
             "starttime" => $startTime,
             "endtime" => $endTime,
+            "location" => getString("location$i")
         );
         $i++;
     }
 
     if (count($availability) > 0) {
-        $query = "REPLACE INTO ParticipantAvailabilityTimes(badgeid, availabilitynum, starttime, endtime) VALUES ";
+        $query = "REPLACE INTO ParticipantAvailabilityTimes(badgeid, availabilitynum, starttime, endtime, location) VALUES ";
         $types = "";
         $queryParams = array();
         for ($i = 1; $i <= count($availability); $i++) {
-            $query .= "(?,?,?,?),";
-            $types .= "siss";
+            $query .= "(?,?,?,?,?),";
+            $types .= "sisss";
             $queryParams[] = $badgeid;
             $queryParams[] = $availability[$i]["availabilitynum"];
             $queryParams[] = $availability[$i]["starttime"];
             $queryParams[] = $availability[$i]["endtime"];
+            $queryParams[] = $availability[$i]["location"];
         }
         $query = substr($query, 0, -1); // remove extra trailing comma
         $rows = mysql_cmd_with_prepare($query, $types, $queryParams);
@@ -138,7 +140,7 @@ function setAvailability() {
         $partAvail["availendtime_$i"] = $x["hour"];
         $i++;
     }
-    renderTable($partAvail);
+    renderAvailItems($partAvail);
 }
 
 if (!$ajax_request_action=$_POST["ajax_request_action"]) {

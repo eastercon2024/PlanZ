@@ -1095,7 +1095,8 @@ SELECT
         badgeid,
         availabilitynum,
         TIME_FORMAT(starttime, '%T') AS starttime,
-        TIME_FORMAT(endtime, '%T') AS endtime
+        TIME_FORMAT(endtime, '%T') AS endtime,
+        location
     FROM
         ParticipantAvailabilityTimes
     WHERE
@@ -1110,6 +1111,7 @@ EOD;
     while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
         $participantAvailability["starttimestamp_$i"] = $row["starttime"];
         $participantAvailability["endtimestamp_$i"] = $row["endtime"];
+        $participantAvailability["location_$i"] = $row["location"];
         $i++;
     }
     return $participantAvailability;

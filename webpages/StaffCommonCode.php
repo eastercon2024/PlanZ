@@ -3,6 +3,7 @@
     require_once('CommonCode.php');
     require_once('StaffHeader.php');
     require_once('StaffFooter.php');
+    
     $badgeid = isset($_SESSION['badgeid']) ? $_SESSION['badgeid'] : null;
     if (!(may_I("Staff"))) {
         global $headerErrorMessage, $returnAjaxErrors;

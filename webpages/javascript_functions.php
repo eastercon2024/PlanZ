@@ -20,10 +20,6 @@ function load_external_javascript($isDataTables = false, $isRecaptcha = false, $
 <?php }
 }
 
-function get_internal_url($script) {
-    return $script . '?v=' . hash_file('md5', $script);
-}
-
 function load_internal_javascript($title, $isDataTables = false) {
     ?>
     <script src="<?php echo get_internal_url("js/main.js"); ?>"></script>

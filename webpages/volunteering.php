@@ -10,7 +10,7 @@
         <?php echo fetchCustomText('alerts') ?>
 
         <div id="app"></div>
-        <script src="dist/planzReactApp.js"></script>
+        <script src="<?php echo get_internal_url("dist/planzReactApp.js") ?>"></script>
 <?php 
     } else {
 ?>

@@ -68,6 +68,27 @@ export function updateModeratorStatus(sessionId, badgeId, moderator) {
         }
     );
 }
+export function updateLocation(sessionId, badgeId, location) {
+    axios.post('/api/assignment/assign_location.php', {
+            sessionId: sessionId,
+            badgeId: badgeId,
+            location: location
+        }).then(res => {
+            fetchSessionAssignments(sessionId);
+        })
+        .catch(error => {
+            if (error.response && error.response.status === 401) {
+                redirectToLogin();
+            } else {
+                let message = {
+                    severity: "danger",
+                    text: "We've hit a bit of a technical snag trying to get information about that session."
+                };
+                store.dispatch(setSessionAssignments({ message: message }, message));
+            }
+        }
+    );
+}
 
 export function removeAssignment(sessionId, badgeId) {
     axios.post('/api/assignment/remove_assignment.php', {

@@ -18,6 +18,7 @@ class ParticipantAssignment {
     public $textBio;
     public $sessionId;
     public $willingnessToBeParticipant;
+    public $location;
 
     public static function findAssignmentForSessionByBadgeId($db, $sessionId, $badgeId) {
         $assignments = ParticipantAssignment::findAssignmentsForSession($db, $sessionId);
@@ -34,6 +35,7 @@ class ParticipantAssignment {
         SELECT
             POS.badgeid,
             COALESCE(POS.moderator, 0) AS moderator,
+            POS.location,
             P.pubsname,
             CD.badgename,
             CD.firstname,
@@ -169,6 +171,7 @@ EOD;
         $assignment->confirmed = $row->confirmed == 'Y';
         $assignment->textBio = $row->bio;
         $assignment->sessionId = $sessionId;
+        $assignment->location = $row->location;
 
         $interested = "Unknown";
         if ($row->interested == 1) {
@@ -202,6 +205,7 @@ EOD;
             "moderator" => $this->moderator,
             "registered" => $this->registered,
             "confirmed" => $this->confirmed,
+            "location" => $this->location,
             "willingnessToBeParticipant" => $this->willingnessToBeParticipant,
             "links" => array("avatar" => $this->avatarSrc)
         );
@@ -375,6 +379,34 @@ EOD;
                 mysqli_stmt_close($stmt);
             } else {
                 throw new DatabaseSqlException("Insert could not be executed: $historyQuery");
+            }
+
+            mysqli_commit($db);
+        } catch (Exception $e) {
+            mysqli_rollback($db);
+            throw $e;
+        }
+    }
+
+    public static function updateLocation($db, $participantAssignment, $authentication) {
+        $changedBy = $authentication->getBadgeId();
+        mysqli_begin_transaction($db);
+        error_log("Badge id" . $authentication->getBadgeId() . ' ' . $participantAssignment->sessionId . ' ' . $participantAssignment->badgeId);
+        try {
+            $query = <<<EOD
+            UPDATE ParticipantOnSession
+            SET location = ?
+            WHERE sessionId = ?
+            AND badgeid = ?;
+EOD;
+
+            $stmt = mysqli_prepare($db, $query);
+            mysqli_stmt_bind_param($stmt, "sis", $participantAssignment->location,
+                $participantAssignment->sessionId, $participantAssignment->badgeId);
+            if (mysqli_stmt_execute($stmt)) {
+                mysqli_stmt_close($stmt);
+            } else {
+                throw new DatabaseSqlException("Update could not be executed: $query");
             }
 
             mysqli_commit($db);

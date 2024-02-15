@@ -62,4 +62,8 @@ function makeMenuItem($text, $usable, $url, $sep = false) {
     }
 }
 
+function get_internal_url($script) {
+    return $script . '?v=' . hash_file('md5', $script);
+}
+
 ?>

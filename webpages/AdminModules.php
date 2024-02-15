@@ -4,13 +4,13 @@
     require_once('StaffCommonCode.php');
     staff_header($title, true);
 
-    if (isLoggedIn() && may_I("AdminPhases")) {
+if (isLoggedIn() && may_I("AdminPhases")) {
 ?>
     <div class="container">
         <?php echo fetchCustomText('alerts') ?>
 
         <div id="app"></div>
-        <script src="dist/planzReactApp.js"></script>
+        <script src="<?php echo get_internal_url("dist/planzReactApp.js") ?>"></script>
 <?php 
     } else {
 ?>

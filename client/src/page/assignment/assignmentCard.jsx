@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
+import Form from 'react-bootstrap/Form';
 import { connect } from "react-redux";
-import { createAssignment, removeAssignment, updateModeratorStatus } from "../../state/assignmentsFunctions";
+import { createAssignment, removeAssignment, updateModeratorStatus, updateLocation } from "../../state/assignmentsFunctions";
 
 const AssignmentCard = ({assignee, assigned, session}) => {
     let [showBio, setShowBio] = useState(false);
@@ -40,6 +41,11 @@ const AssignmentCard = ({assignee, assigned, session}) => {
                     </div>
                     {assigned
                         ? (<div className="text-right">
+                            <Form.Control as="select" value={assignee?.location} size="sm" onChange={e => updateLocation(session?.sessionId, assignee?.badgeId, e.target.value)}>
+                                <option value="unknown">Unknown</option>
+                                <option value="onsite">On site</option>
+                                <option value="virtual">Virtual</option>
+                            </Form.Control>
                             <Button variant="link" className="btn-sm" onClick={() => updateModeratorStatus(session?.sessionId, assignee?.badgeId, !assignee?.moderator) }>{assignee.moderator ? 'Unmake Moderator' : 'Make Moderator'}</Button>
                             <Button variant="link" className="btn-sm text-danger" onClick={() => removeAssignment(session?.sessionId, assignee?.badgeId)}>Remove</Button>
                         </div>)

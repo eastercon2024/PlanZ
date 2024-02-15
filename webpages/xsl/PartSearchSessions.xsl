@@ -27,7 +27,7 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-auto">
-                            <label for="title-txtinp">Title Search</label>
+                            <label class="font-weight-bold" for="title-txtinp">Title Search</label>
                         </div>
                     </div>
                     <div class="row mb-3">
@@ -41,7 +41,12 @@
                         <xsl:when test="$showTags">
                             <div class="row">
                                 <div class="col-auto">
-                                    <label>Tags</label>
+                                    <label class="font-weight-bold">Tags</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-auto">
+                                    <p><em>Note, not everything has been tagged yet. If you don't find what you are looking for, try looking through all the items.</em></p>
                                 </div>
                             </div>
                             <div class="row">

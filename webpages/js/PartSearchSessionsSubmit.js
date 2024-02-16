@@ -15,7 +15,7 @@ function PartSearchSessionsSubmit() {
 				url: "SubmitMySessions1.php",
 				dataType: "html",
 				data: postdata,
-				success: partSearchSessionsSubmit.showUpdateResults,
+				success: () => partSearchSessionsSubmit.showUpdateResults(checkbox),
 				error: partSearchSessionsSubmit.showAjaxError,
 				type: "POST"
 		});
@@ -41,8 +41,8 @@ function PartSearchSessionsSubmit() {
 		});
 	};
 
-	this.showUpdateResults = function showUpdateResults(data, textStatus, jqXHR) {
-		console.log("Successfully added");
+	this.showUpdateResults = function showUpdateResults(checkbox) {
+		$(checkbox).parent().next().fadeIn(100).delay(500).fadeOut('slow');
 	}
 
 	this.showAjaxError = function showAjaxError(data, textStatus, jqXHR) {

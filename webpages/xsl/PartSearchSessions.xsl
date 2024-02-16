@@ -198,6 +198,7 @@
                             </input>
                             I am interested
                         </label>
+                        <span class="ml-2 text-success" style="display: none">Preference saved</span>
                     </div>
                 </div>
             </xsl:if>

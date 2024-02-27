@@ -12,7 +12,8 @@ $report['queries']['sessions'] =<<<'EOD'
 SELECT
         S.sessionid,
         S.title,
-        S.techlevelid
+        S.techlevelid,
+        S.presentationname
     FROM
         Sessions S
     ORDER BY
@@ -51,6 +52,7 @@ $report['xsl'] =<<<'EOD'
                     <tr>
                         <th class="report">Session ID</th>
                         <th class="report">Title</th>
+                        <th class="report">Presentation Name</th>
                     </tr>
                     <xsl:apply-templates select="/doc/query[@queryName='sessions']/row[@techlevelid=$techlevelid]" />
                 </table>
@@ -72,6 +74,9 @@ $report['xsl'] =<<<'EOD'
                     <xsl:with-param name="sessionid" select = "@sessionid" />
                     <xsl:with-param name="title" select = "@title" />
                 </xsl:call-template>
+            </td>
+            <td class="report">
+                <xsl:value-of select="@presentationname" />
             </td>
         </tr>
     </xsl:template>

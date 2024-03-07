@@ -104,7 +104,7 @@ for ($i=0; $i<$recipient_count; $i++) {
             $scheduleTag = '$FULL_SCHEDULE$';
         }
         if (isset($scheduleInfoArray[$recipientinfo[$i]['badgeid']])) {
-            $scheduleInfo = " Start Time      Duration            Room Name          Session ID                      Title\n";
+            $scheduleInfo = "Start Time     Duration      Room Name                  On-Site/Virtual  Role         Title\n";
             $scheduleInfo .= implode("\n", $scheduleInfoArray[$recipientinfo[$i]['badgeid']]);
         } else {
             $scheduleInfo = "No scheduled items for you were found.";

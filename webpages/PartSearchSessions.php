@@ -15,6 +15,7 @@ if (!may_I('search_panels')) {
 
 $trackid = getInt('track');
 $tagArr = getArrayOfInts('tags');
+error_log("tags: " . print_r($tagArr, true));
 $titlesearch = getString('title');
 $tagmatch = getString('tagmatch');
 if (TRACK_TAG_USAGE !== "TAG_ONLY")

@@ -84,19 +84,18 @@ EOD;
             CD.regtype,
             P.approvedphotofilename,
             P.bio,
-            PSI.rank,
+            NVL(PSI.rank, CASE WHEN TR.total_ranked = 0 THEN 'All items unranked' ELSE 'Unranked' END) AS rank,
             PSI.comments,
             PSI.willmoderate,
             P.interested
         FROM ParticipantSessionInterest PSI
         JOIN Participants P ON P.badgeid = PSI.badgeid
         JOIN CongoDump CD ON CD.badgeid = PSI.badgeid
+        JOIN (SELECT PSI2.badgeid, COUNT(rank) AS total_ranked FROM ParticipantSessionInterest PSI2 GROUP BY badgeid) TR ON TR.badgeid = PSI.badgeid
         WHERE PSI.sessionid=?
-          AND ((PSI.rank IS NOT NULL
-          AND PSI.rank < 5) OR (PSI.willmoderate = 1))
           AND P.badgeid NOT IN (
                 select badgeid from ParticipantOnSession POS WHERE POS.sessionid = ?)
-        ORDER BY badgename;
+        ORDER BY CASE WHEN PSI.rank IS NULL THEN CASE WHEN TR.total_ranked = 0 THEN 10 ELSE 20 END ELSE PSI.rank END, badgename;
 EOD;
 
         $stmt = mysqli_prepare($db, $query);

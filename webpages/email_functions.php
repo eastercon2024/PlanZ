@@ -266,7 +266,7 @@ function generateSchedules($status, $recipientinfo) {
     $query = <<<EOD
 SELECT
         POS.badgeid, RM.roomname, S.title, DATE_FORMAT(ADDTIME('$ConStartDatim$', SCH.starttime),'%a %l:%i %p') as starttime,
-        DATE_FORMAT(S.duration, '%i') as durationmin, DATE_FORMAT(S.duration, '%k') as durationhrs, SCH.sessionid
+        DATE_FORMAT(S.duration, '%i') as durationmin, DATE_FORMAT(S.duration, '%k') as durationhrs, SCH.sessionid, POS.location, POS.moderator, S.participantlabel
     FROM
              Schedule SCH
         JOIN Rooms RM USING (roomid)
@@ -285,7 +285,29 @@ EOD;
         $scheduleRow = str_pad($rowArr["starttime"], 15); // Fri 12:00 AM (plus 3 spaces)
         $scheduleRow .= str_pad(renderDuration($rowArr["durationmin"], $rowArr["durationhrs"]), 14); // 10 Hr 59 Min (plus 2 spaces)
         $scheduleRow .= str_pad(substr($rowArr["roomname"], 0, 25), 27); // Commonwealth Ballroom ABC (plus 2 spaces)
-        $scheduleRow .= str_pad($rowArr["sessionid"], 12); // Session ID (plus 2 spaces)
+        
+        if ($rowArr["location"] == "onsite") {
+            $location = "On-site ";
+        } else if ($rowArr["location"] == "virtual") {
+            $location = "Virtual ";
+        } else {
+            $location = "Unknown";
+        }
+
+        if ($rowArr["moderator"] == 1) {
+            $role = "Moderator";
+        } else if ($rowArr["participantlabel"] == "Panelists") {
+            $role = "Panelist";
+        } else if ($rowArr["participantlabel"] == "Talk") {
+            $role = "Speaker";
+        } else if ($rowArr["participantlabel"] == "Sign Up Ahead") {
+            $role = "Participant";
+        } else {
+            $role = $rowArr["participantlabel"];
+        }
+
+        $scheduleRow .= str_pad($location, 17); // On-site/Virtual (plus 2 spaces)
+        $scheduleRow .= str_pad($role, 13); // participant (plus 2 spaces)
         $scheduleRow .= str_pad($rowArr["title"], 50); // Video 201: Advanced Live Television Production
         if (!isset($returnResult[$rowArr["badgeid"]])) {
             $returnResult[$rowArr["badgeid"]] = array();

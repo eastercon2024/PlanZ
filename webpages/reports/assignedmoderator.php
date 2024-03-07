@@ -9,6 +9,7 @@ $report['categories'] = array(
     'Events Reports' => 145,
     'Programming Reports' => 145,
     'Program Ops Reports' => 1,
+    'Key Reports' => 145,
 );
 $report['queries'] = [];
 $report['queries']['schedule'] =<<<'EOD'

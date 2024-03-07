@@ -8,6 +8,7 @@ $report['description'] = 'How many people are assinged to each session? (Sorted 
 $report['categories'] = array(
     'Events Reports' => 155,
     'Programming Reports' => 155,
+    'Key Reports' => 155,
 );
 $report['queries'] = [];
 $report['queries']['sessions'] =<<<'EOD'

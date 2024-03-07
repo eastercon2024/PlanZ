@@ -7,6 +7,7 @@ $report['output_filename'] = 'session_interests.csv';
 $report['description'] = 'Shows who has expressed interest in each session, how they ranked it, what they said, if they will moderate... Large Report. (All data included including for invited sessions.)';
 $report['categories'] = array(
     'Programming Reports' => 990,
+    'Key Reports' => 990,
 );
 $report['queries'] = [];
 $report['queries']['sessions'] =<<<'EOD'

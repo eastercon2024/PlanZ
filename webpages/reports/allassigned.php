@@ -5,6 +5,7 @@ $report['name'] = 'All Sessions that are assigned';
 $report['description'] = 'Who is assigned to what; shows scheduled and unscheduled sessions.';
 $report['categories'] = array(
     'Programming Reports' => 140,
+    'Key Reports' => 150,
 );
 $report['queries'] = [];
 $report['queries']['sessions'] =<<<'EOD'

@@ -244,10 +244,12 @@ function SubmitMaintainRoom($ignore_conflicts)
 //  This is hardcoded to follow the workflow of editme -> vetted -> scheduled -> assigned
 //  We need to find a way to make it more configurable and flexible
 //
+    error_log(print_r($_POST));
     global $linki, $message;
     $numrows = $_POST["numrows"];
     $selroomid = getInt("selroom");
     $selroomname = getString("selroomname");
+    error_log("SubmitMaintainRoom: selroomid=$selroomid, selroomname=$selroomname");
     get_name_and_email($name, $email); // populates them from session data or db as necessary
     $name = mysqli_real_escape_string($linki, $name);
     $email = mysqli_real_escape_string($linki, $email);
@@ -279,6 +281,11 @@ function SubmitMaintainRoom($ignore_conflicts)
         $addToScheduleArray[$_POST["sess$i"]] = ($day - 1) * 1440 + ($_POST["ampm$i"] ?: 0) * 720 + $_POST["hour$i"] * 60 + $_POST["min$i"];
         $completeRows++;
     }
+    
+    error_log("SubmitMaintainRoom: deleteScheduleIds=" . print_r($deleteScheduleIds, true));
+    error_log("SubmitMaintainRoom: deleteSessionIds=" . print_r($deleteSessionIds, true));
+    error_log("SubmitMaintainRoom: addToScheduleArray=" . print_r($addToScheduleArray, true));
+
     if (!$ignore_conflicts) {
         if (!check_room_sched_conflicts($deleteScheduleIds, $addToScheduleArray)) {
             echo "<p class=\"alert alert-warning\">Database not updated.  There were conflicts.</p>\n";
@@ -288,8 +295,8 @@ function SubmitMaintainRoom($ignore_conflicts)
     }
     if (count($deleteScheduleIds) > 0) {
         $delSchedIdList = implode(",", $deleteScheduleIds);
-//  Set status of deleted entries back to vetted.
-        $vs = get_idlist_from_db('SessionStatuses', 'statusid', 'statusname', "'vetted'");
+//  Set status of deleted entries back to assigned.
+        $vs = get_idlist_from_db('SessionStatuses', 'statusid', 'statusname', "'assigned'");
         $query = "UPDATE Sessions AS S, Schedule as SC SET S.statusid=$vs WHERE S.sessionid=SC.sessionid AND ";
         $query .= "SC.scheduleid IN ($delSchedIdList)";
         if (!mysqli_query($linki, $query)) {

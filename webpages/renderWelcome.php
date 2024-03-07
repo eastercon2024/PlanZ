@@ -33,8 +33,9 @@ if (may_I('postcon')) { ?>
         <div class="card">
             <div class="card-body">
                 <p>Welcome, <?php echo $participant_array["firstname"]; echo " "; echo $participant_array["lastname"]; ?>, to the <?php echo CON_NAME; ?> Programming website.</p>
-                <p>This is the place for you to indicate your interest in participating in <?php echo CON_NAME; ?> programming.</p>
-                <p>If you need help using this site, please follow <a href="https://eastercon2024.co.uk/guide-to-planz/">our guide</a>.</p>
+                <p>The deadline for signing up for programme participation has passed. We are now in the process of contacting people and scheduling when programme items will happen.</p>
+                <p>If you think you should really be on a programme item but did not complete the form, please email us at <a href="mailto: <?php echo PROGRAM_EMAIL; ?>"><?php echo PROGRAM_EMAIL; ?> </a>. However, we can't make any garauntees we can fit you in.</p>
+                <p>If you have been contacted about being on specific items, you can confirm on the <a href="/MySchedule.php">My Schedule</a> page. Please also consider filling out a bio on the <a href="/my_contact.php">Profile</a> page.</p>
                 <p>All participants are expected to follow the convention <a href="https://eastercon2024.co.uk/code-of-conduct/">Code of Conduct</a>.</p>
                 <p>
                     <?php if ($participant_array["regtype"] == null || $participant_array["regtype"] == '') { ?>
@@ -97,21 +98,10 @@ if (may_I('postcon')) { ?>
                         <li> List the times that you are available.</li>
                         <li> List other constraints that we should know about.</li>
                     </ul>
-                <?php } else { ?>
-                    <p> The "Availability" menu is currently unavailable. Check back later.</p>
-                <?php } ?>
-
-                <?php if (may_I('my_gen_int_write')) { ?>
                     <p> Use the "General Interests" menu to:</p>
                     <ul>
                         <li> Describe the kinds of sessions you are interested in.</li>
                         <li> Suggest the people you would like to work with.</li>
-                    </ul>
-                <?php } else { ?>
-                    <p> Use the "General Interests" menu to:</p>
-                    <ul>
-                        <li> See what you previously entered as your interests.</li>
-                        <li> This is currently read-only as con is approaching.  If you need to make a change here, please email us:  <a href="mailto: <?php echo PROGRAM_EMAIL; ?>"><?php echo PROGRAM_EMAIL; ?> </a></li>
                     </ul>
                 <?php } ?>
 
@@ -121,8 +111,6 @@ if (may_I('postcon')) { ?>
                         <li> See suggested topics for <?php echo CON_NAME; ?> programming. </li>
                         <li> Indicate sessions you would like to participate on. </li>
                     </ul>
-                <?php } else { ?>
-                    <p> The "Search Sessions" menu is currently unavailable.  Check back later.</p>
                 <?php } ?>
                 
                 <?php if (may_I('my_panel_interests')) { ?>
@@ -132,8 +120,6 @@ if (may_I('postcon')) { ?>
                             <li> Alter or give more information about your selections.</li>
                             <li> Rank the preference of your selections.</li>
                         </ul>
-                <?php } else { ?>
-                    <p> The "Session Interests" menu is currently unavailable. Check back later.</p>
                 <?php } ?>
         
                 <?php if (may_I('my_schedule')) { ?>
@@ -153,8 +139,6 @@ if (may_I('postcon')) { ?>
                         <li> Enter the brainstorming view where you can submit panel, workshop and presentation ideas.
                         <li> You can return back to this page by clicking on "Participant View" tab in the upper right corner. 
                     </ul>
-                <?php } else { ?>
-                    <p> The "Suggest a Session" menu is currently unavailable.  Brainstorming is over.  If you have an urgent request please email us at <a href="mailto: <?php echo PROGRAM_EMAIL; ?>"><?php echo PROGRAM_EMAIL; ?> </a></p>
                 <?php } ?>
             </div>
         </div>

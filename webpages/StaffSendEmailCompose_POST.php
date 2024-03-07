@@ -77,7 +77,7 @@ if ($status === "1" || $status === "2") {
         $scheduleTag = '$FULL_SCHEDULE$';
     }
     if (isset($scheduleInfoArray[$recipientinfo[0]['badgeid']])) {
-        $scheduleInfo = " Start Time      Duration            Room Name          Session ID                      Title\n";
+        $scheduleInfo = "Start Time     Duration      Room Name                  On-Site/Virtual  Role         Title\n";
         $scheduleInfo .= implode("\n", $scheduleInfoArray[$recipientinfo[0]['badgeid']]);
     } else {
         $scheduleInfo = "No scheduled items for you were found.";

@@ -2,10 +2,13 @@
 // Copyright (c) 2018 Peter Olszowka. All rights reserved. See copyright document for more details.
 $report = [];
 $report['name'] = 'Assigned Session by Participant';
+$report['multi'] = 'true';
+$report['output_filename'] = 'assignedSessionByParticipant.csv';
 $report['description'] = 'Shows who has been assigned to each session ordered by participant. Includes scheduled and unscheduled sessions.';
 $report['categories'] = array(
     'Events Reports' => 150,
     'Programming Reports' => 150,
+    'Key Reports' => 150,
 );
 $report['queries'] = [];
 $report['queries']['participants'] =<<<'EOD'

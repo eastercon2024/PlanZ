@@ -47,7 +47,7 @@ EOD;
         JOIN PubStatuses ps USING (pubstatusid)
     WHERE ss.may_be_scheduled = 1
         AND ps.pubstatusname = 'Public'
-        AND s.divisionid in (select divisionid from Divisions where divisionname = 'Panels')
+        AND s.divisionid in (select divisionid from Divisions where divisionname = 'Programming')
         $clause
 EOD;
     if (!$result = mysqli_query_exit_on_error($query)) {
@@ -77,16 +77,16 @@ EOD;
 }
 
 function number_of_available_slots($online) {
-    $onlineFlag = $online ? "Y" : "N";
+    $onlineFlag = $online ? "1" : "0";
 
     $query = <<<EOD
     SELECT count(*) as count
         FROM Rooms r, room_availability_slot s, room_availability_schedule a, room_to_availability r2a
         where r2a.roomid = r.roomid
-          and r2a.availability_id = a.id
+          and r2a.availability_id = s.id
           and r.is_online = '$onlineFlag'
           and a.id = s.availability_schedule_id
-          and s.divisionid in (select divisionid from Divisions where divisionname = 'Panels');
+          and s.divisionid in (select divisionid from Divisions where divisionname = 'Programming');
 EOD;
     if (!$result = mysqli_query_exit_on_error($query)) {
         exit;

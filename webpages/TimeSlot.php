@@ -142,7 +142,7 @@ function select_time_slots($allRooms) {
            Divisions d
     WHERE r.is_scheduled = 1
       AND r.roomid = r2a.roomid
-      AND r2a.availability_id = a.id
+      AND r2a.availability_id = s.id
       AND s.availability_schedule_id = a.id
       AND d.divisionid = s.divisionid
       ;

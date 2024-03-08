@@ -10,7 +10,7 @@ require_once('../../name.php');
 require_once('../../time_slot_functions.php');
 
 define("ATTEND_IN_PERSON", 1);
-define("ATTEND_EITHER", 2);
+define("ATTEND_EITHER", NULL);
 define("ATTEND_ONLINE", 3);
 
 // Find the X most popular panels...
@@ -328,7 +328,7 @@ function find_all_rankings($db, $participants) {
        WHERE ss.may_be_scheduled = 1
          AND (PSI.rank in (1, 2, 3) or PSI.willmoderate = 1)
          AND ps.pubstatusname = 'Public'
-         AND s.divisionid in (select divisionid from Divisions where divisionname = 'Panels') 
+         AND s.divisionid in (select divisionid from Divisions where divisionname = 'Programming') 
 EOD;
 
     $stmt = mysqli_prepare($db, $query);
@@ -412,7 +412,7 @@ function find_sessions($db, $numberOfSessions) {
             WHERE
                 S.statusid IN (2,3,7)
                 AND S.invitedguest = 0
-                AND S.divisionid in (select divisionid from Divisions where divisionname = 'Panels')) FB
+                AND S.divisionid in (select divisionid from Divisions where divisionname = 'Programming')) FB
         GROUP BY
             sessionid, title
         ORDER BY rank desc, sessionid
@@ -451,10 +451,10 @@ function find_all_timeslots($db) {
            Divisions d
     WHERE r.is_scheduled = 1
       AND r.roomid = r2a.roomid
-      AND r2a.availability_id = a.id
+      AND r2a.availability_id = s.id
       AND s.availability_schedule_id = a.id
       AND d.divisionid = s.divisionid
-      AND d.divisionname = 'Panels';
+      AND d.divisionname = 'Programming';
 EOD;
 
     $rooms = array();
@@ -675,13 +675,21 @@ try {
         $participants = find_all_interested_participants($db);
         $participants = find_all_rankings($db, $participants);
         $participants = find_availability($db, $participants);
+        //echo "\nparticipants\n";
+        //echo var_dump($participants);
 
         $sessions = find_sessions($db, NUMBER_OF_SESSIONS);
+        //echo "\nsessions\n";
+        //echo var_dump($sessions);
         collate_persons_into_sessions($sessions, $participants);
 
         $result = create_first_pass_assignments_for_sessions($sessions, $participants);
+        //echo "\nresult\n";
+        //echo var_dump($result);
 
         $timeSlots = assign_timeslots($db, $result);
+        //echo "\timeSlots\n";
+        //echo var_dump($timeSlots);
 
         // create a JSON output
         $records = array();

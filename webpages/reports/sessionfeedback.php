@@ -60,7 +60,7 @@ from
         LEFT JOIN Participants P ON PSI.badgeid = P.badgeid AND P.interested = 1
     WHERE
         S.statusid IN (2,3,7)
-        AND S.divisionid in (select divisionid from Divisions where divisionname = 'Panels')) FB
+        AND S.divisionid in (select divisionid from Divisions where divisionname = 'Programming')) FB
 GROUP BY
     sessionid, title, trackname, display_order
 ORDER BY

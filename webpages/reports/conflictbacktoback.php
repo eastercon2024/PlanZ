@@ -4,7 +4,7 @@ $report = [];
 $report['name'] = 'Conflict Report - Back-to-back Sessions';
 $report['multi'] = 'true';
 $report['output_filename'] = 'conflict_back_to_back.csv';
-$report['description'] = 'Show all cases where a participant is scheduled for two sessions with 15 minutes or fewer between sessions. (Also includes actual overlaps)';
+$report['description'] = 'Show all cases where a participant is scheduled for two sessions with 30 minutes or fewer between sessions. (Also includes actual overlaps)';
 $report['categories'] = array(
     'Conflict Reports' => 20,
 );
@@ -50,7 +50,7 @@ SELECT
     WHERE
             Subq1.sessionid != Subq2.sessionid
         AND Subq2.starttime > Subq1.starttime
-        AND SUBTIME(Subq2.starttime, ADDTIME(Subq1.starttime, S.duration)) < '00:16:00'
+        AND SUBTIME(Subq2.starttime, ADDTIME(Subq1.starttime, S.duration)) < '00:31:00'
     ORDER BY
         IF(INSTR(P.pubsname, CD.lastname) > 0, CD.lastname, SUBSTRING_INDEX(P.pubsname, ' ', -1)),
         CD.firstname,

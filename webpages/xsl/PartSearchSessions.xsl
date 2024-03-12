@@ -192,9 +192,7 @@
                                 <xsl:if test="@badgeid">
                                     <xsl:attribute name="checked">checked</xsl:attribute>
                                 </xsl:if>
-                                <xsl:if test="not($mayISubmitPanelInterests)">
-                                    <xsl:attribute name="disabled">disabled</xsl:attribute>
-                                </xsl:if>
+                                <xsl:attribute name="disabled">disabled</xsl:attribute>
                             </input>
                             I am interested
                         </label>

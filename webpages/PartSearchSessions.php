@@ -166,7 +166,7 @@ $paramArray["showTags"] = TRACK_TAG_USAGE !== "TRACK_ONLY";
 $paramArray["showTrack"] = TRACK_TAG_USAGE !== "TAG_ONLY";
 $paramArray["collapse_list"] = $collapse_list;
 $paramArray["PARTICIPANT_PHOTOS"] = PARTICIPANT_PHOTOS === TRUE ? 1 : 0;
-$paramArray['may_I'] = may_I('my_panel_interests') ? "1" : "0";
+$paramArray['may_I'] = "0";
 $paramArray["title"] = $titlesearch;
 $paramArray["tagMatch"] = $tagmatch === null ? "any" : $tagmatch;
 $paramArray["showingAll"] = (empty($titlesearch) && empty($tagArr)) ? "1" : "0";

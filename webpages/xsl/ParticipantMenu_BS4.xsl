@@ -42,11 +42,6 @@
               <a class="nav-link py-1" href="PartSearchSessions.php">Search Sessions</a>
             </li>
           </xsl:if>
-          <xsl:if test="$SessionInterests">
-            <li class="nav-item py-0">
-              <a class="nav-link py-1" href="PartPanelInterests.php">Session Interests</a>
-            </li>
-          </xsl:if>
           <xsl:if test="$SessionFeedback">
             <li class="nav-item py-0">
               <a class="nav-link py-1" href="SessionFeedback.php">Interest Survey</a>

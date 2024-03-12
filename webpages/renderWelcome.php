@@ -113,15 +113,6 @@ if (may_I('postcon')) { ?>
                     </ul>
                 <?php } ?>
                 
-                <?php if (may_I('my_panel_interests')) { ?>
-                    <p> Use the "Session Interests" menu to:</p>
-                        <ul>
-                            <li> See what selections you have made for sessions.</li>
-                            <li> Alter or give more information about your selections.</li>
-                            <li> Rank the preference of your selections.</li>
-                        </ul>
-                <?php } ?>
-        
                 <?php if (may_I('my_schedule')) { ?>
                     <p> Use the "My Schedule" menu to:</p>
                     <ul>

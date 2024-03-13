@@ -26,8 +26,6 @@
 				<b>
 					<span><xsl:value-of select="@roomname" /></span>
 					<xsl:text> &#8226; </xsl:text>
-					<span><xsl:value-of select="@trackname" /></span>
-					<xsl:text> &#8226; </xsl:text>
 					<span><xsl:value-of select="@typename" /></span>
 					<xsl:text> &#8226; </xsl:text>
 					<span><xsl:value-of select="@starttime" /><xsl:text>&#8211;</xsl:text><xsl:value-of select="@endtime" /></span>
@@ -52,22 +50,19 @@
 	</xsl:template>
 
 	<xsl:template match="/doc/query[@queryName='participants']/row">
-		<div>
-			<xsl:attribute name="class">
-				<xsl:choose>
-					<xsl:when test="@badgeid = $badgeid">
-						<xsl:text>row align-items-baseline</xsl:text>
-					</xsl:when>
-					<xsl:otherwise>
-						<xsl:text>row mb-2 align-items-baseline</xsl:text>
-					</xsl:otherwise>
-				</xsl:choose>
-			</xsl:attribute>
+		<div class="row mb-2 align-items-baseline">
 			<div class="col-lg-3">
 				<xsl:if test="@moderator = '1'">
 					<b><xsl:text>Mod: </xsl:text></b>
 				</xsl:if>
-				<span><xsl:value-of select="@pubsname" disable-output-escaping="yes"/></span>
+				<span>
+					<xsl:choose>
+						<xsl:when test="@badgeid = $badgeid">
+									<xsl:attribute name="class"><xsl:text>font-weight-bold</xsl:text></xsl:attribute>
+						</xsl:when>
+					</xsl:choose>
+					<xsl:value-of select="@pubsname" disable-output-escaping="yes"/>
+				</span>
 				<xsl:if test="not(@pubsname = @badgename)">
 					<span><xsl:text> (</xsl:text><xsl:value-of select="@badgename" disable-output-escaping="yes"/><xsl:text>)</xsl:text></span>
 				</xsl:if>
@@ -142,6 +137,9 @@
 						<span>Email not available</span>
 					</xsl:otherwise>
 				</xsl:choose>
+			</div>
+			<div class="col-lg-3">
+				<xsl:value-of select="@location" />
 			</div>
 			<div>
 				<xsl:attribute name="class">

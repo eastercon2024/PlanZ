@@ -48,7 +48,8 @@ $queryArr["participants"] = <<<EOD
 SELECT
         POS.participantonsessionid, P.badgeid, POS.sessionid, CD.badgename, P.pubsname, 
         IF (P.share_email=1, CD.email, NULL) AS email,
-        POS.moderator, PSI.comments, POS.confirmed, POS.notes
+        POS.moderator, PSI.comments, POS.confirmed, POS.notes,
+        IF (POS.location='onsite', 'On Site', 'Virtual') AS location
     FROM
 				ParticipantOnSession POS
 		   JOIN CongoDump CD USING(badgeid)

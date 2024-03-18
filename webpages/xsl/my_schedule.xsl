@@ -141,19 +141,6 @@
 			<div class="col-lg-3">
 				<xsl:value-of select="@location" />
 			</div>
-			<div>
-				<xsl:attribute name="class">
-					<xsl:choose>
-						<xsl:when test="$allowConfirmation = 'true'">
-							<xsl:text>col-lg-3</xsl:text>
-						</xsl:when>
-						<xsl:otherwise>
-							<xsl:text>col-lg-6</xsl:text>
-						</xsl:otherwise>
-					</xsl:choose>
-				</xsl:attribute>
-				<xsl:value-of select="@comments" />
-			</div>
 		</div>
 		<xsl:if test="@badgeid = $badgeid and $allowConfirmation = 'true'">
 			<div class="row mb-2 align-items-baseline">

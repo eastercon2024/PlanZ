@@ -101,18 +101,6 @@ echo fetchCustomText("all_panelists_1");
 echo fetchCustomText("all_panelists_2");
 echo "<p>Thank you &mdash; <a class=\"alert-link\" href=\"mailto:$PROGRAM_EMAIL\"> Programming </a></div>\n";
 
-if (!$registered) {
-
-    echo "<div class=\"alert alert-warning\">";
-    echo "You are not currently registered for " . CON_NAME . ".";
-    if ($poscount >= 3) {
-        echo fetchCustomText("enough_panels");
-    } else {
-        echo fetchCustomText("not_enough_panels");
-    }
-    echo "</div>";
-}
-
 $allowConfirmation = 'false';
 if (defined('CONFIRM_SESSION_ASSIGNMENT') && CONFIRM_SESSION_ASSIGNMENT === TRUE) {
     $allowConfirmation = 'true';

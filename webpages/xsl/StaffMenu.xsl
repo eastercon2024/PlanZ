@@ -204,7 +204,7 @@
                     </xsl:if>
                     <xsl:if test="$ExportSchedule">
                       <li>
-                        <a href="StaffCreateKonOpas.php">Update KonOpas and ConClar</a>
+                        <a href="StaffPublish.php">Publish to ConClar</a>
                       </li>
                     </xsl:if>
                     <xsl:if test="$AdminModules">

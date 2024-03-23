@@ -106,7 +106,7 @@ EOD;
             "date"   => $row["date"],
             "time"   => $row["time"],
             "mins"   => $row["mins"],
-            "loc"    => array($row["loc"] . $locfloor),
+            "loc"    => array($row["loc"]),
             "people" => $sessionHasParticipant[$row["id"]],
             "desc"   => $desc,
             "links"  => []

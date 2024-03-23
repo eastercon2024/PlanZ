@@ -9,6 +9,7 @@ function load_external_javascript($isDataTables = false, $isRecaptcha = false, $
     <script src="external/jqueryui1.8.16/jquery-ui-1.8.16.custom.min.js"></script>
     <script src="external/bootstrap2.3.2/bootstrap.js" type="text/javascript"></script>
 <?php } ?>
+    <script src="https://unpkg.com/htmx.org@1.9.10" integrity="sha384-D1Kt99CQMDuVetoL1lrYwg5t+9QdHe7NLX/SoJYkXDFfX37iInKRy5xLSi8nO7UC" crossorigin="anonymous"></script>
     <script src="external/choices9.0.0/choices.min.js"></script>
 <?php if ($isDataTables && $bootstrap4) { ?>
     <script src="//cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>

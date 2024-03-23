@@ -36,6 +36,14 @@ foreach ($program as $item) {
             }
         }
         if ($should_add) {
+            $desc = strip_tags(html_entity_decode($item->desc), '<p>');
+            $desc = preg_replace('/<\/?p.*?>/', "\n", $desc);
+            $desc = preg_replace('/\r/', "\n", $desc);
+            $desc = preg_replace('/\xc2\xa0/', ' ', $desc);
+            $desc = preg_replace('/\n *\n[\n ]*/', "\n\n", $desc);
+            $desc = trim($desc);
+            $item->desc = $desc;
+            $item->day = date('l', strtotime($item->date));
             $matches[] = $item;
         }
     }

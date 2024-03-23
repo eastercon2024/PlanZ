@@ -169,7 +169,7 @@
                                     <a class="dropdown-item" href="ConfigTableEditor.php">Edit Configuration Tables</a>
                                 </xsl:if>
                                 <xsl:if test="$ExportSchedule">
-                                    <a class="dropdown-item" href="StaffCreateKonOpas.php">Update KonOpas and ConClar</a>
+                                    <a class="dropdown-item" href="StaffPublish.php">Publish to ConClar</a>
                                 </xsl:if>
                                 <xsl:if test="$AdminModules">
                                     <a class="dropdown-item" href="AdminModules.php">Administer Modules</a>
